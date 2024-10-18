@@ -20,14 +20,14 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>ikram</td>
-                                    <td>test</td>
-                                    <td class="text-center">
-                                        <button class="btn btn-danger btn-sm" onclick="deleteBank(this)">Delete</button>
-                                    </td>
-                                </tr>
-                                <!-- Additional rows as needed -->
+                                @foreach($bankRecords as $bank)
+                                    <tr>
+                                        <td>{{ $bank->name }}</td>
+                                        <td class="text-center">
+                                            <button class="btn btn-danger btn-sm" onclick="deleteBank(this, {{ $bank->id }})">Delete</button>
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -76,29 +76,61 @@ $(document).ready(function() {
 
 function addBank() {
     const name = document.getElementById('name').value;
-    
-    // Log or send data to the server
-    console.log({ name});
 
-    // Add new row to the DataTable
-    const table = $('#bankTable').DataTable();
-    table.row.add([
-        name,
-        '<button class="btn btn-danger btn-sm" onclick="deleteBank(this)">Delete</button>'
-    ]).draw();
+    $.ajax({
+        url: "{{ route('admin.bank.store') }}",
+        method: "POST",
+        data: {
+            name: name,
+            _token: '{{ csrf_token() }}'
+        },
+        success: function(response) {
+            if (response.message) {
+                alert(response.message);
+            }
 
-    // Close the modal
-    var myModalEl = document.getElementById('addBankModal');
-    var modal = bootstrap.Modal.getInstance(myModalEl);
-    modal.hide();
+            const table = $('#bankTable').DataTable();
+            table.row.add([
+                name,
+                '<button class="btn btn-danger btn-sm" onclick="deleteBank(this, ' + response.id + ')">Delete</button>'
+            ]).draw();
 
-    // Reset the form
-    document.getElementById('addBankForm').reset();
+            $('#addBankModal').modal('hide');
+            document.getElementById('addBankForm').reset();
+        },
+        error: function(xhr) {
+            alert('Error: ' + (xhr.responseJSON.message || 'An error occurred while adding the bank.'));
+        }
+    });
 }
 
-function deleteBank(button) {
+function deleteBank(button, id) {
+    const row = $(button).parents('tr');
     const table = $('#bankTable').DataTable();
-    table.row($(button).parents('tr')).remove().draw();
+
+    if (!confirm('Are you sure you want to delete this bank?')) {
+        return;
+    }
+
+    $.ajax({
+        url: "{{ route('admin.bank.destroy') }}",
+        method: "POST",
+        data: {
+            id: id,
+            _token: '{{ csrf_token() }}'
+        },
+        success: function(response) {
+            if (response.success) {
+                table.row(row).remove().draw();
+                alert(response.message);
+            } else {
+                alert(response.message || 'Failed to delete the bank.');
+            }
+        },
+        error: function(xhr) {
+            alert('Error: ' + (xhr.responseJSON.message || 'An error occurred while deleting the bank.'));
+        }
+    });
 }
 </script>
 

@@ -10,22 +10,22 @@
     <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
       <ul class="navbar-nav">
         @if(Auth::check())
-          @if(Auth::user()->role === "admin")
+            @if(Auth::user()->role === "admin")
+                <li class="nav-item">
+                    <a class="nav-link text-white {{ request()->routeIs('admin.dashboard') ? 'active bg-gradient-primary' : '' }}" href="{{route('admin.dashboard')}}">
+                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="material-icons opacity-10">dashboard</i>
+                        </div>
+                        <span class="nav-link-text ms-1">Dashboard</span>
+                    </a>
+                </li>
               <li class="nav-item">
-                  <a class="nav-link text-white {{ request()->routeIs('admin.dashboard') ? 'active bg-gradient-primary' : '' }}" href="{{route('admin.dashboard')}}">
-                      <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                      <i class="material-icons opacity-10">dashboard</i>
-                      </div>
-                      <span class="nav-link-text ms-1">Dashboard</span>
-                  </a>
-              </li>
-              <li class="nav-item">
-                  <a class="nav-link text-white {{ request()->is('admin/user') ? 'active bg-gradient-primary' : '' }}" href="{{route('admin.user.list')}}">
-                      <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                      <i class="material-icons opacity-10">person</i>
-                      </div>
-                      <span class="nav-link-text ms-1">User</span>
-                  </a>
+                    <a class="nav-link text-white {{ request()->is('admin/user') ? 'active bg-gradient-primary' : '' }}" href="{{route('admin.user.list')}}">
+                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="material-icons opacity-10">person</i>
+                        </div>
+                        <span class="nav-link-text ms-1">User</span>
+                    </a>
               </li>
               <li class="nav-item">
                   <a class="nav-link text-white {{ request()->is('admin/exchange') ? 'active bg-gradient-primary' : '' }}" href="{{route('admin.exchange.list')}}">
@@ -44,18 +44,18 @@
                   </a>
               </li>
               <li class="nav-item">
-                  <a class="nav-link text-white {{ request()->is('admin/expense') ? 'active bg-gradient-primary' : '' }}" href="">
+                  <a class="nav-link text-white {{ request()->is('admin/deposit-withdrawal') ? 'active bg-gradient-primary' : '' }}" href="{{route('admin.deposit_withdrawal.list')}}">
                       <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                      <i class="material-icons opacity-10">store</i>
+                      <i class="material-icons opacity-10">account_balance</i>
                       </div>
                       <span class="nav-link-text ms-1">Deposit - Withdrawal</span>
                   </a>
               </li>
 
               <li class="nav-item">
-                  <a class="nav-link text-white {{ request()->is('admin/expense') ? 'active bg-gradient-primary' : '' }}" href="">
+                  <a class="nav-link text-white {{ request()->is('admin/expense') ? 'active bg-gradient-primary' : '' }}" href="{{route('admin.expense.list')}}">
                       <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                      <i class="material-icons opacity-10">store</i>
+                      <i class="material-icons opacity-10">money_off</i>
                       </div>
                       <span class="nav-link-text ms-1">Expense</span>
                   </a>
@@ -101,17 +101,26 @@
                       <span class="nav-link-text ms-1">Reports</span>
                   </a>
               </li>
-          @endif
-          @if(Auth::user()->role === "exchange")
-              <li class="nav-item">
-              <a class="nav-link text-white active bg-gradient-primary" href="{{route('admin.dashboard')}}">
-                  <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                  <i class="material-icons opacity-10">dashboard</i>
-                  </div>
-                  <span class="nav-link-text ms-1">Dashboard</span>
-              </a>
-              </li>
-          @endif
+            @endif
+            @if(Auth::user()->role === "exchange")
+                <li class="nav-item">
+                    <a class="nav-link text-white {{ request()->routeIs('exchange.dashboard') ? 'active bg-gradient-primary' : '' }}" href="{{route('exchange.dashboard')}}">
+                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="material-icons opacity-10">dashboard</i>
+                        </div>
+                        <span class="nav-link-text ms-1">Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white {{ request()->is('exchange/cash') ? 'active bg-gradient-primary' : '' }}"  href="{{route('exchange.cash.list')}}">
+                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="material-icons opacity-10">attach_money</i>
+                        </div>
+                        <span class="nav-link-text ms-1">Cash</span>
+                    </a>
+                </li>
+              
+              @endif
           @if(Auth::user()->role === "assistant")
               <li class="nav-item">
               <a class="nav-link text-white active bg-gradient-primary" href="{{route('admin.dashboard')}}">

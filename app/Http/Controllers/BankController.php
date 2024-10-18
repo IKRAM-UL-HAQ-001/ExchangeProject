@@ -7,36 +7,28 @@ use Illuminate\Http\Request;
 
 class BankController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        return view("admin.bank.list");
+        $bankRecords = Bank::all();
+        return view("admin.bank.list",compact('bankRecords'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+        Bank::create([
+            'name' => $request->name
+        ]);
+        return response()->json(['message' => 'Bank added successfully!'], 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Bank $bank)
     {
-        //
+
     }
 
     /**
@@ -58,8 +50,15 @@ class BankController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Bank $bank)
+    public function destroy(Request $request)
     {
-        //
+        $bank = Bank::find($request->id);
+        
+        if ($bank) {
+            $bank->delete();
+            return response()->json(['success' => true, 'message' => 'Bank deleted successfully!']);
+        }
+
+        return response()->json(['success' => false, 'message' => 'Bank not found.'], 404);
     }
 }
