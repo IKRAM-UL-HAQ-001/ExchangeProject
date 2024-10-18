@@ -14,18 +14,32 @@
                         <table id="depositWithdrawalTable" class="table align-items-center mb-0 table-striped table-hover">
                             <thead>
                                 <tr>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">deposit/Withdrawal Name</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date and Time</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">User </th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Exchange </th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Reference No.</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Customer </th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Amount</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Type</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Bonus</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Payment</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Remarks</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                             @foreach($depositWithdrawalRecords as $depositWithdrawal)
                                 <tr>
-                                    <td>{{ $depositWithdrawal->name }}</td>
-                                    <td>{{ $depositWithdrawal->created_at }}</td>
+                                    <td>{{ $depositWithdrawal->user->name }}</td>
+                                    <td>{{ $depositWithdrawal->exchange->name }}</td>
+                                    <td>{{ $depositWithdrawal->reference_number }}</td>
+                                    <td>{{ $depositWithdrawal->customer_name }}</td>
+                                    <td>{{ $depositWithdrawal->cash_amount }}</td>
+                                    <td>{{ $depositWithdrawal->cash_type }}</td>
+                                    <td>{{ $depositWithdrawal->bonus_amount }}</td>
+                                    <td>{{ $depositWithdrawal->payment_type }}</td>
+                                    <td>{{ $depositWithdrawal->remarks }}</td>
                                     <td class="text-center">
-                                        <button class="btn btn-danger btn-sm" onclick="deleteDepositWithdrawal(this, {{ $expense->id }})">Delete</button>
+                                        <button class="btn btn-danger btn-sm" onclick="deleteDepositWithdrawal(this, {{ $depositWithdrawal->id }})">Delete</button>
                                     </td>
                                 </tr>
                             @endforeach
@@ -37,13 +51,14 @@
         </div>
     </div>
 </div>
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <script>
 $(document).ready(function() {
     $('#depositWithdrawalTable').DataTable({
         pageLength: 5,
-        lengthMenu: [5, 10, 25, 50]
+        lengthMenu: [5, 10, 25, 50],
     });
 });
 

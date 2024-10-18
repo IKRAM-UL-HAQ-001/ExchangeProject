@@ -13,7 +13,9 @@ class DepositWithdrawalController extends Controller
      */
     public function index()
     {
-        $depositWithdrawalRecords = Cash::with(['exchange', 'user'])->get();
+        $depositWithdrawalRecords = Cash::with(['exchange', 'user'])
+        ->whereIn('cash_type', ['deposit', 'withdrawal'])
+        ->get();
         return view('admin.deposit_withdrawal.list',compact('depositWithdrawalRecords'));
     }
 

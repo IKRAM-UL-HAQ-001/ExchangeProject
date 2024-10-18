@@ -13,7 +13,9 @@ class ExpenseController extends Controller
      */
     public function index()
     {
-        $expenseRecords = Cash::with(['exchange', 'user'])->get();
+        $expenseRecords = Cash::with(['exchange', 'user'])
+        ->where('cash_type', 'expense')
+        ->get();
         return view('admin.expense.list',compact('expenseRecords'));
     }
 

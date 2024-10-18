@@ -86,13 +86,8 @@ function addExchange() {
         success: function(response) {
             if (response.message) {
                 alert(response.message);
+                closeModal();
             }
-
-            const table = $('#exchangeTable').DataTable();
-            table.row.add([
-                name,
-                '<button class="btn btn-danger btn-sm" onclick="deleteExchange(this, ' + response.id + ')">Delete</button>'
-            ]).draw();
 
             $('#addExchangeModal').modal('hide');
             document.getElementById('addExchangeForm').reset();

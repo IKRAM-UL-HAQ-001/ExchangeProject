@@ -87,13 +87,8 @@ function addBank() {
         success: function(response) {
             if (response.message) {
                 alert(response.message);
+                closeModal();
             }
-
-            const table = $('#bankTable').DataTable();
-            table.row.add([
-                name,
-                '<button class="btn btn-danger btn-sm" onclick="deleteBank(this, ' + response.id + ')">Delete</button>'
-            ]).draw();
 
             $('#addBankModal').modal('hide');
             document.getElementById('addBankForm').reset();

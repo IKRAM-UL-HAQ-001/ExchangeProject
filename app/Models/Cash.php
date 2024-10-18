@@ -9,12 +9,11 @@ class Cash extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'reference_number', 'customer_name', 'cash_amount', 'cash_type', 'bonus_amount', 
-        'total_balance', 'total_shop_balance', 'payment_type', 'remarks', 'user_id', 
-        'exchange_id'
+        'reference_number', 'customer_name', 'cash_amount', 'cash_type',
+        'bonus_amount', 'payment_type', 'remarks', 'user_id', 'exchange_id'
     ];
 
-    public function shop()
+    public function exchange()
     {
         return $this->belongsTo(Exchange::class);
     }

@@ -14,16 +14,22 @@
                         <table id="expenseTable" class="table align-items-center mb-0 table-striped table-hover">
                             <thead>
                                 <tr>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Expense Name</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date and Time</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">User </th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Exchange </th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Amount</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Type</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Remarks</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                             @foreach($expenseRecords as $expense)
                                 <tr>
-                                    <td>{{ $expense->name }}</td>
-                                    <td>{{ $expense->created_at }}</td>
+                                    <td>{{ $expense->user->name }}</td>
+                                    <td>{{ $expense->exchange->name }}</td>
+                                    <td>{{ $expense->cash_amount }}</td>
+                                    <td>{{ $expense->cash_type }}</td>
+                                    <td>{{ $expense->remarks }}</td>
                                     <td class="text-center">
                                         <button class="btn btn-danger btn-sm" onclick="deleteExpense(this, {{ $expense->id }})">Delete</button>
                                     </td>

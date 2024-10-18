@@ -140,23 +140,12 @@ $(document).ready(function() {
                 _token: '{{ csrf_token() }}'
             },
             success: function(response) {
-                const userTableBody = document.getElementById('userTableBody');
-                const newRow = document.createElement('tr');
-
-                newRow.setAttribute('data-user-id', response.id);
-                newRow.setAttribute('data-exchange-id', response.exchange_id);
-                newRow.innerHTML = `
-                    <td>${name}</td>
-                    <td>${response.exchange_name}</td>
-                    <td class="text-center">
-                        <button class="btn btn-danger btn-sm" onclick="deleteUser(this)">Delete</button>
-                        <button class="btn btn-warning btn-sm" onclick="editUser(this)">Edit</button>
-                    </td>
-                `;
-                userTableBody.appendChild(newRow);
-
-                alert('User added successfully: ' + response.message);
+                if (response.message) {
+                    alert(response.message);
                 closeModal();
+                }
+                $('#addUserModal').modal('hide');
+                document.getElementById('addUserForm').reset();
             },
             error: function(xhr) {
                 alert("Error adding user: " + xhr.responseJSON.message);
@@ -229,9 +218,9 @@ $(document).ready(function() {
                 _token: '{{ csrf_token() }}'
             },
             success: function(response) {
-                const row = $('tr[data-user-id="' + userId + '"]');
-                row.find('td:nth-child(1)').text(name);
-                row.find('td:nth-child(2)').text(response.exchange_name);
+                // const row = $('tr[data-user-id="' + userId + '"]');
+                // row.find('td:nth-child(1)').text(name);
+                // row.find('td:nth-child(2)').text(response.exchange_name);
 
                 alert('User updated successfully.');
                 $('#editUserModal').modal('hide');
