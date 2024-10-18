@@ -9,6 +9,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\BankController;
 use App\Http\Controllers\DepositWithdrawalController;
 use App\Http\Controllers\ExpenseController;
+use App\Http\Controllers\BankBalanceController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -49,10 +50,14 @@ Route::group(['middleware' => 'admin'], function () {
     // deposit withdrawal
     Route::get('/admin/deposit-withdrawal', [DepositWithdrawalController::class, 'index'])->name('admin.deposit_withdrawal.list');
     Route::post('/admin/deposit-withdrawal/destroy', [DepositWithdrawalController::class, 'destroy'])->name('admin.deposit_withdrawal.destroy');    
+    
     //expense
     Route::get('/admin/expense', [ExpenseController::class, 'index'])->name('admin.expense.list');
     Route::post('/admin/expense/destroy', [ExpenseController::class, 'destroy'])->name('admin.expense.destroy');
 
+    //bank Balance
+    Route::get('/admin/bankBalance', [BankBalanceController::class, 'index'])->name('admin.bank_balance.list');
+    Route::post('/admin/bankBalance/destroy', [BankBalanceController::class, 'destroy'])->name('admin.bank_balance.destroy');
 });
 
 Route::group(['middleware' => 'assistant'], function () {
