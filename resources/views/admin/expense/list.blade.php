@@ -9,9 +9,9 @@
                         <p style="color: white;"><strong>Expense Table</strong></p>
                     </div>
                 </div>
-                <div class="card-body px-0 pb-2">
+                <div class="card-body px-0 pb-2 px-3">
                     <div class="table-responsive p-0">
-                        <table id="expenseTable" class="table align-items-center mb-0 table-striped table-hover">
+                        <table id="expenseTable" class="table align-items-center mb-0 table-striped table-hover px-2">
                             <thead>
                                 <tr>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">User </th>
@@ -47,10 +47,19 @@
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <script>
 $(document).ready(function() {
-    $('#expenseTable').DataTable({
-        pageLength: 5,
-        lengthMenu: [5, 10, 25, 50]
-    });
+        const userTable = $('#expenseTable').DataTable({
+            pagingType: "full_numbers",
+            language: {
+                paginate: {
+                    first: '«',
+                    last: '»',
+                    next: '›',
+                    previous: '‹'
+                }
+            },
+            lengthMenu: [1, 10, 25, 50],
+            pageLength: 10
+        });
 });
 function deleteExpense(button, id) {
     const row = $(button).parents('tr');

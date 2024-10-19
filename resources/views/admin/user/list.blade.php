@@ -10,9 +10,9 @@
                         <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#addUserModal">Add New User</button>
                     </div>
                 </div>
-                <div class="card-body px-0 pb-2">
+                <div class="card-body px-0 pb-2 px-3">
                     <div class="table-responsive p-0">
-                        <table id="userTable" class="table align-items-center mb-0 table-striped table-hover">
+                        <table id="userTable" class="table align-items-center mb-0 table-striped table-hover px-2">
                             <thead>
                                 <tr>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">User Name</th>
@@ -20,12 +20,13 @@
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
                                 </tr>
                             </thead>
+                            
                             <tbody id="userTableBody">
                                 @foreach($userRecords as $user)
                                 <tr data-user-id="{{ $user->id }}" data-exchange-id="{{ $user->exchange->id }}">
-                                    <td>{{ $user->name }}</td>
-                                    <td>{{ $user->exchange->name ?? 'N/A' }}</td>
-                                    <td class="text-center">
+                                    <td style="width: 45%;">{{ $user->name }}</td>
+                                    <td style="width: 45%;">{{ $user->exchange->name ?? 'N/A' }}</td>
+                                    <td style="width: 10%; text-align: center;">
                                         <button class="btn btn-danger btn-sm" onclick="deleteUser(this)">Delete</button>
                                         <button class="btn btn-warning btn-sm" onclick="editUser(this)">Edit</button>
                                     </td>
@@ -116,135 +117,170 @@
         </div>
     </div>
 </div>
+<style>
+    .td-large {
+    width: 45%;
+}
+
+.td-small {
+    width: 10%;
+    text-align: center;
+}
+    .table-striped tbody tr:nth-of-type(odd) { background-color: #f2f2f2; }
+    .table-hover tbody tr:hover { background-color: #e0e0e0; }
+    .modal-header { background-color: #343a40; color: white; }
+    .dataTables_wrapper .dataTables_paginate .paginate_button {
+        padding: 5px 10px; margin: 0 5px; font-size: 10px;
+        color: white; background-color: #ffffff;
+        border-radius: 50%; border: none;
+        transition: background-color 0.3s ease;
+    }
+    .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+        background-color: #b3d8ff; color: white;
+    }
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current {
+        background-color: #343a40; color: white; font-weight: bold;
+    }
+    </style>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+
 <script>
-$(document).ready(function() {
-    // Initialize DataTable
-    $('#userTable').DataTable();
-
-    // Add user function
-    window.addUser = function() {
-        const name = document.getElementById('name').value;
-        const password = document.getElementById('password').value;
-        const exchange = document.getElementById('exchange').value;
-
-        $.ajax({
-            url: "{{ route('admin.user.post') }}",
-            method: "POST",
-            data: {
-                name: name,
-                password: password,
-                exchange: exchange,
-                _token: '{{ csrf_token() }}'
-            },
-            success: function(response) {
-                if (response.message) {
-                    alert(response.message);
-                closeModal();
+    $(document).ready(function () {
+        // Initialize DataTable
+        const userTable = $('#userTable').DataTable({
+            pagingType: "full_numbers",
+            language: {
+                paginate: {
+                    first: '«',
+                    last: '»',
+                    next: '›',
+                    previous: '‹'
                 }
-                $('#addUserModal').modal('hide');
-                document.getElementById('addUserForm').reset();
             },
-            error: function(xhr) {
-                alert("Error adding user: " + xhr.responseJSON.message);
+            lengthMenu: [1, 10, 25, 50],
+            pageLength: 10
+        });
+
+        // Set up CSRF token for AJAX requests
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-    };
 
-    // Close modal function
-    window.closeModal = function() {
-        var myModalEl = document.getElementById('addUserModal');
-        var modal = bootstrap.Modal.getInstance(myModalEl);
-        modal.hide();
-        document.getElementById('addUserForm').reset();
-    };
+        // Add User Function
+        window.addUser = function () {
+            const name = $('#name').val();
+            const password = $('#password').val();
+            const exchange = $('#exchange').val();
 
-    // Delete user function
-    window.deleteUser = function(button) {
-        const row = $(button).closest('tr');
-        const userId = row.data('user-id');
+            $.ajax({
+                url: "{{ route('admin.user.post') }}",
+                method: "POST",
+                data: {
+                    name: name,
+                    password: password,
+                    exchange: exchange
+                },
+                success: function (response) {
+                    alert(response.message);
 
-        if (!confirm('Are you sure you want to delete this user?')) {
-            return;
-        }
+                    // Add the new user to DataTable
+                    userTable.row.add([
+                        response.user.name,
+                        response.exchange_name ?? 'N/A',
+                        `
+                            <button class="btn btn-danger btn-sm" onclick="deleteUser(this)">Delete</button>
+                            <button class="btn btn-warning btn-sm" onclick="editUser(this)">Edit</button>
+                        `
+                    ]).draw(false);
 
-        $.ajax({
-            url: "{{ route('admin.user.destroy') }}",
-            method: "POST",
-            data: {
-                id: userId,
-                _token: '{{ csrf_token() }}'
-            },
-            success: function(response) {
-                row.remove();
-                alert('User deleted successfully.');
-            },
-            error: function(xhr) {
-                alert("Error deleting user: " + xhr.responseJSON.message);
+                    $('#addUserModal').modal('hide');
+                    $('#addUserForm')[0].reset();
+                },
+                error: function (xhr) {
+                    alert("Error adding user: " + xhr.responseJSON.message);
+                }
+            });
+        };
+
+        // Delete User Function
+        window.deleteUser = function (button) {
+            const row = $(button).closest('tr');
+            const userId = row.data('user-id');
+
+            if (!confirm('Are you sure you want to delete this user?')) {
+                return;
             }
-        });
-    };
 
-    // Open edit modal and populate fields
-    window.editUser = function(button) {
-        const row = $(button).closest('tr');
-        const userId = row.data('user-id');
-        const userName = row.find('td:nth-child(1)').text();
-        const exchangeId = row.data('exchange-id');
+            $.ajax({
+                url: "{{ route('admin.user.destroy') }}",
+                method: "POST",
+                data: { id: userId },
+                success: function (response) {
+                    alert(response.message);
+                    // Remove the user from DataTable
+                    userTable.row(row).remove().draw();
+                },
+                error: function (xhr) {
+                    alert("Error deleting user: " + xhr.responseJSON.message);
+                }
+            });
+        };
 
-        $('#editUserId').val(userId);
-        $('#editName').val(userName);
-        $('#editExchange').val(exchangeId);
-        $('#editUserModal').modal('show');
-    };
+        // Edit User Modal and Populate Fields
+        window.editUser = function (button) {
+            const row = $(button).closest('tr');
+            const userId = row.data('user-id');
+            const userName = row.find('td:nth-child(1)').text();
+            const exchangeId = row.data('exchange-id');
 
-    // Update user function
-    window.updateUser = function() {
-        const userId = $('#editUserId').val();
-        const name = $('#editName').val();
-        const password = $('#editPassword').val();
-        const exchange = $('#editExchange').val();
+            $('#editUserId').val(userId);
+            $('#editName').val(userName);
+            $('#editExchange').val(exchangeId);
+            $('#editUserModal').modal('show');
+        };
 
-        $.ajax({
-            url: "{{ route('admin.user.update') }}",
-            method: "POST",
-            data: {
-                id: userId,
-                name: name,
-                password: password, // Include password for update
-                exchange: exchange,
-                _token: '{{ csrf_token() }}'
-            },
-            success: function(response) {
-                // const row = $('tr[data-user-id="' + userId + '"]');
-                // row.find('td:nth-child(1)').text(name);
-                // row.find('td:nth-child(2)').text(response.exchange_name);
+        // Update User Function
+        window.updateUser = function () {
+            const userId = $('#editUserId').val();
+            const name = $('#editName').val();
+            const password = $('#editPassword').val();
+            const exchange = $('#editExchange').val();
 
-                alert('User updated successfully.');
-                $('#editUserModal').modal('hide');
-            },
-            error: function(xhr) {
-                alert("Error updating user: " + xhr.responseJSON.message);
-            }
-        });
-    };
-});
+            $.ajax({
+                url: "{{ route('admin.user.update') }}",
+                method: "POST",
+                data: {
+                    id: userId,
+                    name: name,
+                    password: password,
+                    exchange: exchange
+                },
+                success: function (response) {
+                    alert(response.message);
+                    $('#editUserModal').modal('hide');
+                    userTable.ajax.reload(null, false); // Reload table data without page refresh
+                },
+                error: function (xhr) {
+                    alert("Error updating user: " + xhr.responseJSON.message);
+                }
+            });
+        };
+
+        // Close Modal and Reset Form
+        window.closeModal = function () {
+            var myModalEl = document.getElementById('addUserModal');
+            var modal = bootstrap.Modal.getInstance(myModalEl);
+            modal.hide();
+            $('#addUserForm')[0].reset();
+        };
+    });
 </script>
 
-<style>
-.table-striped tbody tr:nth-of-type(odd) {
-    background-color: #f2f2f2;
-}
+<!-- CSRF Meta Tag for Security -->
+<meta name="csrf-token" content="{{ csrf_token() }}">
 
-.table-hover tbody tr:hover {
-    background-color: #e0e0e0;
-}
-
-.modal-header {
-    background-color: #343a40;
-    color: white;
-}
-</style>
 @endsection

@@ -9,9 +9,9 @@
                         <p style="color: white;"><strong>Deposit - Withdrawal Table</strong></p>
                     </div>
                 </div>
-                <div class="card-body px-0 pb-2">
+                <div class="card-body px-0 pb-2 px-3">
                     <div class="table-responsive p-0">
-                        <table id="depositWithdrawalTable" class="table align-items-center mb-0 table-striped table-hover">
+                        <table id="depositWithdrawalTable" class="table align-items-center mb-0 table-striped table-hover px-2">
                             <thead>
                                 <tr>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">User </th>
@@ -56,10 +56,19 @@
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <script>
 $(document).ready(function() {
-    $('#depositWithdrawalTable').DataTable({
-        pageLength: 5,
-        lengthMenu: [5, 10, 25, 50],
-    });
+        const userTable = $('#depositWithdrawalTable').DataTable({
+            pagingType: "full_numbers"
+            , language: {
+                paginate: {
+                    first: '«'
+                    , last: '»'
+                    , next: '›'
+                    , previous: '‹'
+                }
+            }
+            , lengthMenu: [1, 10, 25, 50]
+            , pageLength: 10
+        });
 });
 
 function deleteDepositWithdrawal(button, id) {
@@ -104,5 +113,28 @@ function deleteDepositWithdrawal(button, id) {
     background-color: #343a40;
     color: white;
 }
+.td-large {
+    width: 45%;
+}
+
+.td-small {
+    width: 10%;
+    text-align: center;
+}
+    .table-striped tbody tr:nth-of-type(odd) { background-color: #f2f2f2; }
+    .table-hover tbody tr:hover { background-color: #e0e0e0; }
+    .modal-header { background-color: #343a40; color: white; }
+    .dataTables_wrapper .dataTables_paginate .paginate_button {
+        padding: 5px 10px; margin: 0 5px; font-size: 10px;
+        color: white; background-color: #ffffff;
+        border-radius: 50%; border: none;
+        transition: background-color 0.3s ease;
+    }
+    .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+        background-color: #b3d8ff; color: white;
+    }
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current {
+        background-color: #343a40; color: white; font-weight: bold;
+    }
 </style>
 @endsection
