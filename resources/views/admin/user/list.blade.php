@@ -61,7 +61,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="exchange" class="form-label">Exchange</label>
-                            <select class="form-select" id="exchange" required>
+                            <select class="form-select px-3" id="exchange" required >
                                 <option value="" disabled selected>Select an exchange</option>
                                 @foreach($exchangeRecords as $exchange)
                                     <option value="{{ $exchange->id }}">{{ $exchange->name }}</option>
@@ -100,7 +100,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="editExchange" class="form-label">Exchange</label>
-                            <select class="form-select" id="editExchange" required>
+                            <select class="form-select px-3" id="editExchange" required>
                                 <option value="" disabled selected>Select an exchange</option>
                                 @foreach($exchangeRecords as $exchange)
                                     <option value="{{ $exchange->id }}">{{ $exchange->name }}</option>
@@ -117,31 +117,6 @@
         </div>
     </div>
 </div>
-<style>
-    .td-large {
-    width: 45%;
-}
-
-.td-small {
-    width: 10%;
-    text-align: center;
-}
-    .table-striped tbody tr:nth-of-type(odd) { background-color: #f2f2f2; }
-    .table-hover tbody tr:hover { background-color: #e0e0e0; }
-    .modal-header { background-color: #343a40; color: white; }
-    .dataTables_wrapper .dataTables_paginate .paginate_button {
-        padding: 5px 10px; margin: 0 5px; font-size: 10px;
-        color: white; background-color: #ffffff;
-        border-radius: 50%; border: none;
-        transition: background-color 0.3s ease;
-    }
-    .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
-        background-color: #b3d8ff; color: white;
-    }
-    .dataTables_wrapper .dataTables_paginate .paginate_button.current {
-        background-color: #343a40; color: white; font-weight: bold;
-    }
-    </style>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
@@ -159,7 +134,7 @@
                     previous: '‹'
                 }
             },
-            lengthMenu: [1, 10, 25, 50],
+            lengthMenu: [5, 10, 25, 50],
             pageLength: 10
         });
 
@@ -279,8 +254,5 @@
         };
     });
 </script>
-
-<!-- CSRF Meta Tag for Security -->
-<meta name="csrf-token" content="{{ csrf_token() }}">
 
 @endsection

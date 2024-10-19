@@ -92,16 +92,4 @@ function deleteExpense(button, id) {
 }
 </script>
 
-<style>
-.table-striped tbody tr:nth-of-type(odd) {
-    background-color: #f2f2f2;
-}
-.table-hover tbody tr:hover {
-    background-color: #e0e0e0;
-}
-.modal-header {
-    background-color: #343a40;
-    color: white;
-}
-</style>
 @endsection
