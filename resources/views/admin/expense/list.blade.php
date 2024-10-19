@@ -19,21 +19,38 @@
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Amount</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Type</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Remarks</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Balance</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                            @foreach($expenseRecords as $expense)
-                                <tr>
-                                    <td>{{ $expense->user->name }}</td>
-                                    <td>{{ $expense->exchange->name }}</td>
-                                    <td>{{ $expense->cash_amount }}</td>
-                                    <td>{{ $expense->cash_type }}</td>
-                                    <td>{{ $expense->remarks }}</td>
-                                    <td class="text-center">
-                                        <button class="btn btn-danger btn-sm" onclick="deleteExpense(this, {{ $expense->id }})">Delete</button>
-                                    </td>
-                                </tr>
+                                @php
+                                    $balance = 0;
+                                @endphp
+
+                                @foreach($expenseRecords as $expense)
+                                    @php
+                                        if ($expense->cash_type == 'deposit') {
+                                            $balance += $expense->cash_amount;
+                                        } elseif ($expense->cash_type == 'withdrawal') {
+                                            $balance -= $expense->cash_amount;
+                                        }elseif ($expense->cash_type == 'expense') {
+                                            $balance -= $expense->cash_amount;
+                                        }
+                                    @endphp
+                                @if($expense->cash_type == "expense")
+                                    <tr>
+                                        <td>{{ $expense->user->name }}</td>
+                                        <td>{{ $expense->exchange->name }}</td>
+                                        <td>{{ $expense->cash_amount }}</td>
+                                        <td>{{ $expense->cash_type }}</td>
+                                        <td>{{ $expense->remarks }}</td>
+                                        <td>{{ $balance}}</td>
+                                        <td class="text-center">
+                                            <button class="btn btn-danger btn-sm" onclick="deleteExpense(this, {{ $expense->id }})">Delete</button>
+                                        </td>
+                                    </tr>
+                                @endif
                             @endforeach
                             </tbody>
                         </table>

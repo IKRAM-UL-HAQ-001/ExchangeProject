@@ -7,7 +7,6 @@
         @include("layout.topNavBar")        
         <div class="container-fluid py-4 d-flex flex-column justify-content-between" style="min-height:95vh">
             @yield("content")
-            @include("layout.setting")
             @include("layout.footer")
         </div>
     </main>

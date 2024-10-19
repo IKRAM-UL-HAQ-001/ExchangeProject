@@ -10,6 +10,7 @@ use App\Http\Controllers\BankController;
 use App\Http\Controllers\DepositWithdrawalController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\BankBalanceController;
+use App\Http\Controllers\CashController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -71,4 +72,6 @@ Route::group(['middleware' => 'exchange'], function () {
 
     //Exchange Cash
     Route::get('/exchange/cash', [CashController::class, 'index'])->name('exchange.cash.list');
+    Route::post('/exchange/cash/store', [CashController::class, 'store'])->name('exchange.cash.store');
+    Route::post('/exchange/cash/destroy', [CashController::class, 'destroy'])->name('exchange.cash.destroy');
 });

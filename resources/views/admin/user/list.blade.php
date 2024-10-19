@@ -5,10 +5,15 @@
         <div class="col-12">
             <div class="card my-4">
                 <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+
                     <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
-                        <p style="color: white;"><strong>User Table</strong></p>
-                        <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#addUserModal">Add New User</button>
-                    </div>
+                        <p style="color: white;"><strong>User Table</strong></p>                        
+                        <div>
+                            <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#addUserModal">Add New User</button>
+                            <button type="button" class="btn btn-dark" >Export Withdrawal</button>
+                            <button type="button" class="btn btn-info" >Export Deposit</button>
+                        </div>
+                     </div>
                 </div>
                 <div class="card-body px-0 pb-2 px-3">
                     <div class="table-responsive p-0">

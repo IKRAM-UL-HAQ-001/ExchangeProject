@@ -23,25 +23,43 @@
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Bonus</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Payment</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Remarks</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Balance</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                            @foreach($depositWithdrawalRecords as $depositWithdrawal)
-                                <tr>
-                                    <td>{{ $depositWithdrawal->user->name }}</td>
-                                    <td>{{ $depositWithdrawal->exchange->name }}</td>
-                                    <td>{{ $depositWithdrawal->reference_number }}</td>
-                                    <td>{{ $depositWithdrawal->customer_name }}</td>
-                                    <td>{{ $depositWithdrawal->cash_amount }}</td>
-                                    <td>{{ $depositWithdrawal->cash_type }}</td>
-                                    <td>{{ $depositWithdrawal->bonus_amount }}</td>
-                                    <td>{{ $depositWithdrawal->payment_type }}</td>
-                                    <td>{{ $depositWithdrawal->remarks }}</td>
-                                    <td class="text-center">
-                                        <button class="btn btn-danger btn-sm" onclick="deleteDepositWithdrawal(this, {{ $depositWithdrawal->id }})">Delete</button>
-                                    </td>
-                                </tr>
+                                @php
+                                    $balance = 0;
+                                @endphp
+
+                                @foreach($depositWithdrawalRecords as $depositWithdrawal)
+                                    @php
+                                        if ($depositWithdrawal->cash_type == 'deposit') {
+                                            $balance += $depositWithdrawal->cash_amount;
+                                        } elseif ($depositWithdrawal->cash_type == 'withdrawal') {
+                                            $balance -= $depositWithdrawal->cash_amount;
+                                        }
+                                    @endphp
+                                @if($depositWithdrawal->cash_type !="expense")
+                                    <tr>
+                                        <td>{{ $depositWithdrawal->user->name }}</td>
+                                        <td>{{ $depositWithdrawal->exchange->name }}</td>
+                                        <td>{{ $depositWithdrawal->reference_number }}</td>
+                                        <td>{{ $depositWithdrawal->customer_name }}</td>
+                                        <td>{{ $depositWithdrawal->cash_amount }}</td>
+                                        <td>{{ $depositWithdrawal->cash_type }}</td>
+                                        <td>{{ $depositWithdrawal->bonus_amount }}</td>
+                                        <td>{{ $depositWithdrawal->payment_type }}</td>
+                                        <td>{{ $depositWithdrawal->remarks }}</td>
+                                        <td>{{ number_format($balance, 2) }}</td>
+                                        <td class="text-center">
+                                            <button class="btn btn-danger btn-sm" 
+                                                    onclick="deleteDepositWithdrawal(this, {{ $depositWithdrawal->id }})">
+                                                Delete
+                                            </button>
+                                        </td>
+                                    </tr>
+                                @endif
                             @endforeach
                             </tbody>
                         </table>
