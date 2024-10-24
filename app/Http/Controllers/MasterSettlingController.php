@@ -4,16 +4,57 @@ namespace App\Http\Controllers;
 
 use App\Models\MasterSettling;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\MasterSettlingMonthlyListExport;
+use App\Exports\MasterSettlingWeeklyListExport;
+use Auth;
 
 class MasterSettlingController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    public function masterSettlingListMonthlyExportExcel(Request $request)
+    {
+        if (!auth()->check()) {
+            return redirect()->route('auth.login');
+        }
+        else{
+            if(Auth::user()->role == "admin" || Auth::user()->role == "assistant"){
+                $exchangeId = null;
+            }
+            else{
+                $exchangeId = Auth::user()->exchange_id;
+            }
+            return Excel::download(new MasterSettlingMonthlyListExport($exchangeId), 'MonthlyMasterSettlingRecord.xlsx');
+        }
+    }
+
+    public function masterSettlingListWeeklyExportExcel(Request $request)
+    {
+        if (!auth()->check()) {
+            return redirect()->route('auth.login');
+        }
+        else{
+            if(Auth::user()->role == "admin" || Auth::user()->role == "assistant"){
+                $exchangeId = null;
+            }
+            else{
+                $exchangeId = Auth::user()->exchange_id;
+            }
+            return Excel::download(new MasterSettlingWeeklyListExport($exchangeId), 'WeeklyMasterSettlingRecord.xlsx');
+        }
+    }
+
     public function index()
     {
-        $masterSettlingRecords = MasterSettling::all();
-        return view("admin.master_settling.list",compact('masterSettlingRecords'));
+
+        if (!auth()->check()) {
+            return redirect()->route('auth.login');
+        }
+        else{
+            $masterSettlingRecords= MasterSettling::with(['exchange', 'user'])
+                ->get();
+
+            return view("admin.master_settling.list",compact('masterSettlingRecords'));
+        }
     }
 
     /**
@@ -61,11 +102,16 @@ class MasterSettlingController extends Controller
      */
     public function destroy(Request $request)
     {
-        $masterSettling = MasterSettling::find($request->id);
-        if ($masterSettling) {
-            $masterSettling->delete();
-            return response()->json(['success' => true, 'message' => 'Master Settling deleted successfully!']);
+        if (!auth()->check()) {
+            return redirect()->route('auth.login');
         }
-        return response()->json(['success' => false, 'message' => 'Master Settling not found.'], 404);
+        else{
+            $masterSettling = MasterSettling::find($request->id);
+            if ($masterSettling) {
+                $masterSettling->delete();
+                return response()->json(['success' => true, 'message' => 'Master Settling deleted successfully!']);
+            }
+            return response()->json(['success' => false, 'message' => 'Master Settling not found.'], 404);
+        }
     }
 }

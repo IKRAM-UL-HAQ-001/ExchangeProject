@@ -3,19 +3,56 @@
 namespace App\Http\Controllers;
 
 use App\Models\DepositWithdrawal;
+Use App\Exports\WithdrawalListExport;
+Use App\Exports\DepositListExport;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Models\Cash;
 use Illuminate\Http\Request;
+use Auth;
 
 class DepositWithdrawalController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    public function withdrawalExportExcel(Request $request)
+    {
+        if (!auth()->check()) {
+            return redirect()->route('auth.login');
+        }
+        else{
+            if(Auth::user()->role == "admin" || Auth::user()->role == "assistant"){
+                $exchangeId = null;
+            }
+            else{
+                $exchangeId = Auth::user()->exchange_id;
+            }
+            return Excel::download(new WithdrawalListExport($exchangeId), 'withdrawalRecord.xlsx');
+        }
+    }
+    
+    public function depositExportExcel(Request $request)
+    {
+        if (!auth()->check()) {
+            return redirect()->route('auth.login');
+        }
+        else{
+            if($role == "admin" || $role == "assistant"){
+                $exchangeId = null;
+            }
+            else{
+                $exchangeId = Auth::user()->exchange_id;
+            }
+            return Excel::download(new DepositListExport($exchangeId), 'depositRecord.xlsx');
+        }
+    }
     public function index()
     {
-        $depositWithdrawalRecords = Cash::with(['exchange', 'user'])
-        ->get();
-        return view('admin.deposit_withdrawal.list',compact('depositWithdrawalRecords'));
+        if (!auth()->check()) {
+            return redirect()->route('auth.login');
+        }
+        else{
+            $depositWithdrawalRecords = Cash::with(['exchange', 'user'])
+            ->get();
+            return view('admin.deposit_withdrawal.list',compact('depositWithdrawalRecords'));
+        }
     }
 
     /**
@@ -63,13 +100,16 @@ class DepositWithdrawalController extends Controller
      */
     public function destroy(Request $request)
     {
-        $depositWithdarwal = DepositWithdarwal::find($request->id);
-        
-        if ($depositWithdarwal) {
-            $depositWithdarwal->delete();
-            return response()->json(['success' => true, 'message' => 'Deposit/Withdarwal deleted successfully!']);
+        if (!auth()->check()) {
+            return redirect()->route('auth.login');
         }
-
-        return response()->json(['success' => false, 'message' => 'Deposit/Withdarwal not found.'], 404);
+        else{
+            $depositWithdarwal = Cash::find($request->id);
+            if ($depositWithdarwal) {
+                $depositWithdarwal->delete();
+                return response()->json(['success' => true, 'message' => 'Deposit/Withdarwal deleted successfully!']);
+            }
+            return response()->json(['success' => false, 'message' => 'Deposit/Withdarwal not found.'], 404);
+        }
     }
 }

@@ -3,13 +3,28 @@
 namespace App\Http\Controllers;
 
 use App\Models\BankBalance;
+Use App\Exports\BankBalanceListExport;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
-
+use Auth; 
 class BankBalanceController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    
+    public function bankBalanceListExportExcel(Request $request)
+    {
+        if (!auth()->check()) {
+            return redirect()->route('auth.login');
+        }
+        else{
+            if(Auth::user()->role == "admin" || Auth::user()->role  == "assistant"){
+                $exchangeId = null;
+            }
+            else{
+                $exchangeId = Auth::user()->exchange_id;
+            }
+            return Excel::download(new BankBalanceListExport($exchangeId), 'bankBalanceRecord.xlsx');
+        }
+    }
     public function index()
     {
         $bankBalanceRecords = BankBalance::all();

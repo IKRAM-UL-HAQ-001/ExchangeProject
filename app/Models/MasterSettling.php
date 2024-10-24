@@ -8,4 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class MasterSettling extends Model
 {
     use HasFactory;
+
+    public function exchange()
+    {
+        return $this->belongsTo(Exchange::class);
+    }
+    
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

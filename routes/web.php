@@ -22,6 +22,16 @@ Route::get('/auth/logout', [LoginController::class, 'logout'])->name('login.logo
 
 Route::group(['middleware' => 'admin'], function () {
     
+    //admin export
+    Route::get('/export-bank', [BankController::class, 'bankExportExcel'])->name('export.bank');
+    Route::get('/export-deposit', [DepositWithdrawalController::class, 'depositExportExcel'])->name('export.deposit');
+    Route::get('/export-withdrawal', [DepositWithdrawalController::class, 'withdrawalExportExcel'])->name('export.withdrawal');
+    Route::get('/export-expense', [ExpenseController::class, 'expenseExportExcel'])->name('export.expense');
+    Route::get('/export-masterSettlingWeekly', [MasterSettlingController::class, 'masterSettlingListWeeklyExportExcel'])->name('export.masterSettlingListWeekly');
+    Route::get('/export-masterSettlingMonthly', [MasterSettlingController::class, 'masterSettlingListMonthlyExportExcel'])->name('export.masterSettlingListMonthly');
+    Route::get('/export-bankBalance', [BankBalanceController::class, 'bankBalanceListExportExcel'])->name('export.bankBalanceList');
+    Route::get('/export-ownerProfit', [OwnerProfitController::class, 'ownerProfitListExportExcel'])->name('export.ownerProfitList');
+
     //admin dashboard
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.dashboard');
     

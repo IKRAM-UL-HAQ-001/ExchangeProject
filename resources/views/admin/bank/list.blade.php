@@ -8,7 +8,7 @@
                     <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
                         <p style="color: white;"><strong>Bank Table</strong></p>
                         <div>
-                            <button type="button" class="btn btn-dark" >Export Bank List</button>
+                            <a href="{{ route('export.bank') }}" class="btn btn-dark">Export Bank List</a>
                             <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#addBankModal">Add New Bank</button>
                         </div>
                     </div>

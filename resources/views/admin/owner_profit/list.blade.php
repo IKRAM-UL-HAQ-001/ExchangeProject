@@ -8,7 +8,7 @@
                     <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
                         <p style="color: white;"><strong>Owner Profit Table</strong></p>
                         <div>
-                            <button type="button" class="btn btn-dark" >Export OwnerProfit List</button>
+                            <a href="{{ route('export.ownerProfitList') }}" class="btn btn-dark">Owner Profit Excel</a>
                         </div>
                     </div>
                 </div>

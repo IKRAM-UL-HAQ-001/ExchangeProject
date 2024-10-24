@@ -4,16 +4,36 @@ namespace App\Http\Controllers;
 
 use App\Models\OwnerProfit;
 use Illuminate\Http\Request;
-
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\OwnerProfitListExport;
+use Auth;
 class OwnerProfitController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    public function ownerProfitListExportExcel(Request $request)
+    {
+        if (!auth()->check()) {
+            return redirect()->route('auth.login');
+        }
+        else{
+            if(Auth::user()->role == "admin" || Auth::user()->role == "assistant"){
+                $exchangeId = null;
+            }
+            else{
+                $exchangeId = Auth::user()->exchange_id;
+            }
+            return Excel::download(new OwnerProfitListExport($exchangeId), 'ownerProfitRecord.xlsx');
+        }
+    }
+
     public function index()
     {
-        $ownerProfitRecords = OwnerProfit::all();
-        return view('admin.owner_profit.list',compact('ownerProfitRecords'));
+        if (!auth()->check()) {
+            return redirect()->route('auth.login');
+        }
+        else{
+            $ownerProfitRecords = OwnerProfit::all();
+            return view('admin.owner_profit.list',compact('ownerProfitRecords'));
+        }
     }
 
     /**
@@ -61,11 +81,16 @@ class OwnerProfitController extends Controller
      */
     public function destroy(Request $request)
     {
-        $ownerProfit = OwnerProfit::find($request->id);
-        if ($ownerProfit) {
-            $ownerProfit->delete();
-            return response()->json(['success' => true, 'message' => 'owner Profit deleted successfully!']);
+        if (!auth()->check()) {
+            return redirect()->route('auth.login');
         }
-        return response()->json(['success' => false, 'message' => 'Owner Profit not found.'], 404);
+        else{
+            $ownerProfit = OwnerProfit::find($request->id);
+            if ($ownerProfit) {
+                $ownerProfit->delete();
+                return response()->json(['success' => true, 'message' => 'owner Profit deleted successfully!']);
+            }
+            return response()->json(['success' => false, 'message' => 'Owner Profit not found.'], 404);
+        }
     }
 }

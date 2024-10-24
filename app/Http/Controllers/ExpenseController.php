@@ -4,18 +4,39 @@ namespace App\Http\Controllers;
 
 use App\Models\Expense;
 use App\Models\Cash;
+Use App\Exports\ExpenseListExport;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
+use Auth;
 
 class ExpenseController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    public function expenseExportExcel(Request $request)
+    {
+        if (!auth()->check()) {
+            return redirect()->route('auth.login');
+        }
+        else{
+            if(Auth::user()->role == "admin" || Auth::user()->role == "assistant"){
+                $exchangeId = null;
+            }
+            else{
+                $exchangeId = Auth::user()->exchange_id;
+            }
+            return Excel::download(new ExpenseListExport($exchangeId), 'expenseRecord.xlsx');
+        }
+    }
+    
     public function index()
     {
-        $expenseRecords = Cash::with(['exchange', 'user'])
-        ->get();
-        return view('admin.expense.list',compact('expenseRecords'));
+        if (!auth()->check()) {
+            return redirect()->route('auth.login');
+        }
+        else{
+            $expenseRecords = Cash::with(['exchange', 'user'])
+            ->get();
+            return view('admin.expense.list',compact('expenseRecords'));
+        }
     }
 
     /**
@@ -63,13 +84,16 @@ class ExpenseController extends Controller
      */
     public function destroy(Request $request)
     {
-        $expense = Expense::find($request->id);
-        
-        if ($expense) {
-            $expense->delete();
-            return response()->json(['success' => true, 'message' => 'Expense deleted successfully!']);
+        if (!auth()->check()) {
+            return redirect()->route('auth.login');
         }
-
-        return response()->json(['success' => false, 'message' => 'Expense not found.'], 404);
+        else{
+            $expense = Cash::find($request->id);
+            if ($expense) {
+                $expense->delete();
+                return response()->json(['success' => true, 'message' => 'Expense deleted successfully!']);
+            }
+            return response()->json(['success' => false, 'message' => 'Expense not found.'], 404);
+        }
     }
 }

@@ -8,8 +8,8 @@
                     <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
                         <p style="color: white;"><strong>Deposit - Withdrawal Table</strong></p>
                         <div>
-                            <button type="button" class="btn btn-dark" >Export Deposit List</button>
-                            <button type="button" class="btn btn-dark" >Export Withdrawal List</button>
+                        <a href="{{ route('export.deposit') }}" class="btn btn-dark">Deposit Export</a>
+                        <a href="{{ route('export.withdrawal') }}" class="btn btn-dark">Withdrawal Export</a>
                         </div>
                     </div>
                 </div>

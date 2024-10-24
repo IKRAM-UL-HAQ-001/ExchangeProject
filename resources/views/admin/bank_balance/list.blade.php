@@ -8,7 +8,7 @@
                     <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
                         <p style="color: white;"><strong>Bank Balance Table</strong></p>
                         <div>
-                            <button type="button" class="btn btn-dark" >Export Bank Balance List</button>
+                        <a href="{{ route('export.bankBalanceList') }}" class="btn btn-dark">Bank Balance Excel</a>
                         </div>
                     </div>
                 </div>

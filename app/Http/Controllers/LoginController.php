@@ -90,11 +90,11 @@ class LoginController extends Controller
 
     public function logout(Request $request){
         if (!auth()->check()) {
-            return redirect()->route('welcome');
+            return redirect()->route('auth.login');
         }
         elseif (auth()->check()) {
             Auth::logout();
-            return redirect()->route('welcome');
+            return redirect()->route('auth.login');
         }
     }
 }

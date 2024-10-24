@@ -8,7 +8,8 @@
                     <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
                         <p style="color: white;"><strong>Master Settling Table</strong></p>
                         <div>
-                            <button type="button" class="btn btn-dark" >Export Master Settling List</button>
+                        <a href="{{ route('export.masterSettlingListWeekly') }}" class="btn btn-dark">Weekly Master Settling Excel</a>
+                        <a href="{{ route('export.masterSettlingListMonthly')}}" class="btn btn-dark">Monthly Master Settling Excel</a>
                         </div>
                     </div>
                 </div>
@@ -38,7 +39,7 @@
                                     <td>{{ $masterSettling->price }}</td>
                                     <td>{{ $masterSettling->total_amount }}</td>
                                     <td class="text-center">
-                                        <button class="btn btn-danger btn-sm" aria-label="Delete Bank Balance" onclick="deleteCustomer(this, {{ $customer->id }})">Delete</button>
+                                        <button class="btn btn-danger btn-sm" aria-label="Delete Master Settling" onclick="deleteMasterSettling(this, {{ $masterSettling->id }})">Delete</button>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -70,7 +71,7 @@
         });
     });
 
-    function deleteCustomer(button, id) {
+    function deleteMasterSettling(button, id) {
         const row = $(button).closest('tr');
         const table = $('#customerTable').DataTable();
 
@@ -90,7 +91,7 @@
                     table.row(row).remove().draw();
                     alert(response.message); // Consider replacing this with a toast notification
                 } else {
-                    alert(response.message || 'Failed to delete the bank balance.');
+                    alert(response.message || 'Failed to delete the Master Settling.');
                 }
             }
             , error: function(xhr) {
