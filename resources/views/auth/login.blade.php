@@ -36,7 +36,7 @@
                                             <option value="" disabled selected>Select your Role</option>
                                             <option value="admin">Admin</option>
                                             <option value="exchange">Exchange</option>
-                                            <option value="carecenter">Care Center</option>
+                                            <option value="assistant">Assistant</option>
                                         </select>
                                     </div>
                                     <div id="userFields">
