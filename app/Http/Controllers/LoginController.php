@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Login;
+use App\Models\Exchange;
 use Illuminate\Http\Request;
 use Auth;
 class LoginController extends Controller
@@ -12,14 +13,9 @@ class LoginController extends Controller
      */
     public function index()
     {
-        return view("auth.login");
+        $exchangeRecords =  Exchange::all();
+        return view("auth.login",compact('exchangeRecords'));
     }
-
-    public function firstPage()
-    {
-        return view("welcome");
-    }
-
     /**
      * Show the form for creating a new resource.
      */
