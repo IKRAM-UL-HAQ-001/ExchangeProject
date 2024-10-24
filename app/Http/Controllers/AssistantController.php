@@ -104,7 +104,7 @@ class AssistantController extends Controller
             $totalBalanceMonthly = $totalDepositMonthly - $totalWithdrawalMonthly - $totalExpenseMonthly;
             $totalUsers = User::count();
             $totalExchanges = Exchange::count();
-            return view('/assistant.dashBoard',compact('totalUsers','totalExchanges',
+            return view('/assistant.dashboard',compact('totalUsers','totalExchanges',
                 'totalBalanceMonthly','totalDepositMonthly','totalWithdrawalMonthly',
                 'totalExpenseMonthly','totalMasterSettlingMonthly',
                 'totalBonusMonthly','totalOldCustomersMonthly','totalOwnerProfitMonthly',

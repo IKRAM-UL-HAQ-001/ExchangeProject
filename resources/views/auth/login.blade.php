@@ -52,7 +52,7 @@
                                             <select class="form-control" id="exchange" name="exchange"> 
                                               <option value="" disabled selected>Select Your Exchange</option>
                                               @foreach($exchangeRecords as $exchange)
-                                                <option value="{{$exchange->id}}">{{$exchange->name}}</option>
+                                                <option value="{{$exchange->id ?? 'N/A' }}" id="exchage" name="exchage">{{$exchange->name ?? 'N/A' }}</option>
                                               @endforeach
                                             </select>
                                           </div>
