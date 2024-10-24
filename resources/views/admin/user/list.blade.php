@@ -10,8 +10,6 @@
                         <p style="color: white;"><strong>User Table</strong></p>                        
                         <div>
                             <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#addUserModal">Add New User</button>
-                            <button type="button" class="btn btn-dark" >Export Withdrawal</button>
-                            <button type="button" class="btn btn-dark" >Export Deposit</button>
                         </div>
                      </div>
                 </div>
@@ -28,8 +26,8 @@
                             
                             <tbody id="userTableBody">
                                 @foreach($userRecords as $user)
-                                <tr data-user-id="{{ $user->id }}" data-exchange-id="{{ $user->exchange->id }}">
-                                    <td style="width: 45%;">{{ $user->name }}</td>
+                                <tr data-user-id="{{ $user->id ?? 'N/A' }}" data-exchange-id="{{ $user->exchange->id ?? 'N/A' }}">
+                                    <td style="width: 45%;">{{ $user->name ?? 'N/A'  }}</td>
                                     <td style="width: 45%;">{{ $user->exchange->name ?? 'N/A' }}</td>
                                     <td style="width: 10%; text-align: center;">
                                         <button class="btn btn-danger btn-sm" onclick="deleteUser(this)">Delete</button>
