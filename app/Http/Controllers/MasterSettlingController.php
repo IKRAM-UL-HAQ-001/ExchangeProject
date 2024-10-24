@@ -56,6 +56,19 @@ class MasterSettlingController extends Controller
             return view("admin.master_settling.list",compact('masterSettlingRecords'));
         }
     }
+    public function indexAssistant()
+    {
+
+        if (!auth()->check()) {
+            return redirect()->route('auth.login');
+        }
+        else{
+            $masterSettlingRecords= MasterSettling::with(['exchange', 'user'])
+                ->get();
+
+            return view("assistant.master_settling.list",compact('masterSettlingRecords'));
+        }
+    }
 
     /**
      * Show the form for creating a new resource.

@@ -60,7 +60,6 @@
                       <span class="nav-link-text ms-1">Expense</span>
                   </a>
               </li>
-
               <li class="nav-item">
                   <a class="nav-link text-white {{ request()->is('admin/masterSettling') ? 'active bg-gradient-primary' : '' }}" href="{{route('admin.master_settling.list')}}">
                       <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -120,16 +119,40 @@
                     </a>
                 </li>
               
-              @endif
-          @if(Auth::user()->role === "assistant")
-              <li class="nav-item">
-              <a class="nav-link text-white active bg-gradient-primary" href="{{route('admin.dashboard')}}">
-                  <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                  <i class="material-icons opacity-10">dashboard</i>
-                  </div>
-                  <span class="nav-link-text ms-1">Dashboard</span>
-              </a>
-              </li>
+            @endif
+            @if(Auth::user()->role === "assistant")
+                <li class="nav-item">
+                    <a class="nav-link text-white {{ request()->routeIs('assistant.dashboard') ? 'active bg-gradient-primary': '' }}" href="{{route('assistant.dashboard')}}">
+                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="material-icons opacity-10">dashboard</i>
+                        </div>
+                        <span class="nav-link-text ms-1">Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white {{ request()->is('assistant/masterSettling') ? 'active bg-gradient-primary' : '' }}" href="{{route('assistant.master_settling.list')}}">
+                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="material-icons opacity-10">store</i>
+                        </div>
+                        <span class="nav-link-text ms-1">Master Settling</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                        <a class="nav-link text-white {{ request()->is('assistant/bankBalance') ? 'active bg-gradient-primary' : '' }}" href="{{route('assistant.bank_balance.list')}}">
+                            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                                <i class="material-icons opacity-10">store</i>
+                            </div>
+                            <span class="nav-link-text ms-1">Bank Balance</span>
+                        </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white {{ request()->is('assistant/deposit-withdrawal') ? 'active bg-gradient-primary' : '' }}" href="{{route('assistant.deposit_withdrawal.list')}}">
+                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="material-icons opacity-10">account_balance</i>
+                        </div>
+                        <span class="nav-link-text ms-1">Deposit - Withdrawal</span>
+                    </a>
+                </li>
           @endif
         @endif
       </ul>

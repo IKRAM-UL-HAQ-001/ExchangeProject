@@ -27,8 +27,25 @@ class BankBalanceController extends Controller
     }
     public function index()
     {
-        $bankBalanceRecords = BankBalance::all();
-        return view("admin.bank_balance.list",compact('bankBalanceRecords'));
+        if (!auth()->check()) {
+            return redirect()->route('auth.login');
+        }
+        else{
+            $bankBalanceRecords = BankBalance::all();
+            return view("admin.bank_balance.list",compact('bankBalanceRecords'));
+        }
+
+    }
+
+    public function indexAssistant()
+    {
+        if (!auth()->check()) {
+            return redirect()->route('auth.login');
+        }
+        else{
+            $bankBalanceRecords = BankBalance::all();
+            return view("assistant.bank_balance.list",compact('bankBalanceRecords'));
+        }   
     }
 
     /**
@@ -76,13 +93,16 @@ class BankBalanceController extends Controller
      */
     public function destroy(Request $request)
     {
-        $bankBalance = BankBalance::find($request->id);
-        
-        if ($bankBalance) {
-            $bankBalance->delete();
-            return response()->json(['success' => true, 'message' => 'Bank Balance deleted successfully!']);
+        if (!auth()->check()) {
+            return redirect()->route('auth.login');
         }
-
-        return response()->json(['success' => false, 'message' => 'Bank Balance not found.'], 404);
+        else{
+            $bankBalance = BankBalance::find($request->id);
+            if ($bankBalance) {
+                $bankBalance->delete();
+                return response()->json(['success' => true, 'message' => 'Bank Balance deleted successfully!']);
+            }
+            return response()->json(['success' => false, 'message' => 'Bank Balance not found.'], 404);
+        }
     }
 }

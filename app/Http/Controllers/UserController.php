@@ -14,9 +14,14 @@ class UserController extends Controller
      */
     public function index()
     {
-        $userRecords = User::with('exchange')->where('role', '!=', 'admin')->get();
-        $exchangeRecords = Exchange::all();
-        return view("admin.user.list", compact('userRecords', 'exchangeRecords'));
+        if (!auth()->check()) {
+            return redirect()->route('auth.login');
+        }
+        else{
+            $userRecords = User::with('exchange')->where('role', '!=', 'admin')->get();
+            $exchangeRecords = Exchange::all();
+            return view("admin.user.list", compact('userRecords', 'exchangeRecords'));
+        }
     }
 
     /**
@@ -32,23 +37,27 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'password' => 'required|string|min:8',
-            'exchange' => 'required|exists:exchanges,id',
-        ]);
-        User::create([
-            'name' => $request->name,
-            'password' => Hash::make($request->password), 
-            'exchange_id' => $request->exchange,
-            'role' => "exchange",
-        ]);
-        $exchangeName = Exchange::find($request->exchange)->name;
-
-        return response()->json([
-            'message' => 'User added successfully!',
-            'exchange_name' => $exchangeName,
-        ], 201);
+        if (!auth()->check()) {
+            return redirect()->route('auth.login');
+        }
+        else{
+            $request->validate([
+                'name' => 'required|string|max:255',
+                'password' => 'required|string|min:8',
+                'exchange' => 'required|exists:exchanges,id',
+            ]);
+            User::create([
+                'name' => $request->name,
+                'password' => Hash::make($request->password), 
+                'exchange_id' => $request->exchange,
+                'role' => "exchange",
+            ]);
+            $exchangeName = Exchange::find($request->exchange)->name;
+            return response()->json([
+                'message' => 'User added successfully!',
+                'exchange_name' => $exchangeName,
+            ], 201);
+        }
     }
     
 
@@ -73,25 +82,24 @@ class UserController extends Controller
      */
     public function update(Request $request)
     {
-        $user = User::findOrFail($request->id);
-    
-        // Validation
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'exchange' => 'required|exists:exchanges,id',
-            'password' => 'nullable|string|min:8', // Password is optional
-        ]);
-    
-        $user->name = $request->name;
-        $user->exchange_id = $request->exchange;
-    
-        if ($request->filled('password')) {
-            $user->password = bcrypt($request->password); // Hash the new password
+        if (!auth()->check()) {
+            return redirect()->route('auth.login');
         }
-    
-        $user->save();
-    
-        return response()->json(['message' => 'User updated successfully.', 'exchange_name' => $user->exchange->name]);
+        else{
+            $user = User::findOrFail($request->id);    
+            $request->validate([
+                'name' => 'required|string|max:255',
+                'exchange' => 'required|exists:exchanges,id',
+                'password' => 'nullable|string|min:8', // Password is optional
+            ]);
+            $user->name = $request->name;
+            $user->exchange_id = $request->exchange;
+            if ($request->filled('password')) {
+                $user->password = bcrypt($request->password); // Hash the new password
+            }
+            $user->save();    
+            return response()->json(['message' => 'User updated successfully.', 'exchange_name' => $user->exchange->name]);
+        } 
     }
     
 
@@ -100,17 +108,16 @@ class UserController extends Controller
      */
     public function destroy(Request $request)
     {
-        $request->validate([
-            'id' => 'required|exists:users,id',
-        ]);
-    
-        $user = User::find($request->id);
-        
-        if ($user) {
-            $user->delete();
-            return response()->json(['success' => true, 'message' => 'User deleted successfully!']);
+        if (!auth()->check()) {
+            return redirect()->route('auth.login');
         }
-    
-        return response()->json(['success' => false, 'message' => 'User not found.'], 404);
+        else{    
+            $user = User::find($request->id);
+            if ($user) {
+                $user->delete();
+                return response()->json(['success' => true, 'message' => 'User deleted successfully!']);
+            }
+            return response()->json(['success' => false, 'message' => 'User not found.'], 404);
+        }
     }
 }

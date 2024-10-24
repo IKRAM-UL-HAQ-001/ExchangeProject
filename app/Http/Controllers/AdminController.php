@@ -19,7 +19,7 @@ class AdminController extends Controller
     public function index()
     {
         if (!auth()->check()) {
-            return redirect()->route('firstpage');
+            return redirect()->route('auth.login');
         }
         else{
             $today = Carbon::today();

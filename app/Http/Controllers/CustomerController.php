@@ -12,8 +12,13 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        $customerRecords = Customer::all();
-        return view("admin.customer.list",compact('customerRecords'));
+        if (!auth()->check()) {
+            return redirect()->route('auth.login');
+        }
+        else{
+            $customerRecords = Customer::all();
+            return view("admin.customer.list",compact('customerRecords'));
+        }
     }
 
     /**
@@ -61,13 +66,16 @@ class CustomerController extends Controller
      */
     public function destroy(Request $request)
     {
-        $customer = Customer::find($request->id);
-        
-        if ($customer) {
-            $customer->delete();
-            return response()->json(['success' => true, 'message' => 'Customer deleted successfully!']);
+        if (!auth()->check()) {
+            return redirect()->route('auth.login');
         }
-
-        return response()->json(['success' => false, 'message' => 'Customer not found.'], 404);
+        else{
+            $customer = Customer::find($request->id);
+            if ($customer) {
+                $customer->delete();
+                return response()->json(['success' => true, 'message' => 'Customer deleted successfully!']);
+            }
+            return response()->json(['success' => false, 'message' => 'Customer not found.'], 404);
+        }
     }
 }

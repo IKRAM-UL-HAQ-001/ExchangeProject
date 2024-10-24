@@ -80,7 +80,18 @@ Route::group(['middleware' => 'admin'], function () {
 });
 
 Route::group(['middleware' => 'assistant'], function () {
+    
+    // assistant dashboard
     Route::get('/assistant', [AssistantController::class, 'index'])->name('assistant.dashboard');
+
+    // deposit withdrawal
+    Route::get('/assistant/deposit-withdrawal', [DepositWithdrawalController::class, 'indexAssistant'])->name('assistant.deposit_withdrawal.list');
+    
+    //Master Settling
+    Route::get('/assistant/masterSettling', [MasterSettlingController::class, 'indexAssistant'])->name('assistant.master_settling.list');
+    
+    //bank Balance
+    Route::get('/assistant/bankBalance', [BankBalanceController::class, 'indexAssistant'])->name('assistant.bank_balance.list');
 });
 
 Route::group(['middleware' => 'exchange'], function () {

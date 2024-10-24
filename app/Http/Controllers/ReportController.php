@@ -12,7 +12,12 @@ class ReportController extends Controller
      */
     public function index()
     {
-        return view('admin.report.list');
+        if (!auth()->check()) {
+            return redirect()->route('auth.login');
+        }
+        else{
+            return view('admin.report.list');
+        }
     }
 
     /**

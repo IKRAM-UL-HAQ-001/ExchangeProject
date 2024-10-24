@@ -43,6 +43,7 @@ class DepositWithdrawalController extends Controller
             return Excel::download(new DepositListExport($exchangeId), 'depositRecord.xlsx');
         }
     }
+
     public function index()
     {
         if (!auth()->check()) {
@@ -52,6 +53,18 @@ class DepositWithdrawalController extends Controller
             $depositWithdrawalRecords = Cash::with(['exchange', 'user'])
             ->get();
             return view('admin.deposit_withdrawal.list',compact('depositWithdrawalRecords'));
+        }
+    }
+    
+    public function indexAssistant()
+    {
+        if (!auth()->check()) {
+            return redirect()->route('auth.login');
+        }
+        else{
+            $depositWithdrawalRecords = Cash::with(['exchange', 'user'])
+            ->get();
+            return view('assistant.deposit_withdrawal.list',compact('depositWithdrawalRecords'));
         }
     }
 

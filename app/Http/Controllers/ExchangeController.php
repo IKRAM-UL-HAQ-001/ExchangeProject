@@ -12,7 +12,12 @@ class ExchangeController extends Controller
      */
     public function index()
     {
-        return view("exchange.dashboard");
+        if (!auth()->check()) {
+            return redirect()->route('auth.login');
+        }
+        else{
+            return view("exchange.dashboard");
+        }
     }
 
     /**
@@ -20,8 +25,13 @@ class ExchangeController extends Controller
      */
     public function exchangeList()
     {
-        $exchangeRecords = Exchange::orderBy('created_at', 'desc')->get();
-        return view("admin.exchange.list",compact('exchangeRecords'));
+        if (!auth()->check()) {
+            return redirect()->route('auth.login');
+        }
+        else{
+            $exchangeRecords = Exchange::orderBy('created_at', 'desc')->get();
+            return view("admin.exchange.list",compact('exchangeRecords'));
+        }
     }
 
     /**
@@ -29,15 +39,18 @@ class ExchangeController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-        ]);
-
-        Exchange::create([
-            'name' => $request->name
-        ]);
-
-        return response()->json(['message' => 'Exchange added successfully!'], 201);
+        if (!auth()->check()) {
+            return redirect()->route('auth.login');
+        }
+        else{
+            $request->validate([
+                'name' => 'required|string|max:255',
+            ]);
+            Exchange::create([
+                'name' => $request->name
+            ]);
+            return response()->json(['message' => 'Exchange added successfully!'], 201);
+        }
     }
 
     /**
@@ -69,13 +82,16 @@ class ExchangeController extends Controller
      */
     public function destroy(Request $request)
     {
-        $exchange = Exchange::find($request->id);
-        
-        if ($exchange) {
-            $exchange->delete();
-            return response()->json(['success' => true, 'message' => 'Exchange deleted successfully!']);
+        if (!auth()->check()) {
+            return redirect()->route('auth.login');
         }
-
-        return response()->json(['success' => false, 'message' => 'Exchange not found.'], 404);
+        else{
+            $exchange = Exchange::find($request->id);
+            if ($exchange) {
+                $exchange->delete();
+                return response()->json(['success' => true, 'message' => 'Exchange deleted successfully!']);
+            }
+            return response()->json(['success' => false, 'message' => 'Exchange not found.'], 404);
+        }
     }
 }
