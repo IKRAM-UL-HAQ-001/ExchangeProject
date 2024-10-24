@@ -62,7 +62,7 @@
               </li>
 
               <li class="nav-item">
-                  <a class="nav-link text-white {{ request()->is('admin/masterSettling') ? 'active bg-gradient-primary' : '' }}" href="">
+                  <a class="nav-link text-white {{ request()->is('admin/masterSettling') ? 'active bg-gradient-primary' : '' }}" href="{{route('admin.master_settling.list')}}">
                       <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                       <i class="material-icons opacity-10">store</i>
                       </div>
@@ -78,23 +78,23 @@
                   </a>
               </li>
               <li class="nav-item">
-                  <a class="nav-link text-white " href="">
+                  <a class="nav-link text-white {{ request()->is('admin/customer') ? 'active bg-gradient-primary' : '' }}" href="{{route('admin.customer.list')}}">
                       <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                       <i class="material-icons opacity-10">store</i>
                       </div>
-                      <span class="nav-link-text ms-1">Created IDs</span>
+                      <span class="nav-link-text ms-1">New Customer</span>
                   </a>
               </li>
               <li class="nav-item">
-                  <a class="nav-link text-white " href="">
+                  <a class="nav-link text-white {{ request()->is('admin/ownerProfit') ? 'active bg-gradient-primary' : '' }}" href="{{route('admin.owner_profit.list')}}">
                       <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                       <i class="material-icons opacity-10">store</i>
                       </div>
-                      <span class="nav-link-text ms-1">HK</span>
+                      <span class="nav-link-text ms-1">Owner Profit</span>
                   </a>
               </li>
               <li class="nav-item">
-                  <a class="nav-link text-white " href="">
+                  <a class="nav-link text-white {{ request()->is('admin/report') ? 'active bg-gradient-primary' : '' }}" href="{{route('admin.report.list')}}">
                       <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                       <i class="material-icons opacity-10">store</i>
                       </div>

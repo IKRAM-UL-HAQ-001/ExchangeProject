@@ -7,6 +7,10 @@
                 <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                     <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
                         <p style="color: white;"><strong>Deposit - Withdrawal Table</strong></p>
+                        <div>
+                            <button type="button" class="btn btn-dark" >Export Deposit List</button>
+                            <button type="button" class="btn btn-dark" >Export Withdrawal List</button>
+                        </div>
                     </div>
                 </div>
                 <div class="card-body px-0 pb-2 px-3">

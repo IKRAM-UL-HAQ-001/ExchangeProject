@@ -11,19 +11,12 @@ use App\Http\Controllers\DepositWithdrawalController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\BankBalanceController;
 use App\Http\Controllers\CashController;
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
+use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\MasterSettlingController;
+use App\Http\Controllers\ReportController;
+use App\Http\Controllers\OwnerProfitController;
 
-Route::get('/', [LoginController::class, 'firstPage'])->name('welcome');
-Route::get('/auth/login', [LoginController::class, 'index'])->name('auth.login');
+Route::get('/', [LoginController::class, 'index'])->name('auth.login');
 Route::post('/auth/login/post', [LoginController::class, 'login'])->name('login.post');
 Route::get('/auth/logout', [LoginController::class, 'logout'])->name('login.logout');
 
@@ -59,6 +52,21 @@ Route::group(['middleware' => 'admin'], function () {
     //bank Balance
     Route::get('/admin/bankBalance', [BankBalanceController::class, 'index'])->name('admin.bank_balance.list');
     Route::post('/admin/bankBalance/destroy', [BankBalanceController::class, 'destroy'])->name('admin.bank_balance.destroy');
+
+    //customer
+    Route::get('/admin/customer', [CustomerController::class, 'index'])->name('admin.customer.list');
+    Route::post('/admin/customer/destroy', [CustomerController::class, 'destroy'])->name('admin.customer.destroy');
+
+    //Master Settling
+    Route::get('/admin/masterSettling', [MasterSettlingController::class, 'index'])->name('admin.master_settling.list');
+    Route::post('/admin/masterSettling/destroy', [MasterSettling::class, 'destroy'])->name('admin.master_Settling.destroy');
+
+    //Owner Profit
+    Route::get('/admin/ownerProfit', [OwnerProfitController::class, 'index'])->name('admin.owner_profit.list');
+    Route::post('/admin/ownerProfit/destroy', [OwnerProfitController::class, 'destroy'])->name('admin.owner_profit.destroy');
+
+    //Report 
+    Route::get('/admin/report', [ReportController::class, 'index'])->name('admin.report.list');
 });
 
 Route::group(['middleware' => 'assistant'], function () {

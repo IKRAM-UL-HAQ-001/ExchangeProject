@@ -6,9 +6,9 @@
             <div class="card my-4">
                 <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                     <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
-                        <p style="color: white;"><strong>Master Settling Table</strong></p>
+                        <p style="color: white;"><strong>Owner Profit Table</strong></p>
                         <div>
-                            <button type="button" class="btn btn-dark" >Export Master Settling List</button>
+                            <button type="button" class="btn btn-dark" >Export OwnerProfit List</button>
                         </div>
                     </div>
                 </div>
@@ -19,26 +19,20 @@
                                 <tr>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">User</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Exchange</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">White Label</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Credit Reff</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Settling Point</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Price</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Total Amount</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Amount</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Remarks</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($masterSettlingRecords as $masterSettling)
+                                @foreach($ownerProfitRecords as $ownerProfit)
                                 <tr>
-                                    <td>{{ $masterSettling->user->name }}</td>
-                                    <td>{{ $masterSettling->exchange->name }}</td>
-                                    <td>{{ $masterSettling->white_label }}</td>
-                                    <td>{{ $masterSettling->credit_reff }}</td>
-                                    <td>{{ $masterSettling->settle_point }}</td>
-                                    <td>{{ $masterSettling->price }}</td>
-                                    <td>{{ $masterSettling->total_amount }}</td>
+                                    <td>{{ $ownerProfit->user->name }}</td>
+                                    <td>{{ $ownerProfit->exchange->name }}</td>
+                                    <td>{{ $ownerProfit->cash_amount }}</td>
+                                    <td>{{ $ownerProfit->remarks }}</td>
                                     <td class="text-center">
-                                        <button class="btn btn-danger btn-sm" aria-label="Delete Bank Balance" onclick="deleteCustomer(this, {{ $customer->id }})">Delete</button>
+                                        <button class="btn btn-danger btn-sm" aria-label="Delete Bank Balance" onclick="deleteOwnerProfit(this, {{ $ownerProfit->id }})">Delete</button>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -55,7 +49,7 @@
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <script>
     $(document).ready(function() {
-        const userTable = $('#customerTable').DataTable({
+        const userTable = $('#ownerProfitTable').DataTable({
             pagingType: "full_numbers"
             , language: {
                 paginate: {
@@ -70,16 +64,16 @@
         });
     });
 
-    function deleteCustomer(button, id) {
+    function deleteOwnerProfit(button, id) {
         const row = $(button).closest('tr');
-        const table = $('#customerTable').DataTable();
+        const table = $('#ownerProfitTable').DataTable();
 
-        if (!confirm('Are you sure you want to delete this Customer?')) {
+        if (!confirm('Are you sure you want to delete this Owner profit?')) {
             return;
         }
 
         $.ajax({
-            url: "{{ route('admin.customer.destroy') }}"
+            url: "{{ route('admin.owner_profit.destroy') }}"
             , method: "POST"
             , data: {
                 id: id
@@ -90,7 +84,7 @@
                     table.row(row).remove().draw();
                     alert(response.message); // Consider replacing this with a toast notification
                 } else {
-                    alert(response.message || 'Failed to delete the bank balance.');
+                    alert(response.message || 'Failed to delete the Owner Profit.');
                 }
             }
             , error: function(xhr) {

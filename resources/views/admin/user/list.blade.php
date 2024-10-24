@@ -11,7 +11,7 @@
                         <div>
                             <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#addUserModal">Add New User</button>
                             <button type="button" class="btn btn-dark" >Export Withdrawal</button>
-                            <button type="button" class="btn btn-info" >Export Deposit</button>
+                            <button type="button" class="btn btn-dark" >Export Deposit</button>
                         </div>
                      </div>
                 </div>
