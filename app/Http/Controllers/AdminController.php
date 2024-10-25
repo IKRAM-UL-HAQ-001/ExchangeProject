@@ -102,8 +102,8 @@ class AdminController extends Controller
             
             $totalBalanceMonthly = $totalDepositMonthly - $totalWithdrawalMonthly - $totalExpenseMonthly;
             $totalUsers = User::count();
-            $totalShops = Exchange::count();
-            return view('/admin.dashboard',compact('totalUsers','totalShops',
+            $totalExchanges = Exchange::count();
+            return view('/admin.dashboard',compact('totalUsers','totalExchanges',
                 'totalBalanceMonthly','totalDepositMonthly','totalWithdrawalMonthly',
                 'totalExpenseMonthly','totalMasterSettlingMonthly',
                 'totalBonusMonthly','totalOldCustomersMonthly','totalOwnerProfitMonthly',
