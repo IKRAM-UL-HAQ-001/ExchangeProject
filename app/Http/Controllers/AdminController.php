@@ -80,8 +80,8 @@ class AdminController extends Controller
             
             $totalMasterSettlingMonthly = MasterSettling::whereMonth('created_at', $currentMonth)
             ->whereYear('created_at', $currentYear)
-            ->distinct('settle_point')
-            ->sum('settle_point');
+            ->distinct('settling_point')
+            ->sum('settling_point');
             
             $totalOwnerProfitMonthly= OwnerProfit::whereMonth('created_at', $currentMonth)
                 ->whereYear('created_at', $currentYear)
