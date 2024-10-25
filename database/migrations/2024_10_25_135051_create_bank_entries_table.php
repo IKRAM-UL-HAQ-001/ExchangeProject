@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('master_settlings', function (Blueprint $table) {
+        Schema::create('bank_entries', function (Blueprint $table) {
             $table->id();
-            $table->string('white_label');
-            $table->string('credit_reff');
-            $table->string('settling_point');
-            $table->string('price');
-            $table->string('total_amount');
+            $table->string('bank_name');
+            $table->string('cash_type');
+            $table->string('account_number');
+            $table->integer('cash_amount');
+            $table->string('remarks');
             $table->unsignedBigInteger('exchange_id')->nullable();
             $table->foreign('exchange_id')->references('id')->on('exchanges')->onDelete('cascade');
             $table->unsignedBigInteger('user_id')->nullable();
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('master_settlings');
+        Schema::dropIfExists('bank_entries');
     }
 };

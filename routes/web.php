@@ -15,22 +15,24 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\MasterSettlingController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\OwnerProfitController;
+use App\Http\Controllers\BankUserController;
+use App\Http\Controllers\BankEntryController;
 
 Route::get('/', [LoginController::class, 'index'])->name('auth.login');
 Route::post('/auth/login/post', [LoginController::class, 'login'])->name('login.post');
 Route::get('/auth/logout', [LoginController::class, 'logout'])->name('login.logout');
 
+//admin export
+Route::get('/export-bank', [BankController::class, 'bankExportExcel'])->name('export.bank');
+Route::get('/export-deposit', [DepositWithdrawalController::class, 'depositExportExcel'])->name('export.deposit');
+Route::get('/export-withdrawal', [DepositWithdrawalController::class, 'withdrawalExportExcel'])->name('export.withdrawal');
+Route::get('/export-expense', [ExpenseController::class, 'expenseExportExcel'])->name('export.expense');
+Route::get('/export-masterSettlingWeekly', [MasterSettlingController::class, 'masterSettlingListWeeklyExportExcel'])->name('export.masterSettlingListWeekly');
+Route::get('/export-masterSettlingMonthly', [MasterSettlingController::class, 'masterSettlingListMonthlyExportExcel'])->name('export.masterSettlingListMonthly');
+Route::get('/export-bankBalance', [BankBalanceController::class, 'bankBalanceListExportExcel'])->name('export.bankBalanceList');
+Route::get('/export-ownerProfit', [OwnerProfitController::class, 'ownerProfitListExportExcel'])->name('export.ownerProfitList');
+
 Route::group(['middleware' => 'admin'], function () {
-    
-    //admin export
-    Route::get('/export-bank', [BankController::class, 'bankExportExcel'])->name('export.bank');
-    Route::get('/export-deposit', [DepositWithdrawalController::class, 'depositExportExcel'])->name('export.deposit');
-    Route::get('/export-withdrawal', [DepositWithdrawalController::class, 'withdrawalExportExcel'])->name('export.withdrawal');
-    Route::get('/export-expense', [ExpenseController::class, 'expenseExportExcel'])->name('export.expense');
-    Route::get('/export-masterSettlingWeekly', [MasterSettlingController::class, 'masterSettlingListWeeklyExportExcel'])->name('export.masterSettlingListWeekly');
-    Route::get('/export-masterSettlingMonthly', [MasterSettlingController::class, 'masterSettlingListMonthlyExportExcel'])->name('export.masterSettlingListMonthly');
-    Route::get('/export-bankBalance', [BankBalanceController::class, 'bankBalanceListExportExcel'])->name('export.bankBalanceList');
-    Route::get('/export-ownerProfit', [OwnerProfitController::class, 'ownerProfitListExportExcel'])->name('export.ownerProfitList');
 
     //admin dashboard
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.dashboard');
@@ -50,7 +52,12 @@ Route::group(['middleware' => 'admin'], function () {
     Route::get('/admin/bank', [BankController::class, 'index'])->name('admin.bank.list');
     Route::post('/admin/bank/post', [BankController::class, 'store'])->name('admin.bank.store');
     Route::post('/admin/bank/destroy', [BankController::class, 'destroy'])->name('admin.bank.destroy');
-    
+
+    // bank user
+    Route::get('/admin/bankUser', [BankUserController::class, 'index'])->name('admin.bank_user.list');
+    Route::post('/admin/bankUser/post', [BankUserController::class, 'store'])->name('admin.bank_user.store');
+    Route::post('/admin/bankUser/destroy', [BankUserController::class, 'destroy'])->name('admin.bank_user.destroy');        
+
     // deposit withdrawal
     Route::get('/admin/deposit-withdrawal', [DepositWithdrawalController::class, 'index'])->name('admin.deposit_withdrawal.list');
     Route::post('/admin/deposit-withdrawal/destroy', [DepositWithdrawalController::class, 'destroy'])->name('admin.deposit_withdrawal.destroy');    
@@ -103,4 +110,30 @@ Route::group(['middleware' => 'exchange'], function () {
     Route::get('/exchange/cash', [CashController::class, 'index'])->name('exchange.cash.list');
     Route::post('/exchange/cash/store', [CashController::class, 'store'])->name('exchange.cash.store');
     Route::post('/exchange/cash/destroy', [CashController::class, 'destroy'])->name('exchange.cash.destroy');
+
+    //bank
+    Route::get('/exchange/bank', [BankEntryController::class, 'index'])->name('exchange.bank.list');
+    Route::post('/exchange/bank/post', [BankEntryController::class, 'store'])->name('exchange.bank.store');
+    Route::post('/exchange/bank/balance/post', [BankEntryController::class, 'getBankBalance'])->name('exchange.bank.post');
+
+    //customer
+    Route::get('/exchange/customer', [CustomerController::class, 'exchangeIndex'])->name('exchange.customer.list');
+    Route::post('/exchange/customer/post', [CustomerController::class, 'store'])->name('exchange.customer.store');
+
+    //Owner Profit
+    Route::get('/exchange/ownerProfit', [OwnerProfitController::class, 'exchangeIndex'])->name('exchange.owner_profit.list');
+    Route::post('/exchange/ownerProfit/post', [OwnerProfitController::class, 'store'])->name('exchange.owner_profit.store');
+
+    // deposit withdrawal
+    Route::get('/exchange/deposit-withdrawal', [DepositWithdrawalController::class, 'exchangeIndex'])->name('exchange.deposit_withdrawal.list');
+        
+    //expense
+    Route::get('/exchange/expense', [ExpenseController::class, 'exchangeIndex'])->name('exchange.expense.list');
+
+    //master settling
+    Route::get('/exchange/masterSettling', [MasterSettlingController::class, 'exchangeIndex'])->name('exchange.master_settling.list');
+    Route::post('/exchange/masterSettling/post', [MasterSettlingController::class, 'store'])->name('exchange.master_settling.store');
+
+    //report
+    Route::get('/exchange/report', [ReportController::class, 'exchangeIndex'])->name('exchange.report.list');
 });

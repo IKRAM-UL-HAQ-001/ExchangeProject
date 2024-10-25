@@ -49,7 +49,35 @@ class OwnerProfitController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Check if the user is authenticated
+        if (!auth()->check()) {
+            return response()->json(['message' => 'Unauthorized'], 401);
+        }
+        else{
+            $user = Auth::user();
+            $exchangeId = $user->exchange_id;
+            $userId = $user->id;
+
+            $validatedData = $request->validate([
+                'cash_amount' => 'required|numeric',
+                'remarks' => 'required|string|max:255',
+            ]);
+    
+            try {
+                // Create a new customer entry
+                $ownerProfit = OwnerProfit::create([
+                    'cash_amount' => $validatedData['cash_amount'],
+                    'remarks' => $validatedData['remarks'],
+                    'exchange_id' => $exchangeId,
+                    'user_id' => $userId,
+                ]);
+    
+                // Return a JSON response
+                return response()->json(['message' => 'Owner Profit added successfully!', 'data' => $ownerProfit], 201);
+            } catch (\Exception $e) {
+                return response()->json(['message' => 'Error adding owner profit: ' . $e->getMessage()], 500);
+            }
+        }
     }
 
     /**
@@ -91,6 +119,19 @@ class OwnerProfitController extends Controller
                 return response()->json(['success' => true, 'message' => 'owner Profit deleted successfully!']);
             }
             return response()->json(['success' => false, 'message' => 'Owner Profit not found.'], 404);
+        }
+    }
+
+    public function exchangeIndex(){
+        if (!auth()->check()) {
+            return redirect()->route('auth.login');
+        }
+        else{
+            $user = Auth::user();
+            $ownerProfitRecords = OwnerProfit::where('exchange_id', $user->exchange_id)
+                ->where('user_id', $user->id)
+                ->get();
+            return view("exchange.owner_profit.list",compact('ownerProfitRecords'));
         }
     }
 }

@@ -44,6 +44,14 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link text-white {{ request()->is('admin/bankUser') ? 'active bg-gradient-primary' : '' }}" href="{{route('admin.bank_user.list')}}">
+                            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                                <i class="material-icons opacity-10">person</i>
+                            </div>
+                            <span class="nav-link-text ms-1">Bank User</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link text-white {{ request()->is('admin/deposit-withdrawal') ? 'active bg-gradient-primary' : '' }}" href="{{route('admin.deposit_withdrawal.list')}}">
                             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                 <i class="material-icons opacity-10">attach_money</i>
@@ -115,6 +123,62 @@
                                 <i class="material-icons opacity-10">monetization_on</i>
                             </div>
                             <span class="nav-link-text ms-1">Cash</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white {{ request()->is('exchange/bank') ? 'active bg-gradient-primary' : '' }}" href="{{route('exchange.bank.list')}}">
+                            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                                <i class="material-icons opacity-10">account_balance</i>
+                            </div>
+                            <span class="nav-link-text ms-1">Bank</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white {{ request()->is('exchange/customer') ? 'active bg-gradient-primary' : '' }}" href="{{route('exchange.customer.list')}}">
+                            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                                <i class="material-icons opacity-10">account_balance</i>
+                            </div>
+                            <span class="nav-link-text ms-1">New Customer</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white {{ request()->is('exchange/owner_profit') ? 'active bg-gradient-primary' : '' }}" href="{{route('exchange.owner_profit.list')}}">
+                            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                                <i class="material-icons opacity-10">account_balance</i>
+                            </div>
+                            <span class="nav-link-text ms-1">Owner Profit</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white {{ request()->is('exchange/deposit-withdrawal') ? 'active bg-gradient-primary' : '' }}" href="{{route('exchange.deposit_withdrawal.list')}}">
+                            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                                <i class="material-icons opacity-10">attach_money</i>
+                            </div>
+                            <span class="nav-link-text ms-1">Deposit - Withdrawal</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white {{ request()->is('exchange/expense') ? 'active bg-gradient-primary' : '' }}" href="{{route('exchange.expense.list')}}">
+                            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                                <i class="material-icons opacity-10">monetization_on</i>
+                            </div>
+                            <span class="nav-link-text ms-1">Expense</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white {{ request()->is('exchange/masterSettling') ? 'active bg-gradient-primary' : '' }}" href="{{route('exchange.master_settling.list')}}">
+                            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                                <i class="material-icons opacity-10">monetization_on</i>
+                            </div>
+                            <span class="nav-link-text ms-1">Master Settling</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white {{ request()->is('exchange/report') ? 'active bg-gradient-primary' : '' }}" href="{{route('exchange.report.list')}}">
+                            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                                <i class="material-icons opacity-10">monetization_on</i>
+                            </div>
+                            <span class="nav-link-text ms-1">Report</span>
                         </a>
                     </li>
                 @endif

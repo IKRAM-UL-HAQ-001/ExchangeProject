@@ -79,9 +79,6 @@ class ExpenseController extends Controller
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Request $request)
     {
         if (!auth()->check()) {
@@ -94,6 +91,24 @@ class ExpenseController extends Controller
                 return response()->json(['success' => true, 'message' => 'Expense deleted successfully!']);
             }
             return response()->json(['success' => false, 'message' => 'Expense not found.'], 404);
+        }
+    }
+
+    public function exchangeIndex()
+    {
+        if (!auth()->check()) {
+            return redirect()->route('auth.login');
+        }
+        else{
+            $exchangeId = auth()->user()->exchange_id; 
+            $userId = auth()->user()->id;
+    
+            $expenseRecords = Cash::with(['exchange', 'user'])
+                ->where('exchange_id', $exchangeId)
+                ->where('user_id', $userId)
+                ->where('cash_type', 'expense')
+                ->get();
+            return view('exchange.expense.list', compact('expenseRecords'));
         }
     }
 }

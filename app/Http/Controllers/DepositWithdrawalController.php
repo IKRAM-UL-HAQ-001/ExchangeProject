@@ -125,4 +125,20 @@ class DepositWithdrawalController extends Controller
             return response()->json(['success' => false, 'message' => 'Deposit/Withdarwal not found.'], 404);
         }
     }
+    public function exchangeIndex()
+    {
+        if (!auth()->check()) {
+            return redirect()->route('auth.login');
+        }
+
+        $exchangeId = auth()->user()->exchange_id;
+        $userId = auth()->user()->id;
+        $depositWithdrawalRecords = Cash::with(['exchange', 'user'])
+            ->where('exchange_id', $exchangeId) 
+            ->where('user_id', $userId) 
+            ->whereIn('cash_type', ['deposit', 'withdrawal']) 
+            ->get();
+        return view('exchange.deposit_withdrawal.list', compact('depositWithdrawalRecords'));
+    }
+
 }

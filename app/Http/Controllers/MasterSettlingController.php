@@ -56,6 +56,7 @@ class MasterSettlingController extends Controller
             return view("admin.master_settling.list",compact('masterSettlingRecords'));
         }
     }
+
     public function indexAssistant()
     {
 
@@ -70,21 +71,61 @@ class MasterSettlingController extends Controller
         }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    public function exchangeIndex()
+    {
+        if (!auth()->check()) {
+            return redirect()->route('auth.login');
+        }
+        else{
+            $exchangeId = auth()->user()->exchange_id; 
+            $userId = auth()->user()->id;
+            $masterSettlingRecords= MasterSettling::with(['exchange', 'user'])
+                ->where('exchange_id', $exchangeId)
+                ->where('user_id', $userId)
+                ->get();
+            return view("exchange.master_settling.list",compact('masterSettlingRecords'));
+        }
+    }
+
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
-    }
+        // Check if the user is authenticated
+        if (!auth()->check()) {
+            return response()->json(['error' => 'You need to be logged in to perform this action.'], 401);
+        }
+        else{
+            $validatedData = $request->validate([
+                'white_label' => 'nullable|string|max:255',
+                'credit_reff' => 'nullable|string',
+                'settling_point' => 'nullable|numeric',
+                'price' => 'nullable|numeric',
+            ]);        
+            try {
+                $exchangeId = auth()->user()->exchange_id;
+                $userId = auth()->user()->id;
+                $total_amount = ($validatedData['price'] ?? 0) * ($validatedData['settling_point'] ?? 0);
+                $masterSettling = MasterSettling::create([
+                    'white_label' => $validatedData['white_label'],
+                    'credit_reff' => $validatedData['credit_reff'],
+                    'settling_point' => $validatedData['settling_point'],
+                    'price' => $validatedData['price'],
+                    'total_amount' => $total_amount,
+                    'exchange_id' => $exchangeId,
+                    'user_id' => $userId,
+                ]);
+                return response()->json(['message' => 'Master Settling added successfully!', 'data' => $masterSettling], 201);
+        
+            } catch (\Exception $e) {
+                return $e; 
+                return response()->json(['error' => 'An error occurred while adding the master settling.'], 500);
+            }
+        }
+    }    
 
     /**
      * Display the specified resource.

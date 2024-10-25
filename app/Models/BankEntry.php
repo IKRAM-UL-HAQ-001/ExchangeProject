@@ -5,13 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Customer extends Model
+class BankEntry extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'name',
-        'reference_number',
+        'account_number',
+        'bank_name',
         'cash_amount',
+        'cash_type',
         'remarks',
         'exchange_id',
         'user_id',

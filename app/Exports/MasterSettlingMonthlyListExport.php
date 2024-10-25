@@ -35,7 +35,7 @@ class MasterSettlingMonthlyListExport implements FromQuery,  WithHeadings, WithS
                 users.name AS name,
                 master_settlings.white_label,
                 master_settlings.credit_reff,
-                master_settlings.settle_point,
+                master_settlings.settling_point,
                 master_settlings.price,
                 master_settlings.total_amount,
                 DATE_FORMAT(CONVERT_TZ(master_settlings.created_at, "+00:00", "+05:30"), "%Y-%m-%d %H:%i:%s") as created_at,

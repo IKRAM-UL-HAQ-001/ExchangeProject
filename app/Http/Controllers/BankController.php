@@ -30,7 +30,6 @@ class BankController extends Controller
         }
     }
 
-
     public function store(Request $request)
     {
         if (!auth()->check()) {

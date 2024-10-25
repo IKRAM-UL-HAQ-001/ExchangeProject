@@ -67,4 +67,20 @@ class ReportController extends Controller
     {
         //
     }
+    public function exchangeIndex()
+    {
+        if (!auth()->check()) {
+            return redirect()->route('auth.login');
+        }
+        else{
+            $exchangeId = auth()->user()->exchange_id; 
+            $userId = auth()->user()->id;
+            $reportRecords= Report::with(['exchange', 'user'])
+                ->where('exchange_id', $exchangeId)
+                ->where('user_id', $userId)
+                ->get();
+
+            return view("exchange.report.list",compact('reportRecords'));
+        }
+    }
 }
