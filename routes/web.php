@@ -17,6 +17,8 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\OwnerProfitController;
 use App\Http\Controllers\BankUserController;
 use App\Http\Controllers\BankEntryController;
+use App\Http\Controllers\VenderPaymentController;
+use App\Http\Controllers\OpenCloseBalanceController;
 
 Route::get('/', [LoginController::class, 'index'])->name('auth.login');
 Route::post('/auth/login/post', [LoginController::class, 'login'])->name('login.post');
@@ -31,11 +33,16 @@ Route::get('/export-masterSettlingWeekly', [MasterSettlingController::class, 'ma
 Route::get('/export-masterSettlingMonthly', [MasterSettlingController::class, 'masterSettlingListMonthlyExportExcel'])->name('export.masterSettlingListMonthly');
 Route::get('/export-bankBalance', [BankBalanceController::class, 'bankBalanceListExportExcel'])->name('export.bankBalanceList');
 Route::get('/export-ownerProfit', [OwnerProfitController::class, 'ownerProfitListExportExcel'])->name('export.ownerProfitList');
+Route::get('/export-venderPayment', [VenderPaymentController::class, 'venderPaymentExportExcel'])->name('export.venderPayment');
+Route::get('/export-openCloseBalance', [OpenClosBalanceController::class, 'openCloseBalanceExportExcel'])->name('export.openCloseBalance');
 
 Route::group(['middleware' => 'admin'], function () {
 
     //admin dashboard
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.dashboard');
+    
+    //logout all
+    Route::post('/logout-all', [LoginController::class, 'logoutAll'])->name('logout.all');
     
     // exchange user
     Route::get('/admin/user', [UserController::class, 'index'])->name('admin.user.list');
@@ -84,6 +91,16 @@ Route::group(['middleware' => 'admin'], function () {
 
     //Report 
     Route::get('/admin/report', [ReportController::class, 'index'])->name('admin.report.list');
+
+    //Vender Payment
+    Route::get('/admin/venderPayment', [VenderPaymentController::class, 'index'])->name('admin.vender_payment.list');
+    Route::post('/admin/venderPayment/post', [VenderPaymentController::class, 'store'])->name('admin.vender_payment.store');
+    Route::post('/admin/venderPayment/destroy', [VenderPaymentController::class, 'destroy'])->name('admin.vender_payment.destroy');
+
+    //Vender Payment
+    Route::get('/admin/openCloseBalance', [OpenCloseBalanceController::class, 'index'])->name('admin.open_close_balance.list');
+    Route::post('/admin/openCloseBalance/destroy', [OpenCloseBalanceController::class, 'destroy'])->name('admin.open_close_balance.destroy');
+
 });
 
 Route::group(['middleware' => 'assistant'], function () {
@@ -99,7 +116,12 @@ Route::group(['middleware' => 'assistant'], function () {
     
     //bank Balance
     Route::get('/assistant/bankBalance', [BankBalanceController::class, 'indexAssistant'])->name('assistant.bank_balance.list');
+
+    //open close Balance
+    Route::get('/assistant/openCloseBalance', [OpenCloseBalanceController::class, 'assistantIndex'])->name('assistant.open_close_balance.list');
 });
+
+
 
 Route::group(['middleware' => 'exchange'], function () {
 
@@ -136,4 +158,7 @@ Route::group(['middleware' => 'exchange'], function () {
 
     //report
     Route::get('/exchange/report', [ReportController::class, 'exchangeIndex'])->name('exchange.report.list');
+
+    //open close balance
+    Route::get('/exchange/openCloseBalance', [OpenCloseBalanceController::class, 'exchangeIndex'])->name('exchange.open_close_balance.list');
 });

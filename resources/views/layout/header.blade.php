@@ -6,7 +6,7 @@
     
     <link rel="icon" type="image/png" href="./assets/img/favicon.png">
     <title>
-        Exchange Demo Project
+        Exchange Management System   
     </title>
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
     <link href="../assets/css/nucleo-icons.css" rel="stylesheet" />

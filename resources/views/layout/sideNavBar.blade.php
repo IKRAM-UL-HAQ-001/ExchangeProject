@@ -36,6 +36,22 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link text-white {{ request()->is('admin/vender_payment') ? 'active bg-gradient-primary' : '' }}" href="{{route('admin.vender_payment.list')}}">
+                            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                                <i class="material-icons opacity-10">swap_horiz</i>
+                            </div>
+                            <span class="nav-link-text ms-1">Vender Payment</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white {{ request()->is('admin/openCloseBalance') ? 'active bg-gradient-primary' : '' }}" href="{{route('admin.open_close_balance.list')}}">
+                            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                                <i class="material-icons opacity-10">swap_horiz</i>
+                            </div>
+                            <span class="nav-link-text ms-1">opening Closing Balance</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link text-white {{ request()->is('admin/bank') ? 'active bg-gradient-primary' : '' }}" href="{{route('admin.bank.list')}}">
                             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                 <i class="material-icons opacity-10">account_balance</i>
@@ -126,13 +142,23 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white {{ request()->is('exchange/bank') ? 'active bg-gradient-primary' : '' }}" href="{{route('exchange.bank.list')}}">
+                        <a class="nav-link text-white {{ request()->is('exchange/openCloseBalance') ? 'active bg-gradient-primary' : '' }}" href="{{route('exchange.open_close_balance.list')}}">
                             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                                <i class="material-icons opacity-10">account_balance</i>
+                                <i class="material-icons opacity-10">swap_horiz</i>
                             </div>
-                            <span class="nav-link-text ms-1">Bank</span>
+                            <span class="nav-link-text ms-1">opening Closing Balance</span>
                         </a>
                     </li>
+                    @if(Auth::user()->role == "exchange" && session('bankUser') && session('bankUser')->user_id == Auth::id())
+                        <li class="nav-item">
+                            <a class="nav-link text-white {{ request()->is('exchange/bank') ? 'active bg-gradient-primary' : '' }}" href="{{route('exchange.bank.list')}}">
+                                <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                                    <i class="material-icons opacity-10">account_balance</i>
+                                </div>
+                                <span class="nav-link-text ms-1">Bank</span>
+                            </a>
+                        </li>
+                    @endif
                     <li class="nav-item">
                         <a class="nav-link text-white {{ request()->is('exchange/customer') ? 'active bg-gradient-primary' : '' }}" href="{{route('exchange.customer.list')}}">
                             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -213,6 +239,14 @@
                                 <i class="material-icons opacity-10">attach_money</i>
                             </div>
                             <span class="nav-link-text ms-1">Deposit - Withdrawal</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white {{ request()->is('assistant/openCloseBalance') ? 'active bg-gradient-primary' : '' }}" href="{{route('assistant.open_close_balance.list')}}">
+                            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                                <i class="material-icons opacity-10">swap_horiz</i>
+                            </div>
+                            <span class="nav-link-text ms-1">opening Closing Balance</span>
                         </a>
                     </li>
                 @endif

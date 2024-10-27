@@ -42,6 +42,20 @@
                         </div>
                       </a>
                     </li>
+                    <li class="mb-2">
+                      <a class="dropdown-item border-radius-md" href="{{route('logout.all')}}">
+                        <div class="d-flex py-1">
+                          <div class="my-auto">
+                            <img src="../assets/img/logout.svg" class="avatar-sm  me-3 ">
+                          </div>
+                          <div class="d-flex flex-column justify-content-center">
+                            <h6 class="text-sm font-weight-normal mb-1">
+                              <span class="font-weight-bold">Logout All Users</span>
+                            </h6>
+                          </div>
+                        </div>
+                      </a>
+                    </li>
                   @endif
                 @endif
                 <li class="mb-2">

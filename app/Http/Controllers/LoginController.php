@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Login;
 use App\Models\Exchange;
+use App\Models\BankUser;
 use Illuminate\Http\Request;
 use Auth;
 class LoginController extends Controller
@@ -24,25 +25,36 @@ class LoginController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'password' => 'required',
+            'role' => 'required',
+            'exchange' => 'nullable',
         ]);
     
         if (Auth::attempt($request->only('name', 'password'))) {
             $request->session()->regenerate();
+    
             $user = Auth::user();
-
-            if ($user->role === "admin") {
-                return redirect()->route('admin.dashboard');
-            } elseif ($user->role === "exchange") {
-                return redirect()->route('exchange.dashboard');
-            } elseif ($user->role === "assistant") {
-                return redirect()->route('assistant.dashboard');
-            }else{
-                return back()->withErrors([
-                    'user_name' => 'The provided credentials do not match our records.',
-                ]);
+    
+            switch ($user->role) {
+                case 'admin':
+                    return redirect()->route('admin.dashboard');
+                case 'exchange':
+                    $bankUser = BankUser::where('user_id', $user->id)->first();
+                    session(['bankUser' => $bankUser]);
+                    return redirect()->route('exchange.dashboard');
+                case 'assistant':
+                    return redirect()->route('assistant.dashboard');
+                default:
+                    Auth::logout(); 
+                    return back()->withErrors([
+                        'name' => 'The provided credentials do not match our records.',
+                    ]);
             }
         }
+        return back()->withErrors([
+            'name' => 'The provided credentials do not match our records.',
+        ])->withInput($request->only('name'));
     }
+    
 
     /**
      * Store a newly created resource in storage.
@@ -92,5 +104,15 @@ class LoginController extends Controller
             Auth::logout();
             return redirect()->route('auth.login');
         }
+    }
+
+    public function logoutAll(Request $request)
+    {
+        $users = User::all();
+        
+        foreach ($users as $user) {
+            $user->tokens()->delete();
+        }
+        return redirect()->back()->with('status', 'All users have been logged out.');
     }
 }

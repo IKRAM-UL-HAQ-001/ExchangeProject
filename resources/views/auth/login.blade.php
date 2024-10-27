@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
     <link rel="icon" type="image/png" href="../assets/img/favicon.png">
-    <title>Exchange Demo</title>
+    <title>Exchange Management System</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
     <link href="../assets/css/nucleo-icons.css" rel="stylesheet" />
     <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
@@ -29,10 +29,21 @@
                                 </div>
                             </div>
                             <div class="card-body">
+                                <!-- Display Validation Errors -->
+                                @if ($errors->any())
+                                    <div class="alert alert-danger">
+                                        <ul>
+                                            @foreach ($errors->all() as $error)
+                                                <li>{{ $error }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                @endif
+
                                 <form id="loginForm" role="form" method="post" action="{{ route('login.post') }}">
                                     @csrf
                                     <div class="input-group input-group-outline my-3">
-                                        <select class="form-control" name="userRole" id="userRole" onchange="toggleExchangeDropdown()">
+                                        <select class="form-control" name="role" id="role" onchange="toggleExchangeDropdown()">
                                             <option value="" disabled selected>Select your Role</option>
                                             <option value="admin">Admin</option>
                                             <option value="exchange">Exchange</option>
@@ -52,10 +63,10 @@
                                             <select class="form-control" id="exchange" name="exchange"> 
                                               <option value="" disabled selected>Select Your Exchange</option>
                                               @foreach($exchangeRecords as $exchange)
-                                                <option value="{{$exchange->id ?? 'N/A' }}" id="exchage" name="exchage">{{$exchange->name ?? 'N/A' }}</option>
+                                                <option value="{{ $exchange->id ?? 'N/A' }}">{{ $exchange->name ?? 'N/A' }}</option>
                                               @endforeach
                                             </select>
-                                          </div>
+                                        </div>
                                     </div>
                                     <div class="text-center">
                                         <button type="submit" class="btn bg-gradient-primary w-100 my-4 mb-2">Sign in</button>
@@ -75,7 +86,7 @@
 
     <script>
         function toggleExchangeDropdown() {
-            const userRole = document.getElementById('userRole').value;
+            const userRole = document.getElementById('role').value;
             const exchangeDropdown = document.getElementById('ExchangeDropdown');
             exchangeDropdown.style.display = (userRole === 'exchange') ? 'block' : 'none';
         }
