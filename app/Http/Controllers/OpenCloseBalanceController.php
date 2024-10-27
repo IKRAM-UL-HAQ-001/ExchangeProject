@@ -28,6 +28,7 @@ class OpenCloseBalanceController extends Controller
 
     public function index()
     {
+        $startOfWeek = Carbon::now()->startOfWeek();
         $openingClosingBalanceRecords = OpenCloseBalance::where('created_at', '>=', $startOfWeek)
         ->get();
         return view ('admin.open_close_balance.list', compact('openingClosingBalanceRecords'));
