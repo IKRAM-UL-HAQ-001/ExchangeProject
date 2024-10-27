@@ -80,10 +80,10 @@
                                     <input type="text" class="form-control border" name="reference_number" placeholder="Enter Reference Number" value="{{ old('reference_number') }}">
                                 </div>
 
-                                <div class="form-group" id="phone_number" style="display: none;">
+                                <!-- <div class="form-group" id="phone_number" style="display: none;">
                                     <label for="phone_number">Phone Number<span class="text-danger">*</span></label>
                                     <input type="text" class="form-control border" name="phone_number" placeholder="Enter Phone Number" value="{{ old('phone_number') }}">
-                                </div>
+                                </div> -->
 
                                 <div class="form-group" id="cash_amount">
                                     <label for="cash_amount">Amount<span class="text-danger">*</span></label>
@@ -141,7 +141,7 @@ $(document).ready(function() {
     function toggleFields() {
         const cashType = cashTypeSelect.val();
         $('#reference_number').toggle(cashType === 'deposit');
-        $('#phone_number').toggle(cashType === 'deposit');
+        // $('#phone_number').toggle(cashType === 'deposit');
         $('#customer_name').toggle(cashType === 'withdrawal' || cashType === 'deposit');
         $('#bonus-amount-field').toggle(cashType === 'deposit');
         $('#payment-type-field').toggle(cashType === 'deposit');
@@ -167,7 +167,7 @@ function submitCashForm() {
             cash_type: $('#cash_type').val(),
             cash_amount: $('[name="cash_amount"]').val(),
             reference_number: $('[name="reference_number"]').val(),
-            phone_number: $('[name="phone_number"]').val(),
+            // phone_number: $('[name="phone_number"]').val(),
             customer_name: $('[name="customer_name"]').val(),
             bonus_amount: $('[name="bonus_amount"]').val(),
             payment_type: $('[name="payment_type"]:checked').val(),

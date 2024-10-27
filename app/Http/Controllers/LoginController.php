@@ -26,7 +26,7 @@ class LoginController extends Controller
             'name' => 'required|string|max:255',
             'password' => 'required',
             'role' => 'required',
-            'exchange' => 'nullable',
+            'exchange' => 'nullable|required_if:role,exchange',
         ]);
     
         if (Auth::attempt($request->only('name', 'password'))) {
