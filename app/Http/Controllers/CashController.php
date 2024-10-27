@@ -35,11 +35,11 @@ class CashController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-{
-    if (!auth()->check()) {
-        return redirect()->route('auth.login');
-    }
-    else{
+    {
+        if (!auth()->check()) {
+            return response()->json(['success' => false, 'message' => 'User not authenticated.'], 401);
+        }
+    
         $validatedData = $request->validate([
             'reference_number' => 'nullable|string|max:255|unique:cashes,reference_number',
             'customer_name' => 'nullable|string|max:255',
@@ -47,8 +47,9 @@ class CashController extends Controller
             'cash_type' => 'required|in:deposit,withdrawal,expense',
             'bonus_amount' => 'nullable|numeric',
             'payment_type' => 'nullable|string',
-            'remarks' => 'required|string|max:255',
+            'remarks' => 'nullable|string|max:255',
         ]);
+    
         try {
             $user = Auth::user();
             Cash::create([
@@ -58,23 +59,17 @@ class CashController extends Controller
                 'cash_type' => $validatedData['cash_type'],
                 'bonus_amount' => $validatedData['bonus_amount'] ?? null,
                 'payment_type' => $validatedData['payment_type'] ?? null,
-                'remarks' => $validatedData['remarks'],
+                'remarks' => $validatedData['remarks'] ?? null,
                 'user_id' => $user->id,
                 'exchange_id' => $user->exchange_id,
             ]);
-
-            return response()->json(['message' => 'Data saved successfully!'], 200);
+    
+            return response()->json(['success' => true, 'message' => 'Transaction successfully added!']);
         } catch (\Exception $e) {
-            \Log::error('Error while saving cash transaction: ' . $e->getMessage());
-            return response()->json(['error' => $e->getMessage()], 500);
+            return response()->json(['success' => false, 'message' => 'Something went wrong: ' . $e->getMessage()], 500);
         }
     }
-}
-    
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Cash $cash)
     {
         //

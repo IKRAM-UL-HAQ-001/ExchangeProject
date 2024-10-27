@@ -23,24 +23,55 @@
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Cash Amount</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Remarks</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Bank Balance</th>
-                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                @foreach($bankEntryRecords as $bankEntry)
-                                    <tr>
-                                        <td>{{ $bankEntry->bank_name }}</td>
-                                        <td>{{ $bankEntry->account_number }}</td>
-                                        <td>{{ $bankEntry->cash_type }}</td>
-                                        <td>{{ $bankEntry->cash_amount }}</td>
-                                        <td>{{ $bankEntry->remarks }}</td>
-                                        <td>{{ $bankEntry->bank_balance }}</td>
-                                        <td class="text-center">
-                                            <button class="btn btn-danger btn-sm" onclick="deleteBank(this, {{ $bankEntry->id }})">Delete</button>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
+                            @php
+    // Create an associative array to store the bank balances and track first occurrences
+    $bankBalances = [];
+    $firstEntryFlags = [];
+@endphp
+
+<tbody>
+    @foreach($bankEntryRecords as $bankEntry)
+        @php
+            // Initialize balance if the bank is not already processed
+            if (!isset($bankBalances[$bankEntry->bank_name])) {
+                $bankBalances[$bankEntry->bank_name] = 0;
+                $firstEntryFlags[$bankEntry->bank_name] = true; // Mark the first entry
+            }
+
+            // Add or subtract cash based on the cash type
+            if (strtolower($bankEntry->cash_type) == 'add') {
+                $bankBalances[$bankEntry->bank_name] += $bankEntry->cash_amount;
+            } elseif (strtolower($bankEntry->cash_type) == 'minus') {
+                $bankBalances[$bankEntry->bank_name] -= $bankEntry->cash_amount;
+            }
+        @endphp
+
+        <tr>
+            <td>{{ $bankEntry->bank_name }}</td>
+            <td>{{ $bankEntry->account_number }}</td>
+            <td>{{ $bankEntry->cash_type }}</td>
+            <td>{{ $bankEntry->cash_amount }}</td>
+            <td>{{ $bankEntry->remarks }}</td>
+            <td>
+                {{-- Show the balance accordingly for the first entry or the updated balance for subsequent entries --}}
+                @if ($firstEntryFlags[$bankEntry->bank_name])
+                    {{-- For the first occurrence, set the initial balance as the current cash amount --}}
+                    {{ $bankBalances[$bankEntry->bank_name] }}
+                    @php
+                        $firstEntryFlags[$bankEntry->bank_name] = false; // Mark the first occurrence as processed
+                    @endphp
+                @else
+                    {{-- Display the updated bank balance for subsequent entries --}}
+                    {{ $bankBalances[$bankEntry->bank_name] }}
+                @endif
+            </td>
+        </tr>
+    @endforeach
+</tbody>
+
+                        
                         </table>
                     </div>
                 </div>
@@ -57,7 +88,13 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-validation">
-                        <form id="bankForm" method="post">
+                        <div class="alert alert-success text-white" id='success' style="display:none;">
+                            {{ session('success') }}
+                        </div>
+                        <div class="alert alert-danger text-white" id='error' style="display:none;">
+                            {{ session('error') }}
+                        </div>
+                        <form id="bankForm" method="post"action="{{route('exchange.bank.store')}}">
                             @csrf
                             <div class="row">
                                 <div class="col-md-6 mb-3">
@@ -100,7 +137,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary" id="submitBankEntry">Submit</button>
+                                <button type="submit" class="btn btn-primary" id="submitBankEntry">Submit</button>
                             </div>
                         </form>
                     </div>
@@ -179,15 +216,15 @@
                 },
                 success: function(response) {
                     if (response.message) {
-                        alert(response.message);
+                        $('#success').text(response.message).show();
                         $('#addBankModal').modal('hide');
                         $('#bankForm')[0].reset(); // Reset the form
                         location.reload(); // Reload to update the table
                     }
+                    else{
+                        $('#error').text(response.message).show();
+                    }
                 },
-                error: function(xhr) {
-                    alert('Error: ' + (xhr.responseJSON.message || 'An error occurred while adding the bank.'));
-                }
             });
         });
     });

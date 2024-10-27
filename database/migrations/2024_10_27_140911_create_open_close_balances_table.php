@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('open_balance');
             $table->string('close_balance');
-            $table->string('total_balance');
             $table->string('remarks');
             $table->unsignedBigInteger('exchange_id')->nullable();
             $table->foreign('exchange_id')->references('id')->on('exchanges')->onDelete('cascade');

@@ -49,6 +49,12 @@
             </div>
             <div class="modal-body">
                 <div class="form-validation">
+                    <div class="alert alert-success text-white" id='success' style="display:none;">
+                        {{ session('success') }}
+                    </div>
+                    <div class="alert alert-danger text-white" id='error' style="display:none;">
+                        {{ session('error') }}
+                    </div>
                     <form id="ownerProfitForm" method="post">
                         @csrf
                         <div class="col-md-12 mb-3">
@@ -104,14 +110,18 @@
             },
             success: function(response) {
                 if (response.message) {
-                    alert(response.message);
-                    $('#addOwnerProfitModal').modal('hide');
+                    $('#success').text(response.message).show();
                     $('#ownerProfitForm')[0].reset(); // Reset the form
-                    userTable.ajax.reload(); // Reload the DataTable to reflect new data
+                    $('#addOwnerProfitModal').modal('hide');
+                    location.reload(); // Reload the DataTable to reflect new data
+                }else {
+                    // Handle errors returned from server
+                    $('#error').text(response.message).show();
+                    $('#success').hide();
                 }
             },
             error: function(xhr) {
-                alert('Error: ' + (xhr.responseJSON.message || 'An error occurred while adding the owner profit.'));
+                $('#error').text('Please Fill The Form').show();
             }
         });
     });

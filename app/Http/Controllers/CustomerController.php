@@ -62,7 +62,7 @@ class CustomerController extends Controller
                 ]);
     
                 // Return a JSON response
-                return response()->json(['message' => 'Customer added successfully!', 'data' => $customer], 201);
+                return response()->json(['message' => 'Customer added successfully!'], 201);
             } catch (\Exception $e) {
                 return response()->json(['message' => 'Error adding customer: ' . $e->getMessage()], 500);
             }

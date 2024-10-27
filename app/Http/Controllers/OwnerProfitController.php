@@ -73,9 +73,9 @@ class OwnerProfitController extends Controller
                 ]);
     
                 // Return a JSON response
-                return response()->json(['message' => 'Owner Profit added successfully!', 'data' => $ownerProfit], 201);
+                return response()->json(['success' => true, 'message' => 'Transaction successfully added!']);
             } catch (\Exception $e) {
-                return response()->json(['message' => 'Error adding owner profit: ' . $e->getMessage()], 500);
+                return response()->json(['success' => false, 'message' => 'Something went wrong: ' . $e->getMessage()], 500);
             }
         }
     }

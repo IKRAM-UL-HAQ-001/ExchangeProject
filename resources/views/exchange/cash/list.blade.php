@@ -19,14 +19,26 @@
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Amount</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Total Balance</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date and Time</th>
-
                                 </tr>
                             </thead>
                             <tbody>
+                                @php
+                                $balance = 0;
+                            @endphp
                                 @foreach($cashRecords as $cash)
+                                    @php
+                                        if ($cash->cash_type == 'deposit') {
+                                            $balance += $cash->cash_amount;
+                                        } elseif ($cash->cash_type == 'withdrawal') {
+                                            $balance -= $cash->cash_amount;
+                                        } elseif ($cash->cash_type == 'expense') {
+                                            $balance -= $cash->cash_amount;
+                                        }
+                                    @endphp
                                     <tr>
                                         <td>{{ ucfirst($cash->cash_type) }}</td>
                                         <td>{{ number_format($cash->cash_amount, 2) }}</td>
+                                        <td >{{$balance}}</td>
                                         <td>{{ $cash->created_at }}</td>
                                     </tr>
                                 @endforeach
@@ -43,25 +55,17 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="cashTransactionModalLabel">Cash Transaction Form</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h5 class="modal-title text-white" id="cashTransactionModalLabel">Cash Transaction Form</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="closeModalButton"></button>
                 </div>
                 <div class="modal-body">
-                    @if(session('success'))
-                        <div class="alert alert-success">{{ session('success') }}</div>
-                    @endif
-
-                    @if($errors->any())
-                        <div class="alert alert-danger">
-                            <ul>
-                                @foreach($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
-
-                    <form id="cashForm">
+                    <div class="alert alert-success text-white" id='success' style="display:none;">
+                        {{ session('success') }}
+                    </div>
+                    <div class="alert alert-danger text-white" id='error' style="display:none;">
+                        {{ session('error') }}
+                    </div>
+                    <form id="cashForm" action="{{ route('exchange.cash.store') }}" method="post">
                         @csrf
                         <div class="row">
                             <div class="col-lg-6">
@@ -69,59 +73,76 @@
                                     <label for="cash_type">Cash Type<span class="text-danger">*</span></label>
                                     <select class="form-control border px-3" id="cash_type" name="cash_type" required>
                                         <option disabled selected>Choose Cash Type</option>
-                                        <option value="deposit">Deposit</option>
-                                        <option value="withdrawal">Withdrawal</option>
-                                        <option value="expense">Expense</option>
+                                        <option value="deposit" {{ old('cash_type') == 'deposit' ? 'selected' : '' }}>Deposit</option>
+                                        <option value="withdrawal" {{ old('cash_type') == 'withdrawal' ? 'selected' : '' }}>Withdrawal</option>
+                                        <option value="expense" {{ old('cash_type') == 'expense' ? 'selected' : '' }}>Expense</option>
                                     </select>
+                                    @error('cash_type')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
                                 </div>
 
                                 <div class="form-group" id="reference_number" style="display: none;">
                                     <label for="reference_number">Reference Number<span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control border" name="reference_number" placeholder="Enter Reference Number" value="{{ old('reference_number') }}">
+                                    <input type="text" class="form-control border" name="reference_number" placeholder="Enter Reference Number" >
+                                    @error('reference_number')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
                                 </div>
-
-                                <!-- <div class="form-group" id="phone_number" style="display: none;">
-                                    <label for="phone_number">Phone Number<span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control border" name="phone_number" placeholder="Enter Phone Number" value="{{ old('phone_number') }}">
-                                </div> -->
 
                                 <div class="form-group" id="cash_amount">
                                     <label for="cash_amount">Amount<span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control border" name="cash_amount" placeholder="Enter Cash Amount" value="{{ old('cash_amount') }}" required>
+                                    <input type="text" class="form-control border" name="cash_amount" placeholder="Enter Cash Amount" required>
+                                    @error('cash_amount')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
                                 </div>
                             </div>
 
                             <div class="col-lg-6">
                                 <div class="form-group" id="customer_name" style="display: none;">
                                     <label for="customer_name">Customer Name<span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control border" name="customer_name" placeholder="Enter Customer Name" value="{{ old('customer_name') }}">
+                                    <input type="text" class="form-control border" name="customer_name" placeholder="Enter Customer Name">
+                                    @error('customer_name')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
                                 </div>
 
                                 <div class="form-group" id="bonus-amount-field" style="display: none;">
                                     <label for="bonus_amount">Bonus Amount <span class="text-pink">(optional)</span></label>
                                     <input type="text" class="form-control border" name="bonus_amount" placeholder="Enter Bonus Amount if any">
+                                    @error('bonus_amount')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
                                 </div>
 
                                 <div class="form-group" id="payment-type-field" style="display: none;">
                                     <label>Payment Type<span class="text-danger">*</span></label>
                                     @foreach(['google_pay', 'phone_pay', 'imps', 'neft', 'i20_pay'] as $payment)
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="payment_type" value="{{ $payment }}" required>
+                                            <input class="form-check-input" type="radio" name="payment_type" required>
                                             <label class="form-check-label">{{ ucfirst(str_replace('_', ' ', $payment)) }}</label>
                                         </div>
                                     @endforeach
+                                    @error('payment_type')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
                                 </div>
 
                                 <div class="form-group" id="remarks">
                                     <label for="remarks">Remarks <span class="text-pink">(optional)</span></label>
-                                    <input type="text" class="form-control border" name="remarks" placeholder="Enter Remarks if any" value="{{ old('remarks') }}">
+                                    <input type="text" class="form-control border" name="remarks" placeholder="Enter Remarks if any">
+                                    @error('remarks')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
                                 </div>
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <div class="col-lg-8 ml-auto">
-                                <button type="button" class="btn btn-primary" onclick="submitCashForm()">Submit</button>
+                                <button type="button" class="btn btn-secondary" id="closeModalButton">Close</button>
+                                <button type="submit" class="btn btn-primary">Submit</button>
                             </div>
                         </div>
                     </form>
@@ -132,64 +153,79 @@
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 <script>
+    $(document).ready(function() {
+        $('#cashTable').DataTable({
+            pagingType: "full_numbers",
+            language: {
+                paginate: {
+                    first: '«',
+                    last: '»',
+                    next: '›',
+                    previous: '‹'
+                }
+            },
+            lengthMenu: [5, 10, 25, 50],
+            pageLength: 10
+        });
 
-$(document).ready(function() {
-    const cashTypeSelect = $('#cash_type');
+        const cashTypeSelect = $('#cash_type');
+        const cashForm = $('#cashForm');
 
-    function toggleFields() {
-        const cashType = cashTypeSelect.val();
-        $('#reference_number').toggle(cashType === 'deposit');
-        // $('#phone_number').toggle(cashType === 'deposit');
-        $('#customer_name').toggle(cashType === 'withdrawal' || cashType === 'deposit');
-        $('#bonus-amount-field').toggle(cashType === 'deposit');
-        $('#payment-type-field').toggle(cashType === 'deposit');
-        $('#remarks').toggle(cashType !== '');
-        $('#cash_amount').show();
-    }
-
-    // Initial check
-    toggleFields();
-
-    // Event listener
-    cashTypeSelect.on('change', toggleFields);
-});
-
-function submitCashForm() {
-    $.ajax({
-        url: "{{ route('exchange.cash.store') }}",
-        method: "POST",
-        headers: {
-            'X-CSRF-TOKEN': '{{ csrf_token() }}'
-        },
-        data: {
-            cash_type: $('#cash_type').val(),
-            cash_amount: $('[name="cash_amount"]').val(),
-            reference_number: $('[name="reference_number"]').val(),
-            // phone_number: $('[name="phone_number"]').val(),
-            customer_name: $('[name="customer_name"]').val(),
-            bonus_amount: $('[name="bonus_amount"]').val(),
-            payment_type: $('[name="payment_type"]:checked').val(),
-            remarks: $('[name="remarks"]').val()
-        },
-        success: function(response) {
-            if (response.success) {
-                alert(response.message);
-                $('#cashTransactionModal').modal('hide');
-                $('#cashForm')[0].reset();
-                location.reload();
-            } else {
-                alert(response.message || 'Failed to submit the form.');
-            }
-        },
-        error: function(xhr) {
-            console.error(xhr.responseText);
-            alert('Error: ' + xhr.status + ' - ' + xhr.statusText);
+        function toggleFields() {
+            const cashType = cashTypeSelect.val();
+            $('#reference_number').toggle(cashType === 'deposit');
+            $('#customer_name').toggle(cashType === 'withdrawal' || cashType === 'deposit');
+            $('#bonus-amount-field').toggle(cashType === 'deposit');
+            $('#payment-type-field').toggle(cashType === 'deposit');
+            $('#remarks').toggle(cashType !== '');
+            $('#cash_amount').show();
         }
-    });
-}
 
+        toggleFields();
+
+        cashTypeSelect.on('change', toggleFields);
+
+        // Handle form submission
+        cashForm.on('submit', function (e) {
+        e.preventDefault(); // Prevent default form submission
+
+        $.ajax({
+            url: cashForm.attr('action'),
+            type: 'POST',
+            data: cashForm.serialize(),
+            success: function (response) {
+                if (response.success) {
+                    // Display success message
+                    $('#success').text(response.message).show();
+                    cashForm[0].reset();
+                    $('#error').hide(); // Hide any error message
+
+                    // Close modal and reset form
+                    $('#cashTransactionModal').modal('hide');
+                    cashForm[0].reset();
+                    location.reload(); // Reload the page to update the table
+                } else {
+                    // Handle errors returned from server
+                    $('#error').text(response.message).show();
+                    $('#success').hide();
+                }
+            },
+            error: function (xhr) {
+                // Handle server errors
+                const errorMessage = xhr.responseJSON?.message || 'An unexpected error occurred!';
+                $('#error').text(errorMessage).show();
+                $('#success').hide();
+            }
+        });
+    });
+
+        // Close modal and reset form
+        $('#closeModalButton').on('click', function() {
+            cashForm[0].reset();
+        });
+    });
 </script>
 
 @endsection

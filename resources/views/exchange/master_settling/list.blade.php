@@ -58,6 +58,12 @@
             </div>
             <div class="modal-body">
                 <div class="form-validation">
+                    <div class="alert alert-success text-white" id='success' style="display:none;">
+                        {{ session('success') }}
+                    </div>
+                    <div class="alert alert-danger text-white" id='error' style="display:none;">
+                        {{ session('error') }}
+                    </div>
                     <form id="masterSettlingForm" method="post">
                         @csrf
                         <div class="col-md-12 mb-3">
@@ -124,14 +130,18 @@
             },
             success: function(response) {
                 if (response.message) {
-                    alert(response.message);
+                    $('#success').text(response.message).show();
                     $('#addMasterSettlingModal').modal('hide');
                     $('#masterSettlingForm')[0].reset(); // Reset the form
-                    userTable.ajax.reload(); // Reload the DataTable to reflect new data
+                    location.reload(); // Reload the DataTable to reflect new data
+                }else {
+                    // Handle errors returned from server
+                    $('#error').text(response.message).show();
+                    $('#success').hide();
                 }
             },
             error: function(xhr) {
-                alert('Error: ' + (xhr.responseJSON.message || 'An error occurred while adding the master settling.'));
+                $('#error').text(xhr.responseJSON.message || 'An error occurred while adding the master settling.').show();
             }
         });
     });

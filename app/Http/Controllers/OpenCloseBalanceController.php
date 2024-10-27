@@ -65,7 +65,32 @@ class OpenCloseBalanceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if (!auth()->check()) {
+            return response()->json(['message' => 'Unauthorized'], 401);
+        } else {
+            $user = Auth::user();
+            $exchangeId = $user->exchange_id;
+            $userId = $user->id;
+            $validatedData = $request->validate([
+                'open_balance' => 'required|numeric|min:0',
+                'close_balance' => 'required|numeric|min:0',
+                'remarks' => 'nullable|string|max:255',
+            ]);
+
+            try {
+                OpenCloseBalance::create([
+                    'open_balance' => $validatedData['open_balance'],
+                    'close_balance' => $validatedData['close_balance'],
+                    'remarks' => $validatedData['remarks'],
+                    'exchange_id' => $exchangeId,
+                    'user_id' => $userId,
+                ]);
+
+                return response()->json(['success' => true, 'message' => 'Transaction successfully added!']);
+            } catch (\Exception $e) {
+                return response()->json(['message' => true, 'message' => 'An error occurred while saving data:']);
+            }
+        }
     }
 
     /**
