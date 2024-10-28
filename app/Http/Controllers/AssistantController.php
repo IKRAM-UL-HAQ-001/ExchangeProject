@@ -29,19 +29,38 @@ class AssistantController extends Controller
             $currentMonth = Carbon::now()->month;
             $currentYear = Carbon::now()->year;
             
-            $entries = OpenCloseBalance::whereDate('created_at', $today)->get();
+            $entriesDaily = OpenCloseBalance::where('exchange_id', $exchangeId)
+            ->whereDate('created_at', $today)
+            ->get();
+
+            $entriesMonth = OpenCloseBalance::where('exchange_id', $exchangeId)
+            ->whereMonth('created_at', $currentMonth)
+            ->get();
 
             $totalOpenCloseBalanceDaily = 0;
+            $totalOpenCloseBalanceMonthly = 0;
 
-            if ($entries->count() === 1) {
-                $entry = $entries->first();
+            if ($entriesDaily->count() === 1) {
+                $entry = $entriesDaily->first();
                 $totalOpenCloseBalanceDaily = $entry->open_balance + $entry->close_balance;
             } else {
-                foreach ($entries as $entry) {
+                foreach ($entriesDaily as $entry) {
                     if ($totalOpenCloseBalanceDaily === 0) {
                         $totalOpenCloseBalanceDaily += $entry->open_balance;
                     }
                     $totalOpenCloseBalanceDaily += $entry->close_balance;
+                }
+            }
+            
+            if ($entriesMonth->count() === 1) {
+                $entry = $entriesMonth->first();
+                $totalOpenCloseBalanceMonthly = $entry->open_balance + $entry->close_balance;
+            } else {
+                foreach ($entriesMonth as $entry) {
+                    if ($totalOpenCloseBalanceMonthly === 0) {
+                        $totalOpenCloseBalanceMonthly += $entry->open_balance;
+                    }
+                    $totalOpenCloseBalanceMonthly += $entry->close_balance;
                 }
             }
             $totalDepositDaily = Cash::where('cash_type', 'deposit')

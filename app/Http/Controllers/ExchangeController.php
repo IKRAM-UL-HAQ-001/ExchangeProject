@@ -37,24 +37,41 @@ class ExchangeController extends Controller
             $userCount = Cash::where('exchange_id', $exchangeId)->distinct('user_id')->count('user_id');
             
 
-            $entries = OpenCloseBalance::where('exchange_id', $exchangeId)
+            $entriesDaily = OpenCloseBalance::where('exchange_id', $exchangeId)
             ->whereDate('created_at', $today)
+            ->get();
+
+            $entriesMonth = OpenCloseBalance::where('exchange_id', $exchangeId)
+            ->whereMonth('created_at', $currentMonth)
             ->get();
         
             $totalOpenCloseBalanceDaily = 0;
+            $totalOpenCloseBalanceMonthly=0;
             
-            if ($entries->count() === 1) {
-                $entry = $entries->first();
+            if ($entriesDaily->count() === 1) {
+                $entry = $entriesDaily->first();
                 $totalOpenCloseBalanceDaily = $entry->open_balance + $entry->close_balance;
             } else {
-                // If there are multiple entries, sum the closing balances
-                foreach ($entries as $entry) {
+                // If there are multiple entriesDaily, sum the closing balances
+                foreach ($entriesDaily as $entry) {
                     // If it's the first entry, add its opening balance
                     if ($totalOpenCloseBalanceDaily === 0) {
                         $totalOpenCloseBalanceDaily += $entry->open_balance;
                     }
                     // Always add the closing balance
                     $totalOpenCloseBalanceDaily += $entry->close_balance;
+                }
+            }
+
+            if ($entriesMonth->count() === 1) {
+                $entry = $entriesMonth->first();
+                $totalOpenCloseBalanceMonthly = $entry->open_balance + $entry->close_balance;
+            } else {
+                foreach ($entriesMonth as $entry) {
+                    if ($totalOpenCloseBalanceMonthly === 0) {
+                        $totalOpenCloseBalanceMonthly += $entry->open_balance;
+                    }
+                    $totalOpenCloseBalanceMonthly += $entry->close_balance;
                 }
             }
 

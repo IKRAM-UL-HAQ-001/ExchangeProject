@@ -41,7 +41,7 @@
             ['Today Profit', $totalOwnerProfitDaily, 'bg-gradient-success', 'money'],
             ['Total New Customer', $totalCustomersDaily, 'bg-gradient-warning', 'group_add'],
             ['Total Open Close Balance', $totalOpenCloseBalanceDaily, 'bg-gradient-warning', 'group_add'],
-            ['Total Paid Amount', $totalPaidAmountDaily, 'bg-gradient-warning', 'group_add'],
+            ['Total Paid Vender Amount', $totalPaidAmountDaily, 'bg-gradient-warning', 'group_add'],
         ] as $card)
             <div class="col-xl-3 col-sm-6 mb-4">
                 <div class="card">
@@ -102,6 +102,8 @@
             ['Monthly Profit', $totalOwnerProfitMonthly, 'bg-gradient-success', 'money'],
             ['Total New Customer', $totalCustomersMonthly, 'bg-gradient-warning', 'group_add'],
             ['Total Settling Points', $totalMasterSettlingMonthly, 'bg-gradient-danger', 'point_of_sale'],
+            ['Total Open Close Balance', $totalOpenCloseBalanceMonthly, 'bg-gradient-warning', 'group_add'],
+            ['Total Paid Vender Amount', $totalPaidAmountMonthly, 'bg-gradient-warning', 'group_add'],
         ] as $card)
             <div class="col-xl-3 col-sm-6 mb-4">
                 <div class="card">

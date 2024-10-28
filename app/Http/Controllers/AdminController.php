@@ -28,21 +28,39 @@ class AdminController extends Controller
             $currentMonth = Carbon::now()->month;
             $currentYear = Carbon::now()->year;
 
-            $entries = OpenCloseBalance::whereDate('created_at', $today)->get();
+            $entriesDaily = OpenCloseBalance::whereDate('created_at', $today)->get();
+            $entriesMonth = OpenCloseBalance::whereMonth('created_at', $currentMonth)->get();
+            
             $totalOpenCloseBalanceDaily = 0;
-            if ($entries->count() === 1) {
-                $entry = $entries->first();
+            $totalOpenCloseBalanceMonthly = 0;
+            
+            if ($entriesDaily->count() === 1) {
+                $entry = $entriesDaily->first();
                 $totalOpenCloseBalanceDaily = $entry->open_balance + $entry->close_balance;
             } else {
-                foreach ($entries as $entry) {
+                foreach ($entriesDaily as $entry) {
                     if ($totalOpenCloseBalanceDaily === 0) {
                         $totalOpenCloseBalanceDaily += $entry->open_balance;
                     }
                     $totalOpenCloseBalanceDaily += $entry->close_balance;
                 }
             }
+            if ($entriesMonth->count() === 1) {
+                $entry = $entriesMonth->first();
+                $totalOpenCloseBalanceMonthly = $entry->open_balance + $entry->close_balance;
+            } else {
+                foreach ($entriesMonth as $entry) {
+                    if ($totalOpenCloseBalanceMonthly === 0) {
+                        $totalOpenCloseBalanceMonthly += $entry->open_balance;
+                    }
+                    $totalOpenCloseBalanceMonthly += $entry->close_balance;
+                }
+            }
             $totalPaidAmountDaily = VenderPayment::whereDate('created_at', $today)
                 ->sum('paid_amount');
+
+            $totalPaidAmountMonthly = VenderPayment::whereMonth('created_at', $currentMonth)
+            ->sum('paid_amount');
 
             $totalDepositDaily = Cash::where('cash_type', 'deposit')
                 ->whereDate('created_at', $today)
@@ -124,6 +142,8 @@ class AdminController extends Controller
             return view('/admin.dashboard',compact('totalUsers','totalExchanges',
                 'totalBalanceMonthly','totalDepositMonthly','totalWithdrawalMonthly',
                 'totalExpenseMonthly','totalMasterSettlingMonthly',
+                'totalOpenCloseBalanceMonthly','totalPaidAmountMonthly',
+                
                 'totalBonusMonthly','totalOldCustomersMonthly','totalOwnerProfitMonthly',
                 'totalCustomersMonthly','totalBalanceDaily','totalDepositDaily',
                 'totalWithdrawalDaily','totalExpenseDaily','totalBonusDaily','totalOldCustomersDaily',
