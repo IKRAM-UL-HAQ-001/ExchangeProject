@@ -151,7 +151,7 @@ class ExchangeController extends Controller
             return view("exchange.dashboard",compact('totalBankBalance','exchange_name','userCount',
                 'totalBalanceDaily','totalDepositDaily','totalWithdrawalDaily','totalExpenseDaily',
                 'customerCountDaily','totalBonusDaily','totalNewCustomerDaily','totalOwnerProfitDaily',
-                'totalOpenCloseBalance',
+                'totalOpenCloseBalanceDaily',
                 
                 'totalBalanceMonthly','totalDepositMonthly','totalWithdrawalMonthly','totalExpenseMonthly',
                 'totalMasterSettlingMonthly','totalBonusMonthly','customerCountMonthly','totalNewCustomerMonthly',
