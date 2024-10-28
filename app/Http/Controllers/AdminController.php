@@ -11,6 +11,7 @@ use App\Models\BankBalance;
 use App\Models\OpenCloseBalance;
 use App\Models\User;
 use App\Models\Exchange;
+use App\Models\VenderPayment;
 use Carbon\Carbon;
 use Auth;
 use Illuminate\Http\Request;
@@ -33,16 +34,15 @@ class AdminController extends Controller
                 $entry = $entries->first();
                 $totalOpenCloseBalanceDaily = $entry->open_balance + $entry->close_balance;
             } else {
-                // If there are multiple entries, sum the closing balances
                 foreach ($entries as $entry) {
-                    // If it's the first entry, add its opening balance
                     if ($totalOpenCloseBalanceDaily === 0) {
                         $totalOpenCloseBalanceDaily += $entry->open_balance;
                     }
-                    // Always add the closing balance
                     $totalOpenCloseBalanceDaily += $entry->close_balance;
                 }
             }
+            $totalPaidAmountDaily = VenderPayment::whereDate('created_at', $today)
+                ->sum('paid_amount');
 
             $totalDepositDaily = Cash::where('cash_type', 'deposit')
                 ->whereDate('created_at', $today)
@@ -128,6 +128,7 @@ class AdminController extends Controller
                 'totalCustomersMonthly','totalBalanceDaily','totalDepositDaily',
                 'totalWithdrawalDaily','totalExpenseDaily','totalBonusDaily','totalOldCustomersDaily',
                 'totalOwnerProfitDaily','totalCustomersDaily','totalBankBalance','totalOpenCloseBalanceDaily',
+                'totalPaidAmountDaily',
             ));
         }   
     }    

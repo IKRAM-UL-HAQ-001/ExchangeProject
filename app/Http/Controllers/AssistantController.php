@@ -37,13 +37,10 @@ class AssistantController extends Controller
                 $entry = $entries->first();
                 $totalOpenCloseBalanceDaily = $entry->open_balance + $entry->close_balance;
             } else {
-                // If there are multiple entries, sum the closing balances
                 foreach ($entries as $entry) {
-                    // If it's the first entry, add its opening balance
                     if ($totalOpenCloseBalanceDaily === 0) {
                         $totalOpenCloseBalanceDaily += $entry->open_balance;
                     }
-                    // Always add the closing balance
                     $totalOpenCloseBalanceDaily += $entry->close_balance;
                 }
             }
@@ -134,9 +131,6 @@ class AssistantController extends Controller
         }   
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         //
@@ -158,25 +152,16 @@ class AssistantController extends Controller
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Assistant $assistant)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Assistant $assistant)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Assistant $assistant)
     {
         //

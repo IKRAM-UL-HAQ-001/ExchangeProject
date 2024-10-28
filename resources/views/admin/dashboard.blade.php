@@ -18,7 +18,7 @@
                 <div class="card-header p-3">
                     <div class="d-flex align-items-center">
                         <div class="icon icon-lg icon-shape bg-gradient-dark shadow-dark text-center border-radius-xl position-relative">
-                            <i class="material-icons opacity-10">attach_money</i> <!-- Total Bank Balance -->
+                            <i class="material-icons opacity-10">attach_money</i>
                         </div>
                         <div class="text-end ms-3">
                             <p class="text-sm mb-0 text-capitalize">Total Bank Balance</p>
@@ -29,7 +29,6 @@
                 <hr class="dark horizontal my-0">
             </div>
         </div>
-
         @foreach ([
             ['Today Margin', $totalBalanceDaily, 'bg-gradient-success', 'attach_money'],
             ['Total Deposit', $totalDepositDaily, 'bg-gradient-info', 'arrow_upward'],
@@ -42,6 +41,7 @@
             ['Today Profit', $totalOwnerProfitDaily, 'bg-gradient-success', 'money'],
             ['Total New Customer', $totalCustomersDaily, 'bg-gradient-warning', 'group_add'],
             ['Total Open Close Balance', $totalOpenCloseBalanceDaily, 'bg-gradient-warning', 'group_add'],
+            ['Total Paid Amount', $totalPaidAmountDaily, 'bg-gradient-warning', 'group_add'],
         ] as $card)
             <div class="col-xl-3 col-sm-6 mb-4">
                 <div class="card">
@@ -82,7 +82,7 @@
                             <i class="material-icons opacity-10">attach_money</i> <!-- Monthly Profit -->
                         </div>
                         <div class="text-end ms-3">
-                            <p class="text-sm mb-0 text-capitalize">Monthly Profit</p>
+                            <p class="text-sm mb-0 text-capitalize">Monthly Margin</p>
                             <h4 class="mb-0">{{ $totalBalanceMonthly }}</h4>
                         </div>
                     </div>
