@@ -97,7 +97,7 @@
             ['Total Bonus', $totalBonusMonthly, 'bg-gradient-dark', 'star'],
             ['Total Users', $userCount, 'bg-gradient-secondary', 'people'],
             ['Customers', $customerCountMonthly, 'bg-gradient-info', 'person'],
-            ['Monthly Owner Profit', $totalOwnerProfitMonthly, 'bg-gradient-success', 'money'],
+            ['Monthly Profit', $totalOwnerProfitMonthly, 'bg-gradient-success', 'money'],
             ['Total New Customers', $totalNewCustomerMonthly, 'bg-gradient-warning', 'group_add'],
             ['Total Settling Points', $totalMasterSettlingMonthly, 'bg-gradient-danger', 'point_of_sale'],
         ] as $card)

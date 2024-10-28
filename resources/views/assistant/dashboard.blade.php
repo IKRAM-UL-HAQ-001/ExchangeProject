@@ -39,7 +39,7 @@
             ['Total Exchanges', $totalExchanges, 'bg-gradient-primary', 'swap_horiz'],
             ['Total Users', $totalUsers, 'bg-gradient-secondary', 'people'],
             ['Customers', $totalOldCustomersDaily, 'bg-gradient-info', 'person'],
-            ['Total Owner Profit Amount', $totalOwnerProfitDaily, 'bg-gradient-success', 'money'],
+            ['Total Profit', $totalOwnerProfitDaily, 'bg-gradient-success', 'money'],
             ['Total New Customer', $totalCustomerDaily, 'bg-gradient-warning', 'group_add'],
             ['Total Open Close Balance', $totalOpenCloseBalanceDaily, 'bg-gradient-warning', 'group_add'],
         ] as $card)
@@ -99,7 +99,7 @@
             ['Total Exchanges', $totalExchanges, 'bg-gradient-primary', 'swap_horiz'],
             ['Total Users', $totalUsers, 'bg-gradient-secondary', 'people'],
             ['Customers', $totalOldCustomersMonthly, 'bg-gradient-info', 'person'],
-            ['Total Owner Profit Amount', $totalOwnerProfitMonthly, 'bg-gradient-success', 'money'],
+            ['Total Profit', $totalOwnerProfitMonthly, 'bg-gradient-success', 'money'],
             ['Total New Customer', $totalCustomerMonthly, 'bg-gradient-warning', 'group_add'],
             ['Total Settling Points', $totalMasterSettlingMonthly, 'bg-gradient-danger', 'point_of_sale'],
         ] as $card)
