@@ -24,12 +24,28 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                @php
+                                $balance = 0;
+                            @endphp
                                 @foreach($openingClosingBalanceRecords as $openingClosingBalance)
                                     <tr>
-                                        <td>{{ $openingClosingBalance->open_balance}}</td>
-                                        <td>{{ $openingClosingBalance->close_balance}}</td>
-                                        <td>{{ $openingClosingBalance->total_balance}}</td>
-                                        <td>{{ $openingClosingBalance->remarks}}</td>
+                                        @if($loop->first)
+                                            <td>{{ $openingClosingBalance->open_balance }}</td>
+                                            <td>{{ $openingClosingBalance->close_balance }}</td>
+                                            @php
+                                                $balance =  $openingClosingBalance->open_balance + $openingClosingBalance->close_balance; 
+                                            @endphp
+                                             <td>{{$balance}}</td>
+                                             <td>{{ $openingClosingBalance->remarks }}</td>
+                                        @else
+                                            <td>{{ $openingClosingBalance->open_balance }}</td>
+                                            <td>{{ $openingClosingBalance->close_balance }}</td>
+                                            @php
+                                                $balance =  $balance + $openingClosingBalance->close_balance; 
+                                            @endphp
+                                            <td>{{$balance}}</td>
+                                            <td>{{ $openingClosingBalance->remarks }}</td>
+                                        @endif   
                                     </tr>
                                 @endforeach
                             </tbody>
