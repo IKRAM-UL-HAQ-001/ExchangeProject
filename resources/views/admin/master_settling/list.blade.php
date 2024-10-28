@@ -9,13 +9,13 @@
                         <p style="color: white;"><strong>Master Settling Table</strong></p>
                         <div>
                             <a href="{{ route('export.masterSettlingListWeekly') }}" class="btn btn-dark">Weekly Master Settling Excel</a>
-                            <a href="{{ route('export.masterSettlingListMonthly')}}" class="btn btn-dark">Monthly Master Settling Excel</a>
+                            <a href="{{ route('export.masterSettlingListMonthly') }}" class="btn btn-dark">Monthly Master Settling Excel</a>
                         </div>
                     </div>
                 </div>
                 <div class="card-body px-0 pb-2 px-3">
                     <div class="table-responsive p-0">
-                        <table id="masterSettlingTable" class="table align-items-center mb-0 table-striped table-hover px-2">
+                        <table id="masterSettlingTable" class="table align-items-center mb-0 table-striped table-hover">
                             <thead>
                                 <tr>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">User</th>
@@ -53,6 +53,7 @@
     </div>
 </div>
 
+<!-- Edit Modal -->
 <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -63,6 +64,7 @@
                 </button>
             </div>
             <div class="modal-body">
+                <div id="alertMessage" class="alert d-none" role="alert"></div>
                 <form id="editForm">
                     <input type="hidden" id="editId" name="id">
                     <div class="form-group">
@@ -94,15 +96,6 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 <script>
-    function resetEditFormAndCloseModal() {
-        $('#editForm')[0].reset(); // Clear form fields
-        $('#editModal').modal('hide'); // Close modal
-    }
-
-    function resetEditForm() {
-        $('#editForm')[0].reset(); // Clear form fields
-    }
-
     function deleteMasterSettling(button, id) {
         const row = $(button).closest('tr');
         const table = $('#masterSettlingTable').DataTable();
@@ -143,9 +136,8 @@
     }
 
     function updateMasterSettling() {
-        const id = $('#editId').val();
         const data = {
-            id: id,
+            id: $('#editId').val(),
             white_label: $('#editWhiteLabel').val(),
             credit_reff: $('#editCreditReff').val(),
             settling_point: $('#editSettlingPoint').val(),
@@ -158,27 +150,37 @@
             method: "POST",
             data: data,
             success: function(response) {
+                $('#alertMessage').removeClass('d-none').removeClass('alert-danger').addClass('alert-success');
+                $('#alertMessage').text(response.message).show();
+
                 if (response.success) {
-                    const table = $('#masterSettlingTable').DataTable();
-                    alert(response.message);
-                    resetEditFormAndCloseModal(); // Reset form and close modal
+                    setTimeout(() => {
+                        $('#editModal').modal('hide');
+                        location.reload(); // Reload to reflect changes
+                    }, 3000);
                 } else {
-                    alert(response.message || 'Failed to update the Master Settling.');
+                    // Show error message
+                    $('#alertMessage').removeClass('alert-success').addClass('alert-danger');
                 }
             },
             error: function(xhr) {
-                let errorMessage = 'An error occurred.';
-
-                if (xhr.responseJSON && xhr.responseJSON.errors) {
-                    errorMessage = Object.values(xhr.responseJSON.errors).flat().join('\n');
-                } else if (xhr.responseJSON && xhr.responseJSON.message) {
-                    errorMessage = xhr.responseJSON.message;
-                } else {
-                    errorMessage = `Error: ${xhr.status} - ${xhr.statusText}`;
-                }
-                alert(errorMessage);
+                $('#alertMessage').removeClass('d-none').removeClass('alert-success').addClass('alert-danger');
+                $('#alertMessage').text('Error: ' + (xhr.responseJSON?.message || 'Please fill in all fields.')).show();
+                setTimeout(() => {
+                    $('#alertMessage').addClass('d-none');
+                }, 3000);
             }
         });
+    }
+
+    function resetEditForm() {
+        $('#editForm')[0].reset(); // Reset the form
+        $('#alertMessage').addClass('d-none'); // Hide alert message
+        $('#editModal').modal('hide'); // Close the modal
+    }
+    function resetEditFormAndCloseModal() {
+        resetEditForm();
+        $('#editModal').modal('hide');
     }
 </script>
 @endsection

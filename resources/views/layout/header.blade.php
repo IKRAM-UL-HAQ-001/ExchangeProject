@@ -32,6 +32,9 @@
     .table{
         color:black;
     }
+    .tbody{
+        color:black
+    }
     .form-control:focus {
         border-color: #80bdff; /* Border color on focus */
         box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Shadow on focus */
