@@ -116,6 +116,7 @@
                     setTimeout(() => {
                         $('#success').hide();
                         }, 2000);
+                        location.reload();
                 }else {
                     // Handle errors returned from server
                     $('#success').hide();
@@ -123,7 +124,7 @@
                     setTimeout(() => {
                         $('#error').hide();
                         }, 2000);
-                        location.reload();
+                        
                 }
             },
             error: function(xhr) {

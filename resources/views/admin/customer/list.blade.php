@@ -19,10 +19,8 @@
                                 <tr>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">User</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Exchange</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Bank</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Account No.</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Amount</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Type</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Name</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Cash Amount</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Remarks</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
                                 </tr>
