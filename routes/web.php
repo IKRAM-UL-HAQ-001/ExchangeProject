@@ -83,8 +83,9 @@ Route::group(['middleware' => 'admin'], function () {
 
     //Master Settling
     Route::get('/admin/masterSettling', [MasterSettlingController::class, 'index'])->name('admin.master_settling.list');
-    Route::post('/admin/masterSettling/destroy', [MasterSettling::class, 'destroy'])->name('admin.master_Settling.destroy');
-
+    Route::post('/admin/masterSettling/destroy', [MasterSettlingController::class, 'destroy'])->name('admin.master_settling.destroy');
+    Route::post('/admin/masterSettling/update', [MasterSettlingController::class, 'update'])->name('admin.master_settling.update');
+    
     //Owner Profit
     Route::get('/admin/ownerProfit', [OwnerProfitController::class, 'index'])->name('admin.owner_profit.list');
     Route::post('/admin/ownerProfit/destroy', [OwnerProfitController::class, 'destroy'])->name('admin.owner_profit.destroy');

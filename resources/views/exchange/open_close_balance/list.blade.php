@@ -131,28 +131,33 @@ $(document).ready(function () {
             success: function (response) {
                 if (response.success) {
                     // Display success message
+                    $('#error').hide();
                     $('#success').text(response.message).show(); 
 
                     // Reset the form and hide error message
                     openCloseBalanceForm[0].reset(); 
-                    $('#error').hide();
+                    setTimeout(() => {
+                        $('#success').hide();
+                        }, 2000);
 
                     // Close modal after a slight delay for better UX
-                    setTimeout(() => {
-                        $('#addOpenCloseBalanceModal').modal('hide');
-                        location.reload(); // Reload the page to refresh the table
-                    }, 1000);
                 } else {
                     // Display the error message from the response
-                    $('#error').show().text(response.message);
                     $('#success').hide();
+                    $('#error').show().text(response.message);
+                    setTimeout(() => {
+                        $('#error').hide();
+                        }, 2000);
                 }
             },
             error: function (xhr) {
                 // Handle server errors
                 const errorMessage = xhr.responseJSON?.message || 'An unexpected error occurred!';
-                $('#error').text(errorMessage).fadeIn().delay(3000).fadeOut();
                 $('#success').hide();
+                $('#error').text(errorMessage).fadeIn().delay(3000).fadeOut();
+                setTimeout(() => {
+                        $('#error').hide();
+                        }, 2000);
             }
         });
     });
@@ -160,7 +165,8 @@ $(document).ready(function () {
     // Reset form and hide messages when the modal is closed
     $('#addOpenCloseBalanceModal').on('hidden.bs.modal', function () {
         openCloseBalanceForm[0].reset(); // Reset form fields
-        $('#success, #error').hide(); // Hide both messages
+        $('#success, #error').hide(); 
+        location.reload();// Hide both messages
     });
 });
 

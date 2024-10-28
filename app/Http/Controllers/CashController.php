@@ -42,12 +42,12 @@ class CashController extends Controller
     
         $validatedData = $request->validate([
             'reference_number' => 'nullable|string|max:255|unique:cashes,reference_number',
-            'customer_name' => 'nullable|string|max:255',
+            'customer_name' => 'nullable|string|max:255|required_if:cash_type,deposit',
             'cash_amount' => 'required|numeric',
             'cash_type' => 'required|in:deposit,withdrawal,expense',
-            'bonus_amount' => 'nullable|numeric',
-            'payment_type' => 'nullable|string',
-            'remarks' => 'nullable|string|max:255',
+            'bonus_amount' => 'nullable|numeric|required_if:cash_type,deposit',
+            'payment_type' => 'nullable|string|required_if:cash_type,deposit',
+            'remarks' => 'nullable|string|max:255|required_if:cash_type,deposit,|required_if:cash_type,withdraw',
         ]);
     
         try {
@@ -74,7 +74,6 @@ class CashController extends Controller
     {
         //
     }
-
     /**
      * Show the form for editing the specified resource.
      */

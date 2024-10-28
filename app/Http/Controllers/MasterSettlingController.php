@@ -108,21 +108,17 @@ class MasterSettlingController extends Controller
             try {
                 $exchangeId = auth()->user()->exchange_id;
                 $userId = auth()->user()->id;
-                $total_amount = ($validatedData['price'] ?? 0) * ($validatedData['settling_point'] ?? 0);
                 $masterSettling = MasterSettling::create([
                     'white_label' => $validatedData['white_label'],
                     'credit_reff' => $validatedData['credit_reff'],
                     'settling_point' => $validatedData['settling_point'],
                     'price' => $validatedData['price'],
-                    'total_amount' => $total_amount,
                     'exchange_id' => $exchangeId,
                     'user_id' => $userId,
                 ]);
-                return response()->json(['message' => 'Master Settling added successfully!', 'data' => $masterSettling], 201);
-        
+                return response()->json(['success' => true, 'message' => 'Master Settling saved successfully!']);
             } catch (\Exception $e) {
-                return $e; 
-                return response()->json(['error' => 'An error occurred while adding the master settling.'], 500);
+                return response()->json(['success' => false, 'message' => 'An error occurred: ' . $e->getMessage()], 500);
             }
         }
     }    
@@ -146,9 +142,27 @@ class MasterSettlingController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, MasterSettling $masterSettling)
+    public function update(Request $request)
     {
-        //
+        $request->validate([
+            'id' => 'required|exists:master_settlings,id',
+            'white_label' => 'required|string',
+            'credit_reff' => 'required|string',
+            'settling_point' => 'required|numeric',
+            'price' => 'required|numeric',
+        ]);
+        try{
+            $masterSettling = MasterSettling::find($request->id);
+            $masterSettling->white_label = $request->white_label;
+            $masterSettling->credit_reff = $request->credit_reff;
+            $masterSettling->settling_point = $request->settling_point;
+            $masterSettling->price = $request->price;
+            $masterSettling->save();
+            return response()->json(['success' => true, 'message' => 'Master Settling updated successfully!']);
+        } catch (\Exception $e) {
+            // Handle any unexpected errors
+            return response()->json(['success' => false, 'message' => 'An error occurred: ' . $e->getMessage()], 500);
+        }
     }
 
     /**

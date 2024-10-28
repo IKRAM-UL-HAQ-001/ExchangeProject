@@ -24,6 +24,21 @@
     .table-hover tbody tr:hover {
         background-color: #e0e0e0;
     }
+    .form-control{
+        border: 1px solid #ced4da; /* Default Bootstrap border color */
+        border-radius: 0.25rem; /* Bootstrap border radius */
+        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }
+    
+    .form-control:focus {
+        border-color: #80bdff; /* Border color on focus */
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Shadow on focus */
+    }
+
+    input::placeholder {
+        padding-left: 10px;
+        color: #aaa; 
+    }
 
     .modal-header {
         background-color: #343a40;

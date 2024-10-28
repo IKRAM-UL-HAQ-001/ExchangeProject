@@ -7,6 +7,7 @@ use App\Models\BankEntry;
 use App\Models\Cash;
 use App\Models\Customer;
 use App\Models\OwnerProfit;
+use App\Models\OpenCloseBalance;
 use App\Models\MasterSettling;
 use App\Models\User;
 use Carbon\Carbon;
@@ -35,6 +36,28 @@ class ExchangeController extends Controller
             $exchange_name = $exchange ? $exchange->name : null;
             $userCount = Cash::where('exchange_id', $exchangeId)->distinct('user_id')->count('user_id');
             
+
+            $entries = OpenCloseBalance::where('exchange_id', $exchangeId)
+            ->whereDate('created_at', $today)
+            ->get();
+        
+            $totalOpenCloseBalance = 0;
+            
+            if ($entries->count() === 1) {
+                $entry = $entries->first();
+                $totalOpenCloseBalance = $entry->open_balance + $entry->close_balance;
+            } else {
+                // If there are multiple entries, sum the closing balances
+                foreach ($entries as $entry) {
+                    // If it's the first entry, add its opening balance
+                    if ($totalOpenCloseBalance === 0) {
+                        $totalOpenCloseBalance += $entry->open_balance;
+                    }
+                    // Always add the closing balance
+                    $totalOpenCloseBalance += $entry->close_balance;
+                }
+            }
+
             $customerCountDaily = Cash::where('exchange_id', $exchangeId)
                 ->whereDate('created_at', $today)
                 ->distinct('reference_number')
@@ -128,6 +151,7 @@ class ExchangeController extends Controller
             return view("exchange.dashboard",compact('totalBankBalance','exchange_name','userCount',
                 'totalBalanceDaily','totalDepositDaily','totalWithdrawalDaily','totalExpenseDaily',
                 'customerCountDaily','totalBonusDaily','totalNewCustomerDaily','totalOwnerProfitDaily',
+                'totalOpenCloseBalance',
                 
                 'totalBalanceMonthly','totalDepositMonthly','totalWithdrawalMonthly','totalExpenseMonthly',
                 'totalMasterSettlingMonthly','totalBonusMonthly','customerCountMonthly','totalNewCustomerMonthly',

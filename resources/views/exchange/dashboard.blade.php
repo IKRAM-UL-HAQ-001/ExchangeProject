@@ -40,6 +40,7 @@
             ['Customers', $customerCountDaily, 'bg-gradient-info', 'person'],
             ['Today Profit', $totalOwnerProfitDaily, 'bg-gradient-success', 'money'],
             ['Total New Customers', $totalNewCustomerDaily, 'bg-gradient-warning', 'group_add'],
+            ['Total Open Close Balance', $totalOpenCloseBalance, 'bg-gradient-warning', 'group_add'],
         ] as $card)
             <div class="col-xl-3 col-sm-6 mb-4">
                 <div class="card">

@@ -8,14 +8,14 @@
                     <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
                         <p style="color: white;"><strong>Master Settling Table</strong></p>
                         <div>
-                        <a href="{{ route('export.masterSettlingListWeekly') }}" class="btn btn-dark">Weekly Master Settling Excel</a>
-                        <a href="{{ route('export.masterSettlingListMonthly')}}" class="btn btn-dark">Monthly Master Settling Excel</a>
+                            <a href="{{ route('export.masterSettlingListWeekly') }}" class="btn btn-dark">Weekly Master Settling Excel</a>
+                            <a href="{{ route('export.masterSettlingListMonthly')}}" class="btn btn-dark">Monthly Master Settling Excel</a>
                         </div>
                     </div>
                 </div>
                 <div class="card-body px-0 pb-2 px-3">
                     <div class="table-responsive p-0">
-                        <table id="customerTable" class="table align-items-center mb-0 table-striped table-hover px-2">
+                        <table id="masterSettlingTable" class="table align-items-center mb-0 table-striped table-hover px-2">
                             <thead>
                                 <tr>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">User</th>
@@ -35,11 +35,12 @@
                                     <td>{{ $masterSettling->exchange->name }}</td>
                                     <td>{{ $masterSettling->white_label }}</td>
                                     <td>{{ $masterSettling->credit_reff }}</td>
-                                    <td>{{ $masterSettling->settle_point }}</td>
+                                    <td>{{ $masterSettling->settling_point }}</td>
                                     <td>{{ $masterSettling->price }}</td>
-                                    <td>{{ $masterSettling->total_amount }}</td>
+                                    <td></td>
                                     <td class="text-center">
                                         <button class="btn btn-danger btn-sm" aria-label="Delete Master Settling" onclick="deleteMasterSettling(this, {{ $masterSettling->id }})">Delete</button>
+                                        <button class="btn btn-warning btn-sm" aria-label="Edit Master Settling" onclick="openEditModal({{ json_encode($masterSettling) }})">Edit</button>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -52,57 +53,132 @@
     </div>
 </div>
 
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Edit Master Settling</h5>
+                <button type="button" class="close" aria-label="Close" onclick="resetEditFormAndCloseModal()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="editForm">
+                    <input type="hidden" id="editId" name="id">
+                    <div class="form-group">
+                        <label for="editWhiteLabel">White Label</label>
+                        <input type="text" class="form-control" id="editWhiteLabel" name="white_label" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editCreditReff">Credit Reff</label>
+                        <input type="text" class="form-control" id="editCreditReff" name="credit_reff" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editSettlingPoint">Settling Point</label>
+                        <input type="text" class="form-control" id="editSettlingPoint" name="settling_point" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editPrice">Price</label>
+                        <input type="text" class="form-control" id="editPrice" name="price" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="resetEditForm()">Close</button>
+                <button type="button" class="btn btn-primary" onclick="updateMasterSettling()">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 <script>
-    $(document).ready(function() {
-        const userTable = $('#customerTable').DataTable({
-            pagingType: "full_numbers"
-            , language: {
-                paginate: {
-                    first: '«'
-                    , last: '»'
-                    , next: '›'
-                    , previous: '‹'
-                }
-            }
-            , lengthMenu: [5, 10, 25, 50]
-            , pageLength: 10
-        });
-    });
+    function resetEditFormAndCloseModal() {
+        $('#editForm')[0].reset(); // Clear form fields
+        $('#editModal').modal('hide'); // Close modal
+    }
+
+    function resetEditForm() {
+        $('#editForm')[0].reset(); // Clear form fields
+    }
 
     function deleteMasterSettling(button, id) {
         const row = $(button).closest('tr');
-        const table = $('#customerTable').DataTable();
+        const table = $('#masterSettlingTable').DataTable();
 
-        if (!confirm('Are you sure you want to delete this Customer?')) {
+        if (!confirm('Are you sure you want to delete this Master Settling?')) {
             return;
         }
 
         $.ajax({
-            url: "{{ route('admin.customer.destroy') }}"
-            , method: "POST"
-            , data: {
-                id: id
-                , _token: '{{ csrf_token() }}'
-            }
-            , success: function(response) {
+            url: "{{ route('admin.master_settling.destroy') }}",
+            method: "POST",
+            data: {
+                id: id,
+                _token: '{{ csrf_token() }}'
+            },
+            success: function(response) {
                 if (response.success) {
                     table.row(row).remove().draw();
-                    alert(response.message); // Consider replacing this with a toast notification
+                    alert(response.message);
                 } else {
                     alert(response.message || 'Failed to delete the Master Settling.');
                 }
-            }
-            , error: function(xhr) {
+            },
+            error: function(xhr) {
                 console.error(xhr.responseText);
                 alert('Error: ' + xhr.status + ' - ' + xhr.statusText);
             }
         });
     }
 
+    function openEditModal(masterSettling) {
+        $('#editId').val(masterSettling.id);
+        $('#editWhiteLabel').val(masterSettling.white_label);
+        $('#editCreditReff').val(masterSettling.credit_reff);
+        $('#editSettlingPoint').val(masterSettling.settling_point);
+        $('#editPrice').val(masterSettling.price);
+        $('#editModal').modal('show');
+    }
+
+    function updateMasterSettling() {
+        const id = $('#editId').val();
+        const data = {
+            id: id,
+            white_label: $('#editWhiteLabel').val(),
+            credit_reff: $('#editCreditReff').val(),
+            settling_point: $('#editSettlingPoint').val(),
+            price: $('#editPrice').val(),
+            _token: '{{ csrf_token() }}'
+        };
+
+        $.ajax({
+            url: "{{ route('admin.master_settling.update') }}",
+            method: "POST",
+            data: data,
+            success: function(response) {
+                if (response.success) {
+                    const table = $('#masterSettlingTable').DataTable();
+                    alert(response.message);
+                    resetEditFormAndCloseModal(); // Reset form and close modal
+                } else {
+                    alert(response.message || 'Failed to update the Master Settling.');
+                }
+            },
+            error: function(xhr) {
+                let errorMessage = 'An error occurred.';
+
+                if (xhr.responseJSON && xhr.responseJSON.errors) {
+                    errorMessage = Object.values(xhr.responseJSON.errors).flat().join('\n');
+                } else if (xhr.responseJSON && xhr.responseJSON.message) {
+                    errorMessage = xhr.responseJSON.message;
+                } else {
+                    errorMessage = `Error: ${xhr.status} - ${xhr.statusText}`;
+                }
+                alert(errorMessage);
+            }
+        });
+    }
 </script>
-
-
 @endsection
-

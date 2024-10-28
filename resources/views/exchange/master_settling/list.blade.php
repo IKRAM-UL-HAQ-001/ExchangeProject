@@ -83,7 +83,7 @@
                             <input type="number" class="form-control border" id="price" name="price" placeholder="Enter Price" required>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" -d="closeModalButton">Close</button>
                             <button type="button" class="btn btn-primary" id="submitMasterSettlingEntry">Submit</button>
                         </div>
                     </form>
@@ -130,20 +130,31 @@
             },
             success: function(response) {
                 if (response.message) {
+                    $('#error').hide();
                     $('#success').text(response.message).show();
-                    $('#addMasterSettlingModal').modal('hide');
                     $('#masterSettlingForm')[0].reset(); // Reset the form
-                    location.reload(); // Reload the DataTable to reflect new data
+                    setTimeout(() => {
+                        $('#success').hide();
+                        }, 2000); // Reload the DataTable to reflect new data
                 }else {
                     // Handle errors returned from server
-                    $('#error').text(response.message).show();
                     $('#success').hide();
+                    $('#error').text(response.message).show();
                 }
             },
             error: function(xhr) {
-                $('#error').text(xhr.responseJSON.message || 'An error occurred while adding the master settling.').show();
+                const errorMessage = xhr.responseJSON?.message;
+                $('#error').text('Please Fill The All The Fields').show();
+                $('#success').hide();
+                setTimeout(() => {
+                        $('#error').hide();
+                        }, 2000);
             }
         });
+    });
+    $('#closeModalButton').on('click', function() {
+        cashForm[0].reset();
+        location.reload();
     });
 </script>
 @endsection

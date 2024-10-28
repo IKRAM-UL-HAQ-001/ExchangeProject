@@ -48,6 +48,12 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
+                    <div class="alert alert-success text-white" id='success' style="display:none;">
+                        {{ session('success') }}
+                    </div>
+                    <div class="alert alert-danger text-white" id='error' style="display:none;">
+                        {{ session('error') }}
+                    </div>
                     <form id="addBankForm" method="post" action="">
                         <div class="mb-3">
                             <label for="name" class="form-label">Bank Name</label>

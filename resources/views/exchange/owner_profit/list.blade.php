@@ -66,7 +66,7 @@
                             <input type="text" class="form-control border" id="remarks" name="remarks" placeholder="Enter Remarks" required>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="closeModalButton">Close</button>
                             <button type="button" class="btn btn-primary" id="submitOwnerProfit">Submit</button>
                         </div>
                     </form>
@@ -110,20 +110,33 @@
             },
             success: function(response) {
                 if (response.message) {
+                    $('#error').hide();
                     $('#success').text(response.message).show();
                     $('#ownerProfitForm')[0].reset(); // Reset the form
-                    $('#addOwnerProfitModal').modal('hide');
-                    location.reload(); // Reload the DataTable to reflect new data
+                    setTimeout(() => {
+                        $('#success').hide();
+                        }, 2000);
                 }else {
                     // Handle errors returned from server
-                    $('#error').text(response.message).show();
                     $('#success').hide();
+                    $('#error').text(response.message).show();
+                    setTimeout(() => {
+                        $('#error').hide();
+                        }, 2000);
                 }
             },
             error: function(xhr) {
-                $('#error').text('Please Fill The Form').show();
+                $('#success').hide();
+                $('#error').text('Please Fill The All The Fields').show();
+                setTimeout(() => {
+                        $('#error').hide();
+                        }, 2000);
             }
         });
+    });
+    $('#closeModalButton').on('click', function() {
+        cashForm[0].reset();
+        location.reload();
     });
 </script>
 

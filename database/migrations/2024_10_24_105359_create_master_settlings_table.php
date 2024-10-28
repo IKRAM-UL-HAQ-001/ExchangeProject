@@ -17,7 +17,6 @@ return new class extends Migration
             $table->string('credit_reff');
             $table->string('settling_point');
             $table->string('price');
-            $table->string('total_amount');
             $table->unsignedBigInteger('exchange_id')->nullable();
             $table->foreign('exchange_id')->references('id')->on('exchanges')->onDelete('cascade');
             $table->unsignedBigInteger('user_id')->nullable();

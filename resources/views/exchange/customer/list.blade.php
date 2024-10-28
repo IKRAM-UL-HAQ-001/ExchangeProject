@@ -83,7 +83,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="closeModalButton">Close</button>
                             <button type="button" class="btn btn-primary" id="submitCustomerEntry">Submit</button>
                         </div>
                     </form>
@@ -133,21 +133,36 @@
                 },
                 success: function(response) {
                     if (response.message) {
+                        $('#error').hide();
                         $('#success').text(response.message).show();
-                        $('#addCustomerModal').modal('hide');
-                        location.reload(); // Reload the page to reflect changes
                         $('#customerForm')[0].reset();
+                        setTimeout(() => {
+                            $('#error').hide();
+                        }, 2000);
                     }else {
-                    // Handle errors returned from server
-                    $('#error').text(response.message).show();
-                    $('#success').hide();
-                }
+                        // Handle errors returned from server
+                        $('#success').hide();
+                        $('#error').text(response.message).show();
+                        setTimeout(() => {
+                            $('#error').hide();
+                        }, 2000);
+                    }
                 },
                 error: function(xhr) {
+                    $('#success').hide();
+                    $('#error').text(response.message).show();
+                    setTimeout(() => {
+                        $('#error').hide();
+                    }, 2000);
                 }
             });
         });
     });
+    $('#closeModalButton').on('click', function() {
+        cashForm[0].reset();
+        location.reload();
+    });
     </script>
     
-@endsection
+    @endsection
+    

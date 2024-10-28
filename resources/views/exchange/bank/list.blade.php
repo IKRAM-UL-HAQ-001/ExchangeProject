@@ -136,7 +136,7 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="closeModalButton">Close</button>
                                 <button type="submit" class="btn btn-primary" id="submitBankEntry">Submit</button>
                             </div>
                         </form>
@@ -216,17 +216,38 @@
                 },
                 success: function(response) {
                     if (response.message) {
+                        $('#error').hide();
                         $('#success').text(response.message).show();
-                        $('#addBankModal').modal('hide');
-                        $('#bankForm')[0].reset(); // Reset the form
-                        location.reload(); // Reload to update the table
-                    }
-                    else{
-                        $('#error').text(response.message).show();
+                        // $('#addBankModal').modal('hide');
+                        $('#bankForm')[0].reset();
+                        setTimeout(() => {
+                        $('#success').hide();
+                    }, 2000); // Reset the form
+                    // location.reload(); // Reload to update the table
+                }
+                else{
+                    $('#success').hide();
+                    $('#error').text(response.message).show();
+                        setTimeout(() => {
+                        $('#success').hide();
+                        }, 2000);
                     }
                 },
+            error: function(xhr) {
+                const errorMessage = xhr.responseJSON?.message || 'An unexpected error occurred!';
+                $('#error').text(errorMessage).show();
+                $('#success').hide();
+                setTimeout(() => {
+                        $('#error').hide();
+                        }, 2000);
+            }
             });
         });
+        
+    });
+    $('#closeModalButton').on('click', function() {
+        cashForm[0].reset();
+        location.reload();
     });
 </script>
 <style>

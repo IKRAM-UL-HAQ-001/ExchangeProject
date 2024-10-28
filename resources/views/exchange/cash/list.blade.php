@@ -97,7 +97,15 @@
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
+                                <div class="form-group" id="remarks">
+                                    <label for="remarks">Remarks <span class="text-pink">(optional)</span></label>
+                                    <input type="text" class="form-control border" name="remarks" placeholder="Enter Remarks if any">
+                                    @error('remarks')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
                             </div>
+                           
 
                             <div class="col-lg-6">
                                 <div class="form-group" id="customer_name" style="display: none;">
@@ -118,30 +126,29 @@
 
                                 <div class="form-group" id="payment-type-field" style="display: none;">
                                     <label>Payment Type<span class="text-danger">*</span></label>
-                                    @foreach(['google_pay', 'phone_pay', 'imps', 'neft', 'i20_pay'] as $payment)
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="payment_type" required>
-                                            <label class="form-check-label">{{ ucfirst(str_replace('_', ' ', $payment)) }}</label>
+                                    <div class="row">
+                                        @foreach(['google_pay', 'phone_pay', 'imps', 'neft', 'i20_pay'] as $index => $payment)
+                                        <div class="col-md-6">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="payment_type" id="payment_{{ $payment }}" value="{{ $payment }}">
+                                                <label class="form-check-label" for="payment_{{ $payment }}">
+                                                    {{ ucfirst(str_replace('_', ' ', $payment)) }}
+                                                </label>
+                                            </div>
                                         </div>
-                                    @endforeach
+                                        @endforeach
+                                    </div>
                                     @error('payment_type')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
 
-                                <div class="form-group" id="remarks">
-                                    <label for="remarks">Remarks <span class="text-pink">(optional)</span></label>
-                                    <input type="text" class="form-control border" name="remarks" placeholder="Enter Remarks if any">
-                                    @error('remarks')
-                                        <div class="text-danger">{{ $message }}</div>
-                                    @enderror
-                                </div>
+                                
                             </div>
                         </div>
-
-                        <div class="form-group row">
-                            <div class="col-lg-8 ml-auto">
-                                <button type="button" class="btn btn-secondary" id="closeModalButton">Close</button>
+                        <div class="form-group row mb-3 col-lg-12 mt-2 ">
+                            <div class="col-lg-12 ml-auto pt-3 d-flex flex-row gap-3 justify-content-end">
+                                <button type="button" class=" btn btn-dark" data-bs-dismiss="modal" aria-label="Close" id="closeModalButton">Close</button>
                                 <button type="submit" class="btn btn-primary">Submit</button>
                             </div>
                         </div>
@@ -156,76 +163,96 @@
 <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 <script>
     $(document).ready(function() {
-        $('#cashTable').DataTable({
-            pagingType: "full_numbers",
-            language: {
-                paginate: {
-                    first: '«',
-                    last: '»',
-                    next: '›',
-                    previous: '‹'
-                }
-            },
-            lengthMenu: [5, 10, 25, 50],
-            pageLength: 10
-        });
+    $('#cashTable').DataTable({
+        pagingType: "full_numbers",
+        language: {
+            paginate: {
+                first: '«',
+                last: '»',
+                next: '›',
+                previous: '‹'
+            }
+        },
+        lengthMenu: [5, 10, 25, 50],
+        pageLength: 10
+    });
 
-        const cashTypeSelect = $('#cash_type');
-        const cashForm = $('#cashForm');
+    const cashTypeSelect = $('#cash_type');
+    const cashForm = $('#cashForm');
 
-        function toggleFields() {
-            const cashType = cashTypeSelect.val();
-            $('#reference_number').toggle(cashType === 'deposit');
-            $('#customer_name').toggle(cashType === 'withdrawal' || cashType === 'deposit');
-            $('#bonus-amount-field').toggle(cashType === 'deposit');
-            $('#payment-type-field').toggle(cashType === 'deposit');
-            $('#remarks').toggle(cashType !== '');
+    function toggleFields() {
+        const cashType = cashTypeSelect.val();
+
+        // Hide all optional fields by default
+        $('#reference_number').hide();
+        $('#customer_name').hide();
+        $('#bonus-amount-field').hide();
+        $('#payment-type-field').hide();
+        $('#remarks').hide();
+        $('#cash_amount').hide();
+        
+        // Show fields conditionally based on selected cash type
+        if (cashType === 'deposit') {
+            $('#reference_number').show();
+            $('#customer_name').show();
+            $('#bonus-amount-field').show();
+            $('#payment-type-field').show();
+        } else if (cashType === 'withdrawal') {
+            $('#customer_name').show();
+        } 
+
+        // Remarks should be shown for all types except the default
+        if (cashType) {
+            $('#remarks').show();
             $('#cash_amount').show();
         }
+    }
 
-        toggleFields();
+    // Call the function initially and on every change
+    toggleFields();
+    cashTypeSelect.on('change', toggleFields);
 
-        cashTypeSelect.on('change', toggleFields);
-
-        // Handle form submission
-        cashForm.on('submit', function (e) {
+    // Handle form submission
+    cashForm.on('submit', function(e) {
         e.preventDefault(); // Prevent default form submission
 
         $.ajax({
             url: cashForm.attr('action'),
             type: 'POST',
             data: cashForm.serialize(),
-            success: function (response) {
+            success: function(response) {
                 if (response.success) {
-                    // Display success message
+                    $('#error').hide();
                     $('#success').text(response.message).show();
                     cashForm[0].reset();
-                    $('#error').hide(); // Hide any error message
-
-                    // Close modal and reset form
-                    $('#cashTransactionModal').modal('hide');
-                    cashForm[0].reset();
-                    location.reload(); // Reload the page to update the table
+                    setTimeout(() => {
+                        $('#success').hide();
+                        }, 2000);
                 } else {
-                    // Handle errors returned from server
                     $('#error').text(response.message).show();
                     $('#success').hide();
+                    setTimeout(() => {
+                        $('#error').hide();
+                        }, 2000);
                 }
             },
-            error: function (xhr) {
-                // Handle server errors
+            error: function(xhr) {
                 const errorMessage = xhr.responseJSON?.message || 'An unexpected error occurred!';
                 $('#error').text(errorMessage).show();
                 $('#success').hide();
+                setTimeout(() => {
+                        $('#error').hide();
+                        }, 2000);
             }
         });
     });
 
-        // Close modal and reset form
-        $('#closeModalButton').on('click', function() {
-            cashForm[0].reset();
-        });
+    $('#closeModalButton').on('click', function() {
+        cashForm[0].reset();
+        location.reload();
     });
+});
+
 </script>
 
 @endsection
