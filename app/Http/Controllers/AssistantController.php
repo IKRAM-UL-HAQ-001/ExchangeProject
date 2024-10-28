@@ -126,10 +126,10 @@ class AssistantController extends Controller
                 ->distinct('id')
                 ->count('id');
             
-            $totalAmountAdd = BankBalance::where('cash_type', 'add')
+            $totalAmountAdd = BankEntry::where('cash_type', 'add')
                 ->sum('cash_amount');
 
-            $totalAmountSubtract = BankBalance::where('cash_type', 'minus')
+            $totalAmountSubtract = BankEntry::where('cash_type', 'minus')
                 ->sum('cash_amount');
 
             $totalBankBalance = $totalAmountAdd - $totalAmountSubtract;

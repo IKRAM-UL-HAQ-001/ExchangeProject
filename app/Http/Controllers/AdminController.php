@@ -33,7 +33,7 @@ class AdminController extends Controller
             
             $totalOpenCloseBalanceDaily = 0;
             $totalOpenCloseBalanceMonthly = 0;
-            
+
             if ($entriesDaily->count() === 1) {
                 $entry = $entriesDaily->first();
                 $totalOpenCloseBalanceDaily = $entry->open_balance + $entry->close_balance;
@@ -128,10 +128,10 @@ class AdminController extends Controller
                 ->distinct('id')
                 ->count('id');
             
-            $totalAmountAdd = BankBalance::where('cash_type', 'add')
+            $totalAmountAdd = BankEntry::where('cash_type', 'add')
                 ->sum('cash_amount');
 
-            $totalAmountSubtract = BankBalance::where('cash_type', 'minus')
+            $totalAmountSubtract = BankEntry::where('cash_type', 'minus')
                 ->sum('cash_amount');
 
             $totalBankBalance = $totalAmountAdd - $totalAmountSubtract;
