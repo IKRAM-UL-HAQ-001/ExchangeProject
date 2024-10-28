@@ -8,9 +8,7 @@
                     <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
                         <p style="color: white;"><strong>Bank Balance Table</strong></p>
                         <div>
-                            <a href="{{ route('export.bankBalanceList') }}" class="btn btn-dark">Bank Balance Excel</a>
-                            <a href="{{ route('admin.bank_user.list') }}" class="btn btn-dark">Bank User</a>
-                            <a href="{{ route('admin.bank.list') }}" class="btn btn-dark">Bank</a>
+                        <a href="{{ route('export.bankBalanceList') }}" class="btn btn-dark">Bank Balance Excel</a>
                         </div>
                     </div>
                 </div>

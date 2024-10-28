@@ -9,8 +9,6 @@
                         <p style="color: white;"><strong>Bank Table</strong></p>
                         <div>
                             <a href="{{ route('export.bank') }}" class="btn btn-dark">Export Bank List</a>
-                            <a href="{{ route('admin.bank_user.list') }}" class="btn btn-dark">Bank User</a>
-                            <a href="{{ route('admin.bank_balance.list') }}" class="btn btn-dark">Bank Balance</a>
                             <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#addBankModal">Add New Bank</button>
                         </div>
                     </div>

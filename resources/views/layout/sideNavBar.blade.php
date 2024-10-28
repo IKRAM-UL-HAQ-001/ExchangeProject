@@ -52,21 +52,42 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white {{ request()->is('admin/bank') ? 'active bg-gradient-primary' : '' }}" href="{{route('admin.bank.list')}}">
-                            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                                <i class="material-icons opacity-10">account_balance</i>
-                            </div>
-                            <span class="nav-link-text ms-1">Bank</span>
-                        </a>
-                    </li>
-                    <!-- <li class="nav-item">
-                        <a class="nav-link text-white {{ request()->is('admin/bankUser') ? 'active bg-gradient-primary' : '' }}" href="{{route('admin.bank_user.list')}}">
-                            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                                <i class="material-icons opacity-10">person</i>
-                            </div>
-                            <span class="nav-link-text ms-1">Bank User</span>
-                        </a>
-                    </li> -->
+    <a class="nav-link text-white {{ request()->is('admin/bank*') ? 'active bg-gradient-primary' : '' }}" href="#bankSubMenu" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+            <i class="material-icons opacity-10">account_balance</i>
+        </div>
+        <span class="nav-link-text ms-1">Bank List</span>
+    </a>
+    <div class="collapse" id="bankSubMenu">
+        <ul class="nav flex-column ms-3">
+            <li class="nav-item">
+                <a class="nav-link text-white {{ request()->is('admin/bank') ? 'active bg-gradient-primary' : '' }}" href="{{ route('admin.bank.list') }}">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="material-icons opacity-10">account_balance</i>
+                    </div>
+                    <span class="nav-link-text ms-1">Bank</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white {{ request()->is('admin/bankUser') ? 'active bg-gradient-primary' : '' }}" href="{{ route('admin.bank_user.list') }}">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="material-icons opacity-10">person</i>
+                    </div>
+                    <span class="nav-link-text ms-1">Bank User</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white {{ request()->is('admin/bankBalance') ? 'active bg-gradient-primary' : '' }}" href="{{ route('admin.bank_balance.list') }}">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="material-icons opacity-10">account_balance_wallet</i>
+                    </div>
+                    <span class="nav-link-text ms-1">Bank Balance</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</li>
+
                     <li class="nav-item">
                         <a class="nav-link text-white {{ request()->is('admin/deposit-withdrawal') ? 'active bg-gradient-primary' : '' }}" href="{{route('admin.deposit_withdrawal.list')}}">
                             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -91,14 +112,7 @@
                             <span class="nav-link-text ms-1">Master Settling</span>
                         </a>
                     </li>
-                    <!-- <li class="nav-item">
-                        <a class="nav-link text-white {{ request()->is('admin/bankBalance') ? 'active bg-gradient-primary' : '' }}" href="{{route('admin.bank_balance.list')}}">
-                            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                                <i class="material-icons opacity-10">account_balance_wallet</i>
-                            </div>
-                            <span class="nav-link-text ms-1">Bank Balance</span>
-                        </a>
-                    </li> -->
+
                     <li class="nav-item">
                         <a class="nav-link text-white {{ request()->is('admin/customer') ? 'active bg-gradient-primary' : '' }}" href="{{route('admin.customer.list')}}">
                             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
