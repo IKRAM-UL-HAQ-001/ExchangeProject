@@ -25,9 +25,9 @@ class AdminController extends Controller
             $today = Carbon::today();
             $currentMonth = Carbon::now()->month;
             $currentYear = Carbon::now()->year;
-            
-            $totalOpenCloseBalanceDaily = 0;
 
+            $entries = OpenCloseBalance::whereDate('created_at', $today)->get();
+            $totalOpenCloseBalanceDaily = 0;
             if ($entries->count() === 1) {
                 $entry = $entries->first();
                 $totalOpenCloseBalanceDaily = $entry->open_balance + $entry->close_balance;
