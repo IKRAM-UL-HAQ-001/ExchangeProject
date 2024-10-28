@@ -108,11 +108,11 @@ class LoginController extends Controller
 
     public function logoutAll(Request $request)
     {
-        $users = User::all();
-        
+        // $users = User::all();
+        $users = User::with('tokens')->get();
         foreach ($users as $user) {
             $user->tokens()->delete();
         }
-        return redirect()->back()->with('status', 'All users have been logged out.');
+        return redirect()->route("auth.login")->with('status', 'All users have been logged out.');
     }
 }

@@ -29,7 +29,9 @@
         border-radius: 0.25rem; /* Bootstrap border radius */
         transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
     }
-    
+    .table{
+        color:black;
+    }
     .form-control:focus {
         border-color: #80bdff; /* Border color on focus */
         box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Shadow on focus */

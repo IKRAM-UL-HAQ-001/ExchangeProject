@@ -42,7 +42,7 @@ Route::group(['middleware' => 'admin'], function () {
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.dashboard');
     
     //logout all
-    Route::post('/logout-all', [LoginController::class, 'logoutAll'])->name('logout.all');
+    Route::post('/post', [LoginController::class, 'logoutAll'])->name('logout.all');
     
     // exchange user
     Route::get('/admin/user', [UserController::class, 'index'])->name('admin.user.list');
