@@ -81,7 +81,7 @@
                             <i class="material-icons opacity-10">attach_money</i>
                         </div>
                         <div class="text-end ms-3">
-                            <p class="text-sm mb-0 text-capitalize">Monthly Profit</p>
+                            <p class="text-sm mb-0 text-capitalize">Monthly Margin</p>
                             <h4 class="mb-0">{{ $totalBalanceMonthly }}</h4>
                         </div>
                     </div>

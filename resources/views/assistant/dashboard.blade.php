@@ -31,7 +31,7 @@
         </div>
 
         @foreach ([
-            ['Today Profit', $totalBalanceDaily, 'bg-gradient-success', 'attach_money'],
+            ['Today Margin', $totalBalanceDaily, 'bg-gradient-success', 'attach_money'],
             ['Total Deposit', $totalDepositDaily, 'bg-gradient-info', 'arrow_upward'],
             ['Total Withdrawal', $totalWithdrawalDaily, 'bg-gradient-warning', 'arrow_downward'],
             ['Total Expense', $totalExpenseDaily, 'bg-gradient-danger', 'money_off'],
@@ -82,7 +82,7 @@
                             <i class="material-icons opacity-10">attach_money</i> <!-- Monthly Profit -->
                         </div>
                         <div class="text-end ms-3">
-                            <p class="text-sm mb-0 text-capitalize">Monthly Profit</p>
+                            <p class="text-sm mb-0 text-capitalize">Monthly Margin</p>
                             <h4 class="mb-0">{{ $totalBalanceMonthly }}</h4>
                         </div>
                     </div>
