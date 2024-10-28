@@ -51,7 +51,7 @@ class AssistantController extends Controller
                     $totalOpenCloseBalanceDaily += $entry->close_balance;
                 }
             }
-            
+
             if ($entriesMonth->count() === 1) {
                 $entry = $entriesMonth->first();
                 $totalOpenCloseBalanceMonthly = $entry->open_balance + $entry->close_balance;
@@ -141,11 +141,12 @@ class AssistantController extends Controller
             $totalExchanges = Exchange::count();
             return view('/assistant.dashboard',compact('totalUsers','totalExchanges',
                 'totalBalanceMonthly','totalDepositMonthly','totalWithdrawalMonthly',
-                'totalExpenseMonthly','totalMasterSettlingMonthly',
+                'totalExpenseMonthly','totalMasterSettlingMonthly','totalOpenCloseBalanceMonthly',
                 'totalBonusMonthly','totalOldCustomersMonthly','totalOwnerProfitMonthly',
                 'totalCustomerMonthly','totalBalanceDaily','totalDepositDaily',
                 'totalWithdrawalDaily','totalExpenseDaily','totalBonusDaily','totalOldCustomersDaily',
                 'totalOwnerProfitDaily','totalCustomerDaily','totalBankBalance','totalOpenCloseBalanceDaily',
+
             ));
         }   
     }

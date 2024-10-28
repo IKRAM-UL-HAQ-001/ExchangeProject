@@ -172,7 +172,7 @@ class ExchangeController extends Controller
                 
                 'totalBalanceMonthly','totalDepositMonthly','totalWithdrawalMonthly','totalExpenseMonthly',
                 'totalMasterSettlingMonthly','totalBonusMonthly','customerCountMonthly','totalNewCustomerMonthly',
-                'totalOwnerProfitMonthly'
+                'totalOwnerProfitMonthly','totalOpenCloseBalanceMonthly',
             ));
         }
     }
