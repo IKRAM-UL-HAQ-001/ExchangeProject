@@ -26,6 +26,23 @@ class AdminController extends Controller
             $currentMonth = Carbon::now()->month;
             $currentYear = Carbon::now()->year;
             
+            $totalOpenCloseBalanceDaily = 0;
+
+            if ($entries->count() === 1) {
+                $entry = $entries->first();
+                $totalOpenCloseBalanceDaily = $entry->open_balance + $entry->close_balance;
+            } else {
+                // If there are multiple entries, sum the closing balances
+                foreach ($entries as $entry) {
+                    // If it's the first entry, add its opening balance
+                    if ($totalOpenCloseBalanceDaily === 0) {
+                        $totalOpenCloseBalanceDaily += $entry->open_balance;
+                    }
+                    // Always add the closing balance
+                    $totalOpenCloseBalanceDaily += $entry->close_balance;
+                }
+            }
+
             $totalDepositDaily = Cash::where('cash_type', 'deposit')
                 ->whereDate('created_at', $today)
                 ->sum('cash_amount');
@@ -109,7 +126,7 @@ class AdminController extends Controller
                 'totalBonusMonthly','totalOldCustomersMonthly','totalOwnerProfitMonthly',
                 'totalCustomersMonthly','totalBalanceDaily','totalDepositDaily',
                 'totalWithdrawalDaily','totalExpenseDaily','totalBonusDaily','totalOldCustomersDaily',
-                'totalOwnerProfitDaily','totalCustomersDaily','totalBankBalance',
+                'totalOwnerProfitDaily','totalCustomersDaily','totalBankBalance','totalOpenCloseBalanceDaily',
             ));
         }   
     }    

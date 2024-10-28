@@ -41,20 +41,20 @@ class ExchangeController extends Controller
             ->whereDate('created_at', $today)
             ->get();
         
-            $totalOpenCloseBalance = 0;
+            $totalOpenCloseBalanceDaily = 0;
             
             if ($entries->count() === 1) {
                 $entry = $entries->first();
-                $totalOpenCloseBalance = $entry->open_balance + $entry->close_balance;
+                $totalOpenCloseBalanceDaily = $entry->open_balance + $entry->close_balance;
             } else {
                 // If there are multiple entries, sum the closing balances
                 foreach ($entries as $entry) {
                     // If it's the first entry, add its opening balance
-                    if ($totalOpenCloseBalance === 0) {
-                        $totalOpenCloseBalance += $entry->open_balance;
+                    if ($totalOpenCloseBalanceDaily === 0) {
+                        $totalOpenCloseBalanceDaily += $entry->open_balance;
                     }
                     // Always add the closing balance
-                    $totalOpenCloseBalance += $entry->close_balance;
+                    $totalOpenCloseBalanceDaily += $entry->close_balance;
                 }
             }
 
