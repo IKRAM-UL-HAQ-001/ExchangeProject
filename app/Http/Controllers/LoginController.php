@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Login;
+use App\Models\User;
 use App\Models\Exchange;
 use App\Models\BankUser;
 use Illuminate\Http\Request;
