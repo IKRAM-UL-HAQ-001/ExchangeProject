@@ -110,7 +110,10 @@ Route::group(['middleware' => 'assistant'], function () {
     Route::get('/assistant', [AssistantController::class, 'index'])->name('assistant.dashboard');
 
     // deposit withdrawal
-    Route::get('/assistant/deposit-withdrawal', [DepositWithdrawalController::class, 'indexAssistant'])->name('assistant.deposit_withdrawal.list');
+    Route::get('/assistant/deposit-withdrawal', [DepositWithdrawalController::class, 'assistantIndex'])->name('assistant.deposit_withdrawal.list');
+ 
+    //expense
+    Route::get('/assistant/expense', [ExpenseController::class, 'assistantIndex'])->name('assistant.expense.list');
     
     //Master Settling
     Route::get('/assistant/masterSettling', [MasterSettlingController::class, 'indexAssistant'])->name('assistant.master_settling.list');

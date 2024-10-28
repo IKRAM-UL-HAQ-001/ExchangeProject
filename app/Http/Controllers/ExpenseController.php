@@ -39,6 +39,18 @@ class ExpenseController extends Controller
         }
     }
 
+    public function assistantIndex()
+    {
+        if (!auth()->check()) {
+            return redirect()->route('auth.login');
+        }
+        else{
+            $expenseRecords = Cash::with(['exchange', 'user'])
+            ->get();
+            return view('assistant.expense.list',compact('expenseRecords'));
+        }
+    }
+
     /**
      * Show the form for creating a new resource.
      */
