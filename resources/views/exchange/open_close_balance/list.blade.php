@@ -139,7 +139,7 @@ $(document).ready(function () {
                     setTimeout(() => {
                         $('#success').hide();
                         }, 2000);
-
+                        location.reload();
                     // Close modal after a slight delay for better UX
                 } else {
                     // Display the error message from the response

@@ -223,7 +223,7 @@
                         setTimeout(() => {
                         $('#success').hide();
                     }, 2000); // Reset the form
-                    // location.reload(); // Reload to update the table
+                     location.reload(); // Reload to update the table
                 }
                 else{
                     $('#success').hide();

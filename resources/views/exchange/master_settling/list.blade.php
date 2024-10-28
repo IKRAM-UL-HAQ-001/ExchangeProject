@@ -135,7 +135,8 @@
                     $('#masterSettlingForm')[0].reset(); // Reset the form
                     setTimeout(() => {
                         $('#success').hide();
-                        }, 2000); // Reload the DataTable to reflect new data
+                        }, 2000);
+                        location.reload(); // Reload the DataTable to reflect new data
                 }else {
                     // Handle errors returned from server
                     $('#success').hide();

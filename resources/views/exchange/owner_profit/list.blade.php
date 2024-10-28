@@ -123,6 +123,7 @@
                     setTimeout(() => {
                         $('#error').hide();
                         }, 2000);
+                        location.reload();
                 }
             },
             error: function(xhr) {
