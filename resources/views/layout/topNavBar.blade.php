@@ -43,19 +43,22 @@
                       </a>
                     </li>
                     <li class="mb-2">
-                      <a class="dropdown-item border-radius-md" href="{{route('logout.all')}}">
-                        <div class="d-flex py-1">
-                          <div class="my-auto">
-                            <img src="../assets/img/logout.svg" class="avatar-sm  me-3 ">
-                          </div>
-                          <div class="d-flex flex-column justify-content-center">
-                            <h6 class="text-sm font-weight-normal mb-1">
-                              <span class="font-weight-bold">Logout All Users</span>
-                            </h6>
-                          </div>
-                        </div>
-                      </a>
-                    </li>
+                      <form action="{{ route('logout.all') }}" method="POST" class="d-inline">
+                          @csrf
+                          <button type="submit" class="dropdown-item border-radius-md" style="border: none; background: none; padding: 0;">
+                              <div class="d-flex py-1">
+                                  <div class="my-auto">
+                                      <img src="../assets/img/logout.svg" class="avatar-sm me-3">
+                                  </div>
+                                  <div class="d-flex flex-column justify-content-center">
+                                      <h6 class="text-sm font-weight-normal mb-1">
+                                          <span class="font-weight-bold">Logout All Users</span>
+                                      </h6>
+                                  </div>
+                              </div>
+                          </button>
+                      </form>
+                  </li>
                   @endif
                 @endif
                 <li class="mb-2">
