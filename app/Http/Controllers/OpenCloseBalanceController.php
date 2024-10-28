@@ -69,7 +69,7 @@ class OpenCloseBalanceController extends Controller
             return response()->json(['message' => 'Unauthorized'], 401);
         } else {
             $user = Auth::user();
-            $exchangeId = $user->exchange_id;
+            $exchangeId = $user->exchange_id;  
             $userId = $user->id;
             $validatedData = $request->validate([
                 'open_balance' => 'required|numeric|min:0',
@@ -86,9 +86,9 @@ class OpenCloseBalanceController extends Controller
                     'user_id' => $userId,
                 ]);
 
-                return response()->json(['success' => true, 'message' => 'Transaction successfully added!']);
+                return response()->json(['success' => true, 'message' => 'Opening Closing Balance saved successfully!']);
             } catch (\Exception $e) {
-                return response()->json(['message' => true, 'message' => 'An error occurred while saving data:']);
+                return response()->json(['success' => false, 'message' => 'An error occurred: ' . $e->getMessage()], 500);
             }
         }
     }
