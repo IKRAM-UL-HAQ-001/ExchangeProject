@@ -32,7 +32,7 @@ class BankBalanceController extends Controller
             return redirect()->route('auth.login');
         }
         else{
-            $bankBalanceRecords = BankEntry::all();
+            $bankBalanceRecords = BankEntry::with(['user', 'exchange'])->get();
             return view("admin.bank_balance.list",compact('bankBalanceRecords'));
         }
 

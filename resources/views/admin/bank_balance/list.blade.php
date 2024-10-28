@@ -30,9 +30,9 @@
                             <tbody>
                                 @foreach($bankBalanceRecords as $bankBalance)
                                 <tr>
-                                    <td>{{ $bankBalance->user->name }}</td>
-                                    <td>{{ $bankBalance->exchange->name }}</td>
-                                    <td>{{ $bankBalance->name }}</td>
+                                    <td>{{ $bankBalance->user->name ?? 'N/A' }}</td>
+                                    <td>{{ $bankBalance->exchange->name ?? 'N/A' }}</td> 
+                                    <td>{{ $bankBalance->bank_name ?? 'N/A' }}
                                     <td>{{ $bankBalance->account_number }}</td>
                                     <td>{{ $bankBalance->cash_amount }}</td>
                                     <td>{{ $bankBalance->cash_type }}</td>

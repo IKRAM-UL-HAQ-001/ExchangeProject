@@ -18,4 +18,9 @@ class BankBalance extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function Bank()
+    {
+        return $this->belongsTo(BankEntry::class);
+    }
 }

@@ -68,83 +68,78 @@
                     <form id="cashForm" action="{{ route('exchange.cash.store') }}" method="post">
                         @csrf
                         <div class="row">
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    <label for="cash_type">Cash Type<span class="text-danger">*</span></label>
-                                    <select class="form-control border px-3" id="cash_type" name="cash_type" required>
-                                        <option disabled selected>Choose Cash Type</option>
-                                        <option value="deposit" {{ old('cash_type') == 'deposit' ? 'selected' : '' }}>Deposit</option>
-                                        <option value="withdrawal" {{ old('cash_type') == 'withdrawal' ? 'selected' : '' }}>Withdrawal</option>
-                                        <option value="expense" {{ old('cash_type') == 'expense' ? 'selected' : '' }}>Expense</option>
-                                    </select>
-                                    @error('cash_type')
-                                        <div class="text-danger">{{ $message }}</div>
-                                    @enderror
-                                </div>
-
-                                <div class="form-group" id="reference_number" style="display: none;">
-                                    <label for="reference_number">Reference Number<span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control border" name="reference_number" placeholder="Enter Reference Number" >
-                                    @error('reference_number')
-                                        <div class="text-danger">{{ $message }}</div>
-                                    @enderror
-                                </div>
-
-                                <div class="form-group" id="cash_amount">
-                                    <label for="cash_amount">Amount<span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control border" name="cash_amount" placeholder="Enter Cash Amount" required>
-                                    @error('cash_amount')
-                                        <div class="text-danger">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                                <div class="form-group" id="remarks">
-                                    <label for="remarks">Remarks <span class="text-pink">(optional)</span></label>
-                                    <input type="text" class="form-control border" name="remarks" placeholder="Enter Remarks if any">
-                                    @error('remarks')
-                                        <div class="text-danger">{{ $message }}</div>
-                                    @enderror
-                                </div>
+                            <div class="form-group">
+                                <label for="cash_type">Cash Type<span class="text-danger">*</span></label>
+                                <select class="form-control border px-3" id="cash_type" name="cash_type" required>
+                                    <option disabled selected>Choose Cash Type</option>
+                                    <option value="deposit" {{ old('cash_type') == 'deposit' ? 'selected' : '' }}>Deposit</option>
+                                    <option value="withdrawal" {{ old('cash_type') == 'withdrawal' ? 'selected' : '' }}>Withdrawal</option>
+                                    <option value="expense" {{ old('cash_type') == 'expense' ? 'selected' : '' }}>Expense</option>
+                                </select>
+                                @error('cash_type')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
                             </div>
-                           
 
-                            <div class="col-lg-6">
-                                <div class="form-group" id="customer_name" style="display: none;">
-                                    <label for="customer_name">Customer Name<span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control border" name="customer_name" placeholder="Enter Customer Name">
-                                    @error('customer_name')
-                                        <div class="text-danger">{{ $message }}</div>
-                                    @enderror
-                                </div>
+                            <div class="form-group" id="reference_number" style="display: none;">
+                                <label for="reference_number">Reference Number<span class="text-danger">*</span></label>
+                                <input type="text" class="form-control border" name="reference_number" placeholder="Enter Reference Number" >
+                                @error('reference_number')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
 
-                                <div class="form-group" id="bonus-amount-field" style="display: none;">
-                                    <label for="bonus_amount">Bonus Amount <span class="text-pink">(optional)</span></label>
-                                    <input type="text" class="form-control border" name="bonus_amount" placeholder="Enter Bonus Amount if any">
-                                    @error('bonus_amount')
-                                        <div class="text-danger">{{ $message }}</div>
-                                    @enderror
-                                </div>
+                            <div class="form-group" id="cash_amount">
+                                <label for="cash_amount">Amount<span class="text-danger">*</span></label>
+                                <input type="text" class="form-control border" name="cash_amount" placeholder="Enter Cash Amount" required>
+                                @error('cash_amount')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
 
-                                <div class="form-group" id="payment-type-field" style="display: none;">
-                                    <label>Payment Type<span class="text-danger">*</span></label>
-                                    <div class="row">
-                                        @foreach(['google_pay', 'phone_pay', 'imps', 'neft', 'i20_pay'] as $index => $payment)
-                                        <div class="col-md-6">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="payment_type" id="payment_{{ $payment }}" value="{{ $payment }}">
-                                                <label class="form-check-label" for="payment_{{ $payment }}">
-                                                    {{ ucfirst(str_replace('_', ' ', $payment)) }}
-                                                </label>
-                                            </div>
+                            <div class="form-group" id="customer_name" style="display: none;">
+                                <label for="customer_name">Customer Name<span class="text-danger">*</span></label>
+                                <input type="text" class="form-control border" name="customer_name" placeholder="Enter Customer Name">
+                                @error('customer_name')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="form-group" id="bonus-amount-field" style="display: none;">
+                                <label for="bonus_amount">Bonus Amount <span class="text-pink">(optional)</span></label>
+                                <input type="text" class="form-control border" name="bonus_amount" placeholder="Enter Bonus Amount if any">
+                                @error('bonus_amount')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="form-group" id="payment-type-field" style="display: none;">
+                                <label>Payment Type<span class="text-danger">*</span></label>
+                                <div class="row">
+                                    @foreach(['google_pay', 'phone_pay', 'imps', 'neft', 'i20_pay'] as $index => $payment)
+                                    <div class="col-md-6">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="payment_type" id="payment_{{ $payment }}" value="{{ $payment }}">
+                                            <label class="form-check-label" for="payment_{{ $payment }}">
+                                                {{ ucfirst(str_replace('_', ' ', $payment)) }}
+                                            </label>
                                         </div>
-                                        @endforeach
                                     </div>
-                                    @error('payment_type')
-                                        <div class="text-danger">{{ $message }}</div>
-                                    @enderror
+                                    @endforeach
                                 </div>
-
-                                
+                                @error('payment_type')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
                             </div>
+
+                            <div class="form-group" id="remarks">
+                                <label for="remarks">Remarks <span class="text-pink">(optional)</span></label>
+                                <input type="text" class="form-control border" name="remarks" placeholder="Enter Remarks if any">
+                                @error('remarks')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            
                         </div>
                         <div class="form-group row mb-3 col-lg-12 mt-2 ">
                             <div class="col-lg-12 ml-auto pt-3 d-flex flex-row gap-3 justify-content-end">

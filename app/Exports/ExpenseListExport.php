@@ -30,7 +30,7 @@ class ExpenseListExport implements FromQuery,  WithHeadings, WithStyles, WithCol
         $query = Cash::selectRaw('
                 cashes.id, 
                 exchanges.name as name,
-                users.name as name,
+                users.name as user_name,
                 cashes.cash_type,
                 cashes.cash_amount,
                 cashes.remarks,

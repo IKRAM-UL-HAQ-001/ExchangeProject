@@ -8,7 +8,7 @@
                     <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
                         <p style="color: white;"><strong>Customer Table</strong></p>
                         <div>
-                            <button type="button" class="btn btn-dark" >Export Customer List</button>
+                        <a href="{{ route('export.customer') }}" class="btn btn-dark">Customer Export Excel</a>
                         </div>
                     </div>
                 </div>

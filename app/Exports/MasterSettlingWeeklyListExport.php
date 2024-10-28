@@ -8,48 +8,53 @@ use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use Maatwebsite\Excel\Concerns\WithColumnWidths;
-use Illuminate\Support\Facades\DB;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
-use PhpOffice\PhpSpreadsheet\Style\Color;
-use PhpOffice\PhpSpreadsheet\Style\Font;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Log;
 use Auth;
 
-class MasterSettlingWeeklyListExport implements FromQuery,  WithHeadings, WithStyles, WithColumnWidths
+class MasterSettlingWeeklyListExport implements FromQuery, WithHeadings, WithStyles, WithColumnWidths
 {
     use Exportable;
 
     protected $exchangeId;
 
-    public function __construct($exchangeId){
+    public function __construct($exchangeId)
+    {
         $this->exchangeId = $exchangeId;
     }
+
     public function query()
     {
         $startOfWeek = Carbon::now()->startOfWeek(); // Start of the week (Monday)
-        
-        $endOfWeek = Carbon::now()->endOfWeek();
+        $endOfWeek = Carbon::now()->endOfWeek(); // End of the week (Sunday)
+
         $query = MasterSettling::selectRaw('
                 master_settlings.id, 
-                exchanges.name AS name,
-                users.name AS name,
+                exchanges.name AS exchange_name,
+                users.name AS user_name,
                 master_settlings.white_label,
                 master_settlings.credit_reff,
                 master_settlings.settling_point,
                 master_settlings.price,
-                master_settlings.total_amount,
-                DATE_FORMAT(CONVERT_TZ(master_settlings.created_at, "+00:00", "+05:30"), "%Y-%m-%d %H:%i:%s") as created_at,
-                DATE_FORMAT(CONVERT_TZ(master_settlings.updated_at, "+00:00", "+05:30"), "%Y-%m-%d %H:%i:%s") as updated_at
+                DATE_FORMAT(CONVERT_TZ(master_settlings.created_at, "+00:00", "+05:30"), "%Y-%m-%d %H:%i:%s") AS created_at,
+                DATE_FORMAT(CONVERT_TZ(master_settlings.updated_at, "+00:00", "+05:30"), "%Y-%m-%d %H:%i:%s") AS updated_at
             ')
-            ->join('exchanges', 'master_settlings.exchange_id', '=', 'exchanges.id') 
-            ->join('users', 'master_settlings.user_id', '=', 'users.id') // Join with users based on user_id
-            ->whereBetween('master_settlings.created_at',[$startOfWeek, $endOfWeek])  // Filter by today's date
-            ->where('master_settlings.exchange_id', $this->exchangeId)
+            ->join('exchanges', 'master_settlings.exchange_id', '=', 'exchanges.id')
+            ->join('users', 'master_settlings.user_id', '=', 'users.id')
+            ->whereBetween('master_settlings.created_at', [$startOfWeek, $endOfWeek]) // Filter by the week range
             ->distinct(); // Ensure unique results
-            return $query;   
+
+        switch (Auth::user()->role) {
+            case "exchange":
+                return $query->where('master_settlings.exchange_id', $this->exchangeId);
+            case "admin":
+            case "assistant":
+                return $query; // Admin and assistant can see all
+            default:
+                return collect(); // Return an empty collection for unrecognized roles
+        }
     }
-        
+
     public function headings(): array
     {
         return [
@@ -57,10 +62,9 @@ class MasterSettlingWeeklyListExport implements FromQuery,  WithHeadings, WithSt
             'Exchange Name',
             'User Name',
             'White Label',
-            'Credit Reff',
-            'Settlling Point',
+            'Credit Ref',
+            'Settling Point',
             'Price',
-            'Total Amount',
             'Created At',
             'Updated At',
         ];
@@ -68,24 +72,22 @@ class MasterSettlingWeeklyListExport implements FromQuery,  WithHeadings, WithSt
 
     public function styles(Worksheet $sheet)
     {
-        $sheet->getStyle('A1:J1')->getFont()->setBold(true); // Bold the header row
-        $sheet->getStyle('A1:J1')->getFont()->setSize(12); // Optional: set font size
+        $sheet->getStyle('A1:I1')->getFont()->setBold(true); // Bold the header row
+        $sheet->getStyle('A1:I1')->getFont()->setSize(12); // Optional: set font size
     }
 
     public function columnWidths(): array
     {
         return [
             'A' => 10, // ID
-            'B' => 20, 
-            'C' => 15, // Cash Type
-            'D' => 20,
-            'E' => 15,
-            'F' => 15,
-            'G' => 15,
-            'H' => 15,
-            'I' => 30, 
-            'J' => 30, // Remark
+            'B' => 20, // Exchange Name
+            'C' => 20, // User Name
+            'D' => 20, // White Label
+            'E' => 15, // Credit Ref
+            'F' => 20, // Settling Point
+            'G' => 15, // Price
+            'H' => 30, // Created At
+            'I' => 30, // Updated At
         ];
     }
 }
-

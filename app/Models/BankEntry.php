@@ -26,4 +26,8 @@ class BankEntry extends Model
     {
         return $this->belongsTo(User::class);
     }
+    public function Bank()
+    {
+        return $this->belongsTo(Bank::class);
+    }
 }

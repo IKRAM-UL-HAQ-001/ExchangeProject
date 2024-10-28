@@ -34,7 +34,7 @@ class DepositWithdrawalController extends Controller
             return redirect()->route('auth.login');
         }
         else{
-            if($role == "admin" || $role == "assistant"){
+            if(Auth::user()->role == "admin" || Auth::user()->role == "assistant"){
                 $exchangeId = null;
             }
             else{

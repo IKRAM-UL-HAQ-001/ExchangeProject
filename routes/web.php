@@ -34,7 +34,8 @@ Route::get('/export-masterSettlingMonthly', [MasterSettlingController::class, 'm
 Route::get('/export-bankBalance', [BankBalanceController::class, 'bankBalanceListExportExcel'])->name('export.bankBalanceList');
 Route::get('/export-ownerProfit', [OwnerProfitController::class, 'ownerProfitListExportExcel'])->name('export.ownerProfitList');
 Route::get('/export-venderPayment', [VenderPaymentController::class, 'venderPaymentExportExcel'])->name('export.venderPayment');
-Route::get('/export-openCloseBalance', [OpenClosBalanceController::class, 'openCloseBalanceExportExcel'])->name('export.openCloseBalance');
+Route::get('/export-openCloseBalance', [OpenCloseBalanceController::class, 'openCloseBalanceExportExcel'])->name('export.openCloseBalance');
+Route::get('/export-customer', [CustomerController::class, 'customerExportExcel'])->name('export.customer');
 
 Route::group(['middleware' => 'admin'], function () {
 

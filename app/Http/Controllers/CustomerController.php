@@ -4,12 +4,28 @@ namespace App\Http\Controllers;
 
 use App\Models\Customer;
 use Illuminate\Http\Request;
+Use App\Exports\CustomerListExport;
+use Maatwebsite\Excel\Facades\Excel;
 use Auth;
 class CustomerController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
+    public function customerExportExcel(Request $request)
+    {
+        if (!auth()->check()) {
+            return redirect()->route('auth.login');
+        }
+        else{
+            if(Auth::user()->role == "admin" || Auth::user()->role == "assistant"){
+                $exchangeId = null;
+            }
+            else{
+                $exchangeId = Auth::user()->exchange_id;
+            }
+            return Excel::download(new CustomerListExport($exchangeId), 'customerRecord.xlsx');
+        }
+    }
+
     public function index()
     {
         if (!auth()->check()) {

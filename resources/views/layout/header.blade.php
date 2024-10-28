@@ -17,13 +17,7 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <style>
-    .table-striped tbody tr:nth-of-type(odd) {
-        background-color: #f2f2f2;
-    }
 
-    .table-hover tbody tr:hover {
-        background-color: #e0e0e0;
-    }
     .form-control{
         border: 1px solid #ced4da; /* Default Bootstrap border color */
         border-radius: 0.25rem; /* Bootstrap border radius */
@@ -32,9 +26,7 @@
     .table{
         color:black;
     }
-    .tbody{
-        color:black
-    }
+    
     .form-control:focus {
         border-color: #80bdff; /* Border color on focus */
         box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Shadow on focus */
@@ -50,28 +42,12 @@
         color: white;
     }
     .td-large {
-    width: 45%;
-}
-
-.td-small {
-    width: 10%;
-    text-align: center;
-}
-    .table-striped tbody tr:nth-of-type(odd) { background-color: #f2f2f2; }
-    .table-hover tbody tr:hover { background-color: #e0e0e0; }
+        width: 45%;
+    }
+    .td-small {
+        width: 10%;
+        text-align: center;
+    }
     .modal-header { background-color: #343a40; color: white; }
-    .dataTables_wrapper .dataTables_paginate .paginate_button {
-        padding: 5px 10px; margin: 0 5px; font-size: 10px;
-        color: white; background-color: #ffffff;
-        border-radius: 50%; border: none;
-        transition: background-color 0.3s ease;
-    }
-    .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
-        background-color: #b3d8ff; color: white;
-    }
-    .dataTables_wrapper .dataTables_paginate .paginate_button.current {
-        background-color: #343a40; color: white; font-weight: bold;
-    }
-
 </style>
 </head>

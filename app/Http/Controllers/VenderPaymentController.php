@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\VenderPayment;
 use Illuminate\Http\Request;
-
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\VenderPaymentListExport;
+use Auth;
+use Carbon\Carbon;
 class VenderPaymentController extends Controller
 {
 
@@ -14,19 +17,15 @@ class VenderPaymentController extends Controller
             return redirect()->route('auth.login');
         }
         else{
-            if(Auth::user()->role == "admin" || Auth::user()->role == "assistant"){
-                $exchangeId = null;
-            }
-            else{
-                $exchangeId = Auth::user()->exchange_id;
-            }
-            return Excel::download(new VenderPaymentListExport($exchangeId), 'venderPaymentRecord.xlsx');
+            return Excel::download(new VenderPaymentListExport(), 'venderPaymentRecord.xlsx');
         }
     }
 
     public function index()
     {
-        $venderPaymentRecords = VenderPayment::all();
+        $startOfWeek = Carbon::now()->startOfWeek(); 
+        $endOfWeek = Carbon::now()->endOfWeek();
+        $venderPaymentRecords = VenderPayment::whereBetween('created_at', [$startOfWeek, $endOfWeek])->get();
         return view('admin.vender_payment.list',compact('venderPaymentRecords'));
     }
 

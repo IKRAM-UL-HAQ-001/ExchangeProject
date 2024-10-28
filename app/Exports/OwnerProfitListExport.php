@@ -35,7 +35,7 @@ class OwnerProfitListExport implements FromQuery,  WithHeadings, WithStyles, Wit
         $query = OwnerProfit::selectRaw('
                 owner_profits.id, 
                 exchanges.name AS name,
-                users.name AS name,
+                users.name AS user_name,
                 owner_profits.cash_amount,
                 owner_profits.remarks,
                 DATE_FORMAT(CONVERT_TZ(owner_profits.created_at, "+00:00", "+05:30"), "%Y-%m-%d %H:%i:%s") as created_at,

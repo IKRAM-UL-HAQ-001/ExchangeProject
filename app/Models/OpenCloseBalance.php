@@ -15,4 +15,14 @@ class OpenCloseBalance extends Model
         'user_id',
         'exchange_id',
     ];
+    
+    public function exchange()
+    {
+        return $this->belongsTo(Exchange::class);
+    }
+    
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
