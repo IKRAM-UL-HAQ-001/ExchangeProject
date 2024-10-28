@@ -81,6 +81,14 @@
                                 @enderror
                             </div>
 
+                            <div class="form-group" id="customer_name" style="display: none;">
+                                <label for="customer_name">Customer Name<span class="text-danger">*</span></label>
+                                <input type="text" class="form-control border" name="customer_name" placeholder="Enter Customer Name">
+                                @error('customer_name')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            
                             <div class="form-group" id="reference_number" style="display: none;">
                                 <label for="reference_number">Reference Number<span class="text-danger">*</span></label>
                                 <input type="text" class="form-control border" name="reference_number" placeholder="Enter Reference Number" >
@@ -93,14 +101,6 @@
                                 <label for="cash_amount">Amount<span class="text-danger">*</span></label>
                                 <input type="text" class="form-control border" name="cash_amount" placeholder="Enter Cash Amount" required>
                                 @error('cash_amount')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <div class="form-group" id="customer_name" style="display: none;">
-                                <label for="customer_name">Customer Name<span class="text-danger">*</span></label>
-                                <input type="text" class="form-control border" name="customer_name" placeholder="Enter Customer Name">
-                                @error('customer_name')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
@@ -139,7 +139,7 @@
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
-                            
+
                         </div>
                         <div class="form-group row mb-3 col-lg-12 mt-2 ">
                             <div class="col-lg-12 ml-auto pt-3 d-flex flex-row gap-3 justify-content-end">
