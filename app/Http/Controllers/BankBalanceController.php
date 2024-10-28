@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\BankBalance;
+use App\Models\BankEntry;
 Use App\Exports\BankBalanceListExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
@@ -31,7 +32,7 @@ class BankBalanceController extends Controller
             return redirect()->route('auth.login');
         }
         else{
-            $bankBalanceRecords = BankBalance::all();
+            $bankBalanceRecords = BankEntry::all();
             return view("admin.bank_balance.list",compact('bankBalanceRecords'));
         }
 
@@ -43,7 +44,7 @@ class BankBalanceController extends Controller
             return redirect()->route('auth.login');
         }
         else{
-            $bankBalanceRecords = BankBalance::all();
+            $bankBalanceRecords = BankEntry::all();
             return view("assistant.bank_balance.list",compact('bankBalanceRecords'));
         }   
     }
@@ -97,7 +98,7 @@ class BankBalanceController extends Controller
             return redirect()->route('auth.login');
         }
         else{
-            $bankBalance = BankBalance::find($request->id);
+            $bankBalance = BankEntry::find($request->id);
             if ($bankBalance) {
                 $bankBalance->delete();
                 return response()->json(['success' => true, 'message' => 'Bank Balance deleted successfully!']);
