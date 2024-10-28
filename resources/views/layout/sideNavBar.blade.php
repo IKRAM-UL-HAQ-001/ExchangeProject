@@ -48,7 +48,7 @@
                             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                 <i class="material-icons opacity-10">swap_horiz</i>
                             </div>
-                            <span class="nav-link-text ms-1">opening Closing Balance</span>
+                            <span class="nav-link-text ms-1">Opening Closing Balance</span>
                         </a>
                     </li>
                     <li class="nav-item">
@@ -146,7 +146,7 @@
                             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                 <i class="material-icons opacity-10">swap_horiz</i>
                             </div>
-                            <span class="nav-link-text ms-1">opening Closing Balance</span>
+                            <span class="nav-link-text ms-1">Opening Closing Balance</span>
                         </a>
                     </li>
                     @if(Auth::user()->role == "exchange" && session('bankUser') && session('bankUser')->user_id == Auth::id())
@@ -246,7 +246,7 @@
                             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                 <i class="material-icons opacity-10">swap_horiz</i>
                             </div>
-                            <span class="nav-link-text ms-1">opening Closing Balance</span>
+                            <span class="nav-link-text ms-1">Opening Closing Balance</span>
                         </a>
                     </li>
                 @endif
