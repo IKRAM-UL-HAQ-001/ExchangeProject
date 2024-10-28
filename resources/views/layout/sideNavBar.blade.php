@@ -59,14 +59,14 @@
                             <span class="nav-link-text ms-1">Bank</span>
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a class="nav-link text-white {{ request()->is('admin/bankUser') ? 'active bg-gradient-primary' : '' }}" href="{{route('admin.bank_user.list')}}">
                             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                 <i class="material-icons opacity-10">person</i>
                             </div>
                             <span class="nav-link-text ms-1">Bank User</span>
                         </a>
-                    </li>
+                    </li> -->
                     <li class="nav-item">
                         <a class="nav-link text-white {{ request()->is('admin/deposit-withdrawal') ? 'active bg-gradient-primary' : '' }}" href="{{route('admin.deposit_withdrawal.list')}}">
                             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -91,14 +91,14 @@
                             <span class="nav-link-text ms-1">Master Settling</span>
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a class="nav-link text-white {{ request()->is('admin/bankBalance') ? 'active bg-gradient-primary' : '' }}" href="{{route('admin.bank_balance.list')}}">
                             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                 <i class="material-icons opacity-10">account_balance_wallet</i>
                             </div>
                             <span class="nav-link-text ms-1">Bank Balance</span>
                         </a>
-                    </li>
+                    </li> -->
                     <li class="nav-item">
                         <a class="nav-link text-white {{ request()->is('admin/customer') ? 'active bg-gradient-primary' : '' }}" href="{{route('admin.customer.list')}}">
                             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">

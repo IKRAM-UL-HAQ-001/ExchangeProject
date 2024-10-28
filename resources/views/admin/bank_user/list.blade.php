@@ -8,7 +8,8 @@
                     <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
                         <p style="color: white;"><strong>Bank User Table</strong></p>
                         <div>
-                            <!-- <a href="" class="btn btn-dark">Export Bank User List</a> -->
+                            <a href="{{ route('admin.bank.list') }}" class="btn btn-dark">Bank</a>
+                            <a href="{{ route('admin.bank_balance.list') }}" class="btn btn-dark">Bank Balance</a>
                             <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#addBankUserModal">Add Bank User</button>
                         </div>
                     </div>
