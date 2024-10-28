@@ -8,6 +8,7 @@ use App\Models\OwnerProfit;
 use App\Models\Customer;
 use App\Models\MasterSettling;
 use App\Models\BankBalance;
+use App\Models\OpenCloseBalance;
 use App\Models\User;
 use App\Models\Exchange;
 use Carbon\Carbon;
