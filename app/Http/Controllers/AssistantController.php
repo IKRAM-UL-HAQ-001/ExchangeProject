@@ -29,12 +29,10 @@ class AssistantController extends Controller
             $currentMonth = Carbon::now()->month;
             $currentYear = Carbon::now()->year;
             
-            $entriesDaily = OpenCloseBalance::where('exchange_id', $exchangeId)
-            ->whereDate('created_at', $today)
+            $entriesDaily = OpenCloseBalance::whereDate('created_at', $today)
             ->get();
 
-            $entriesMonth = OpenCloseBalance::where('exchange_id', $exchangeId)
-            ->whereMonth('created_at', $currentMonth)
+            $entriesMonth = OpenCloseBalance::whereMonth('created_at', $currentMonth)
             ->get();
 
             $totalOpenCloseBalanceDaily = 0;
