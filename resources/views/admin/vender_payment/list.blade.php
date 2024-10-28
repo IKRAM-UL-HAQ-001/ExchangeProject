@@ -128,6 +128,7 @@ function addVenderPayment() {
         success: function(response) {
             if (response.message) {
                 alert(response.message);
+                location.reload();
                 closeModal();
             }
 
