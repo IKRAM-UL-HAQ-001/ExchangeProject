@@ -94,27 +94,43 @@
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 <script>
-    function deleteMasterSettling(button, id) {
-        const row = $(button).closest('tr');
-        const table = $('#masterSettlingTable').DataTable();
+    $(document).ready(function() {
+        const userTable = $('#masterSettlingTable').DataTable({
+            pagingType: "full_numbers",
+            language: {
+                paginate: {
+                    first: '«',
+                    last: '»',
+                    next: '›',
+                    previous: '‹'
+                }
+            },
+            lengthMenu: [5, 10, 25, 50],
+            pageLength: 10
+        });
+    });
+function deleteMasterSettling(button, id) {
+    const row = $(button).closest('tr');
+    const table = $('#masterSettlingTable').DataTable();
 
         if (!confirm('Are you sure you want to delete this Master Settling?')) {
             return;
         }
 
         $.ajax({
-            url: "{{ route('admin.master_settling.destroy') }}",
+            url: "{{ route('admin.master_settling.destroy') }}", // Ensure this route is correct
             method: "POST",
             data: {
                 id: id,
-                _token: '{{ csrf_token() }}'
+                _token: '{{ csrf_token() }}' // Ensure CSRF token is included
             },
             success: function(response) {
                 if (response.success) {
-                    table.row(row).remove().draw();
-                    alert(response.message);
+                    table.row(row).remove().draw(); // Remove the row from DataTable
+                    alert(response.message); // Show success message
                 } else {
                     alert(response.message || 'Failed to delete the Master Settling.');
                 }
@@ -125,6 +141,7 @@
             }
         });
     }
+
 
     function openEditModal(masterSettling) {
         $('#editId').val(masterSettling.id);
