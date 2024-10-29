@@ -34,7 +34,7 @@
                                             <td>{{ $openingClosingBalance->open_balance }}</td>
                                             <td>{{ $openingClosingBalance->close_balance }}</td>
                                             @php
-                                                $balance =  $openingClosingBalance->open_balance + $openingClosingBalance->close_balance; 
+                                                $balance = $openingClosingBalance->close_balance; 
                                             @endphp
                                              <td>{{$balance}}</td>
                                              <td>{{ $openingClosingBalance->remarks }}</td>

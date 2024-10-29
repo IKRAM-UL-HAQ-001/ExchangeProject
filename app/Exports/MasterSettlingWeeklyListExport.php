@@ -44,7 +44,6 @@ class MasterSettlingWeeklyListExport implements FromQuery, WithHeadings, WithSty
             ->join('users', 'master_settlings.user_id', '=', 'users.id')
             ->whereBetween('master_settlings.created_at', [$startOfWeek, $endOfWeek]) // Filter by the week range
             ->distinct();
-
         switch (Auth::user()->role) {
             case "exchange":
                 return $query->where('master_settlings.exchange_id', $this->exchangeId);
@@ -52,7 +51,7 @@ class MasterSettlingWeeklyListExport implements FromQuery, WithHeadings, WithSty
             case "assistant":
                 return $query; // Admin and assistant can see all
             default:
-                return query(); // Return an empty collection for unrecognized roles
+                return collect(); // Return an empty collection for unrecognized roles
         }
     }
 

@@ -48,6 +48,8 @@ Route::group(['middleware' => 'admin'], function () {
     //logout all
     Route::post('/post', [LoginController::class, 'logoutAll'])->name('logout.all');
     
+    Route::post('/admin/dailyReport', [ReportController::class, 'adminDailyReport'])->name('admin.report.list');
+
     // exchange user
     Route::get('/admin/user', [UserController::class, 'index'])->name('admin.user.list');
     Route::post('/admin/user/post', [UserController::class, 'store'])->name('admin.user.post');
