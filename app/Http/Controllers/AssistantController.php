@@ -40,11 +40,11 @@ class AssistantController extends Controller
 
             if ($entriesDaily->count() === 1) {
                 $entry = $entriesDaily->first();
-                $totalOpenCloseBalanceDaily = $entry->open_balance + $entry->close_balance;
+                $totalOpenCloseBalanceDaily =  $entry->close_balance;
             } else {
                 foreach ($entriesDaily as $entry) {
                     if ($totalOpenCloseBalanceDaily === 0) {
-                        $totalOpenCloseBalanceDaily += $entry->open_balance;
+                        $totalOpenCloseBalanceDaily += $entry->close_balance;
                     }
                     $totalOpenCloseBalanceDaily += $entry->close_balance;
                 }
@@ -52,11 +52,11 @@ class AssistantController extends Controller
 
             if ($entriesMonth->count() === 1) {
                 $entry = $entriesMonth->first();
-                $totalOpenCloseBalanceMonthly = $entry->open_balance + $entry->close_balance;
+                $totalOpenCloseBalanceMonthly =  $entry->close_balance;
             } else {
                 foreach ($entriesMonth as $entry) {
                     if ($totalOpenCloseBalanceMonthly === 0) {
-                        $totalOpenCloseBalanceMonthly += $entry->open_balance;
+                        $totalOpenCloseBalanceMonthly += $entry->close_balance;
                     }
                     $totalOpenCloseBalanceMonthly += $entry->close_balance;
                 }

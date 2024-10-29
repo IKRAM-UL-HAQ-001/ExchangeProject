@@ -48,7 +48,9 @@ Route::group(['middleware' => 'admin'], function () {
     //logout all
     Route::post('/post', [LoginController::class, 'logoutAll'])->name('logout.all');
     
-    Route::post('/admin/dailyReport', [ReportController::class, 'adminDailyReport'])->name('admin.report.list');
+    //Report
+    Route::get('/admin/report', [ReportController::class, 'index'])->name('admin.report.list');
+    Route::post('/admin/report/post', [ReportController::class, 'report'])->name('admin.report.generate');
 
     // exchange user
     Route::get('/admin/user', [UserController::class, 'index'])->name('admin.user.list');
@@ -96,9 +98,7 @@ Route::group(['middleware' => 'admin'], function () {
     Route::get('/admin/ownerProfit', [OwnerProfitController::class, 'index'])->name('admin.owner_profit.list');
     Route::post('/admin/ownerProfit/destroy', [OwnerProfitController::class, 'destroy'])->name('admin.owner_profit.destroy');
 
-    //Report 
-    Route::get('/admin/report', [ReportController::class, 'index'])->name('admin.report.list');
-
+    
     //Vender Payment
     Route::get('/admin/venderPayment', [VenderPaymentController::class, 'index'])->name('admin.vender_payment.list');
     Route::post('/admin/venderPayment/post', [VenderPaymentController::class, 'store'])->name('admin.vender_payment.store');

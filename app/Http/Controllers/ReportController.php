@@ -3,22 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\Report;
+use App\Models\Exchange;
+use App\Models\Cash;
 use Illuminate\Http\Request;
-
+use Auth;
+use Carbon\Carbon;
 class ReportController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        if (!auth()->check()) {
-            return redirect()->route('auth.login');
-        }
-        else{
-            return view('admin.report.list');
-        }
-    }
+   
 
     /**
      * Show the form for creating a new resource.
@@ -73,6 +68,7 @@ class ReportController extends Controller
             return redirect()->route('auth.login');
         }
         else{
+            $exchangeRecords = Exchange::all();
             $exchangeId = auth()->user()->exchange_id; 
             $userId = auth()->user()->id;
             $reportRecords= Report::with(['exchange', 'user'])
@@ -83,48 +79,64 @@ class ReportController extends Controller
             return view("exchange.report.list",compact('reportRecords'));
         }
     }
-    public function adminDailyReport(Request $request){
+
+
+
+    public function index()
+    {
+        if (!auth()->check()) {
+            return redirect()->route('auth.login');
+        }
+        else{
+            $exchangeRecords = Exchange::all();
+            return view('admin.report.list',compact('exchangeRecords'));
+        }
+    }
+
+
+    public function report(Request $request){
         if (!auth()->check()) {
             return redirect()->route('firstpage');
         }
         else{
-            $user = Auth::user();
-            $shopId = $request->shop_id;
-            $today = Carbon::today();
+            $today = Carbon::now();
+            $exchangeRecords = Exchange::all();
 
-            $deposit = Cash::whereDate('created_at', $today)
-                ->where('shop_id', $shopId)
+            $start_date =$request->start_date;
+            $end_date =$request->end_date;
+            $exchangeId =$request->exchange_id;
+
+
+            $deposit = Cash::whereBetween('created_at', ['start_date','end_date'])
+                ->where('exchange_id', $exchangeId)
                 ->where('cash_type', 'deposit')
                 ->sum('cash_amount');
 
-            $withdrawal = Cash::whereDate('created_at', $today)
-                ->where('shop_id', $shopId)
+            $withdrawal = Cash::whereBetween('created_at', ['start_date','end_date'])
+                ->where('exchange_id', $exchangeId)
                 ->where('cash_type', 'withdrawal')
                 ->sum('cash_amount');
 
-            $expense = Cash::whereDate('created_at', $today)
-                ->where('shop_id', $shopId)
+            $expense = Cash::whereBetween('created_at', ['start_date','end_date'])
+                ->where('exchange_id', $exchangeId)
                 ->where('cash_type', 'expense')
                 ->sum('cash_amount');
 
-            $bonus = Cash::whereDate('created_at', $today)
-                ->where('shop_id', $shopId)
+            $bonus = Cash::whereBetween('created_at', ['start_date','end_date'])
+                ->where('exchange_id', $exchangeId)
                 ->where('cash_type', 'deposit')
                 ->sum('bonus_amount');
 
             // Get the latest cash entry for the shop
-            $latestCashEntry = Cash::where('shop_id', $shopId)
+            $latestCashEntry = Cash::where('exchange_id', $exchangeId)
                 ->orderBy('created_at', 'desc')
                 ->first();
                 $latestBalance =    $deposit -  $withdrawal -  $expense;
-            // Get the latest balance if entry exists
-            // $latestBalance = $latestCashEntry ? $latestCashEntry->total_shop_balance : null;
+                
+                $date = $today->format('Y-m-d');
 
-            // Prepare the date for display
-            $date = $today->format('Y-m-d');
 
-            // Return the view with the collected data
-            return view('shop.report.dailyReport', compact('deposit', 'expense', 'withdrawal', 'bonus', 'date', 'latestBalance'));
+            return view('admin.report.list', compact('deposit', 'expense', 'withdrawal', 'bonus', 'date', 'latestBalance','exchangeRecords'));
         }
     }
 

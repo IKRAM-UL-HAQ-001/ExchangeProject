@@ -50,13 +50,13 @@ class ExchangeController extends Controller
             
             if ($entriesDaily->count() === 1) {
                 $entry = $entriesDaily->first();
-                $totalOpenCloseBalanceDaily = $entry->open_balance + $entry->close_balance;
+                $totalOpenCloseBalanceDaily = $entry->close_balance;
             } else {
                 // If there are multiple entriesDaily, sum the closing balances
                 foreach ($entriesDaily as $entry) {
                     // If it's the first entry, add its opening balance
                     if ($totalOpenCloseBalanceDaily === 0) {
-                        $totalOpenCloseBalanceDaily += $entry->open_balance;
+                        $totalOpenCloseBalanceDaily += $entry->close_balance;
                     }
                     // Always add the closing balance
                     $totalOpenCloseBalanceDaily += $entry->close_balance;
@@ -65,11 +65,11 @@ class ExchangeController extends Controller
 
             if ($entriesMonth->count() === 1) {
                 $entry = $entriesMonth->first();
-                $totalOpenCloseBalanceMonthly = $entry->open_balance + $entry->close_balance;
+                $totalOpenCloseBalanceMonthly = $entry->close_balance;
             } else {
                 foreach ($entriesMonth as $entry) {
                     if ($totalOpenCloseBalanceMonthly === 0) {
-                        $totalOpenCloseBalanceMonthly += $entry->open_balance;
+                        $totalOpenCloseBalanceMonthly += $entry->close_balance;
                     }
                     $totalOpenCloseBalanceMonthly += $entry->close_balance;
                 }
