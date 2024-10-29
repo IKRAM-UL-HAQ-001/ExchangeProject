@@ -26,26 +26,34 @@ class BankBalanceController extends Controller
             return Excel::download(new BankBalanceListExport($exchangeId), 'bankBalanceRecord.xlsx');
         }
     }
+    
     public function index()
     {
         if (!auth()->check()) {
             return redirect()->route('auth.login');
+        } else {
+            $startOfWeek = Carbon::now()->startOfWeek();
+            $endOfWeek = Carbon::now()->endOfWeek();
+            $bankBalanceRecords = BankEntry::with(['user', 'exchange'])
+                ->whereBetween('created_at', [$startOfWeek, $endOfWeek])
+                ->get();
+            
+            return view("admin.bank_balance.list", compact('bankBalanceRecords'));
         }
-        else{
-            $bankBalanceRecords = BankEntry::with(['user', 'exchange'])->get();
-            return view("admin.bank_balance.list",compact('bankBalanceRecords'));
-        }
-
     }
 
     public function indexAssistant()
     {
         if (!auth()->check()) {
             return redirect()->route('auth.login');
-        }
-        else{
-            $bankBalanceRecords = BankEntry::all();
-            return view("assistant.bank_balance.list",compact('bankBalanceRecords'));
+        } else {
+            $startOfWeek = Carbon::now()->startOfWeek();
+            $endOfWeek = Carbon::now()->endOfWeek();
+            $bankBalanceRecords = BankEntry::with(['user', 'exchange'])
+                ->whereBetween('created_at', [$startOfWeek, $endOfWeek])
+                ->get();
+            
+            return view("assistant.bank_balance.list", compact('bankBalanceRecords'));
         }   
     }
 

@@ -31,11 +31,14 @@ class ExpenseController extends Controller
     {
         if (!auth()->check()) {
             return redirect()->route('auth.login');
-        }
-        else{
+        } else {
+            $startOfWeek = Carbon::now()->startOfWeek();
+            $endOfWeek = Carbon::now()->endOfWeek();
             $expenseRecords = Cash::with(['exchange', 'user'])
-            ->get();
-            return view('admin.expense.list',compact('expenseRecords'));
+                ->whereBetween('created_at', [$startOfWeek, $endOfWeek])
+                ->get();
+
+            return view('admin.expense.list', compact('expenseRecords'));
         }
     }
 
@@ -45,8 +48,11 @@ class ExpenseController extends Controller
             return redirect()->route('auth.login');
         }
         else{
+            $startOfWeek = Carbon::now()->startOfWeek();
+            $endOfWeek = Carbon::now()->endOfWeek();
             $expenseRecords = Cash::with(['exchange', 'user'])
-            ->get();
+                ->whereBetween('created_at', [$startOfWeek, $endOfWeek])
+                ->get();
             return view('assistant.expense.list',compact('expenseRecords'));
         }
     }

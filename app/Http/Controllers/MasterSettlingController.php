@@ -45,15 +45,16 @@ class MasterSettlingController extends Controller
 
     public function index()
     {
-
         if (!auth()->check()) {
             return redirect()->route('auth.login');
-        }
-        else{
-            $masterSettlingRecords= MasterSettling::with(['exchange', 'user'])
+        } else {
+            $startOfYear = Carbon::now()->startOfYear();
+            $endOfYear = Carbon::now()->endOfYear();
+            $masterSettlingRecords = MasterSettling::with(['exchange', 'user'])
+                ->whereBetween('created_at', [$startOfYear, $endOfYear])
                 ->get();
-
-            return view("admin.master_settling.list",compact('masterSettlingRecords'));
+    
+            return view("admin.master_settling.list", compact('masterSettlingRecords'));
         }
     }
 
@@ -64,7 +65,10 @@ class MasterSettlingController extends Controller
             return redirect()->route('auth.login');
         }
         else{
-            $masterSettlingRecords= MasterSettling::with(['exchange', 'user'])
+            $startOfYear = Carbon::now()->startOfYear();
+            $endOfYear = Carbon::now()->endOfYear();
+            $masterSettlingRecords = MasterSettling::with(['exchange', 'user'])
+                ->whereBetween('created_at', [$startOfYear, $endOfYear])
                 ->get();
 
             return view("assistant.master_settling.list",compact('masterSettlingRecords'));

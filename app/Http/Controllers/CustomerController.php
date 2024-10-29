@@ -30,12 +30,15 @@ class CustomerController extends Controller
     {
         if (!auth()->check()) {
             return redirect()->route('auth.login');
-        }
-        else{
-            $customerRecords = Customer::all();
-            return view("admin.customer.list",compact('customerRecords'));
+        } else {
+            $startOfWeek = Carbon::now()->startOfWeek();
+            $endOfWeek = Carbon::now()->endOfWeek();
+            $customerRecords = Customer::whereBetween('created_at', [$startOfWeek, $endOfWeek])->get();
+    
+            return view("admin.customer.list", compact('customerRecords'));
         }
     }
+    
 
     /**
      * Show the form for creating a new resource.

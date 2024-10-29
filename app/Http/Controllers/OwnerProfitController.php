@@ -29,10 +29,12 @@ class OwnerProfitController extends Controller
     {
         if (!auth()->check()) {
             return redirect()->route('auth.login');
-        }
-        else{
-            $ownerProfitRecords = OwnerProfit::all();
-            return view('admin.owner_profit.list',compact('ownerProfitRecords'));
+        } else {
+            $startOfYear = Carbon::now()->startOfYear();
+            $endOfYear = Carbon::now()->endOfYear();
+            $ownerProfitRecords = OwnerProfit::whereBetween('created_at', [$startOfYear, $endOfYear])->get();
+
+            return view('admin.owner_profit.list', compact('ownerProfitRecords'));
         }
     }
 

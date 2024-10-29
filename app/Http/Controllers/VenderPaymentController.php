@@ -23,10 +23,10 @@ class VenderPaymentController extends Controller
 
     public function index()
     {
-        $startOfWeek = Carbon::now()->startOfWeek(); 
-        $endOfWeek = Carbon::now()->endOfWeek();
-        $venderPaymentRecords = VenderPayment::whereBetween('created_at', [$startOfWeek, $endOfWeek])->get();
-        return view('admin.vender_payment.list',compact('venderPaymentRecords'));
+        $startOfYear = Carbon::now()->startOfYear(); 
+        $endOfYear = Carbon::now()->endOfYear();
+        $venderPaymentRecords = VenderPayment::whereBetween('created_at', [$startOfYear, $endOfYear])->get();
+        return view('admin.vender_payment.list', compact('venderPaymentRecords'));
     }
 
     /**
@@ -42,7 +42,6 @@ class VenderPaymentController extends Controller
      */
     public function store(Request $request)
     {
-        // Check if the user is authenticated
         if (!auth()->check()) {
             return response()->json(['message' => 'Unauthorized'], 401);
         }
