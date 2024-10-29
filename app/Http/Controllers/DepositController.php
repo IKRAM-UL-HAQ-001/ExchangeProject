@@ -6,6 +6,7 @@ use App\Models\Deposit;
 use App\Models\Cash;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Auth;
 class DepositController extends Controller
 {
     

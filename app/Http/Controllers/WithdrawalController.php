@@ -6,6 +6,7 @@ use App\Models\Withdrawal;
 use App\Models\Cash;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Auth;
 class WithdrawalController extends Controller
 {
     
