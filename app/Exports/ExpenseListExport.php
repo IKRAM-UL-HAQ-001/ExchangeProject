@@ -27,6 +27,8 @@ class ExpenseListExport implements FromQuery,  WithHeadings, WithStyles, WithCol
 
     public function query(){
         $currentMonth = Carbon::now()->month;
+        $currentYear = Carbon::now()->year;
+
         $query = Cash::selectRaw('
                 cashes.id, 
                 exchanges.name as name,
@@ -40,6 +42,7 @@ class ExpenseListExport implements FromQuery,  WithHeadings, WithStyles, WithCol
             ->join('exchanges', 'cashes.exchange_id', '=', 'exchanges.id') 
             ->join('users', 'cashes.user_id', '=', 'users.id') 
             ->whereMonth('cashes.created_at', $currentMonth) 
+            ->whereYear('cashes.created_at', $currentYear) 
             ->where('cashes.cash_type', 'expense');
 
         if (Auth::user()->role == "exchange") {

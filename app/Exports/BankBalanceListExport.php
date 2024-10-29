@@ -26,6 +26,7 @@ class BankBalanceListExport implements FromQuery, WithHeadings, WithStyles, With
     public function query()
     {
         $currentMonth = Carbon::now()->month;
+        $currentYear = Carbon::now()->year;
 
         $query = BankEntry::selectRaw('
                 bank_entries.id, 
@@ -41,7 +42,8 @@ class BankBalanceListExport implements FromQuery, WithHeadings, WithStyles, With
             ')
             ->join('exchanges', 'bank_entries.exchange_id', '=', 'exchanges.id')
             ->join('users', 'bank_entries.user_id', '=', 'users.id')
-            ->whereMonth('bank_entries.created_at', $currentMonth);
+            ->whereMonth('bank_entries.created_at', $currentMonth)
+            ->whereYear('bank_entries.created_at', $currentYear);
 
         if (Auth::user()->role === 'exchange') {
             $query->where('bank_entries.exchange_id', $this->exchangeId);
