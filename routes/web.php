@@ -169,10 +169,9 @@ Route::group(['middleware' => 'exchange'], function () {
     Route::get('/exchange/masterSettling', [MasterSettlingController::class, 'exchangeIndex'])->name('exchange.master_settling.list');
     Route::post('/exchange/masterSettling/post', [MasterSettlingController::class, 'store'])->name('exchange.master_settling.store');
 
-    //report
-        //Report
-        Route::get('/exchange/report', [ReportController::class, 'exchangeIndex'])->name('exchange.report.list');
-        Route::post('/exchange/report/post', [ReportController::class, 'exchangeReport'])->name('exchange.report.generate');
+    //Report
+    Route::get('/exchange/report', [ReportController::class, 'exchangeIndex'])->name('exchange.report.list');
+    Route::post('/exchange/report/post', [ReportController::class, 'exchangeReport'])->name('exchange.report.generate');
 
     //open close balance
     Route::get('/exchange/openCloseBalance', [OpenCloseBalanceController::class, 'exchangeIndex'])->name('exchange.open_close_balance.list');

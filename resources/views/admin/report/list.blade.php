@@ -126,7 +126,7 @@
             // Initialize Charts
             let withdrawalsChart = initializeChart('withdrawalsChart', ['Withdrawals', 'Deposits'], ['#C00A27', '#75B432']);
             let profitsChart = initializeChart('profitsChart', ['Expenses', 'Bonuses'], ['#75B432', '#E0E0E0']);
-            let bonusChart = initializeChart('bonusChart', ['Total Exchange Profit', 'Remaining'], ['#FFCE56', '#36A2EB']);
+            let bonusChart = initializeChart('bonusChart', ['Total Exchange Profit'], ['#FFCE56']);
     
             // Initialize a Chart
             function initializeChart(canvasId, labels, colors) {
