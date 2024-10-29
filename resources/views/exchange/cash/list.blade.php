@@ -98,7 +98,7 @@
                             </div>
 
                             <div class="form-group" id="cash_amount">
-                                <label for="cash_amount">Amount<span class="text-danger">*</span></label>
+                                <label for="cash_amount" class="form-label">Amount<span class="text-danger">*</span></label>
                                 <input type="text" class="form-control border" name="cash_amount" placeholder="Enter Cash Amount" required>
                                 @error('cash_amount')
                                     <div class="text-danger">{{ $message }}</div>
