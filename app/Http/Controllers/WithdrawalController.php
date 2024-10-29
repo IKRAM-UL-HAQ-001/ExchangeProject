@@ -6,7 +6,7 @@ use App\Models\Withdrawal;
 use App\Models\Cash;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
-Use App\Exports\WithdarawalListExport;
+Use App\Exports\WithdrawalListExport;
 use Carbon\Carbon;
 use Auth;
 class WithdrawalController extends Controller
