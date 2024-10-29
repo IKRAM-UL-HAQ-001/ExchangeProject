@@ -13,12 +13,24 @@
     </div>
 
     <div class="row mb-4">
+        @php
+            $dailyColorClasses = [
+                'bg-gradient-success',
+                'bg-gradient-info',
+                'bg-gradient-warning',
+                'bg-gradient-danger',
+                'bg-gradient-dark',
+                'bg-gradient-primary',
+                'bg-gradient-secondary',
+            ];
+        @endphp
+
         <div class="col-xl-3 col-sm-6 mb-4">
             <div class="card">
                 <div class="card-header p-3">
                     <div class="d-flex align-items-center">
                         <div class="icon icon-lg icon-shape bg-gradient-dark shadow-dark text-center border-radius-xl position-relative">
-                            <i class="material-icons opacity-10">attach_money</i>
+                            <i class="material-icons opacity-10">account_balance_wallet</i>
                         </div>
                         <div class="text-end ms-3 text-center flex-grow-1"> <!-- Center alignment -->
                             <p class="text-sm mb-0 text-capitalize">Total Bank Balance</p>
@@ -29,26 +41,27 @@
                 <hr class="dark horizontal my-0">
             </div>
         </div>
-        @foreach ([
-            ['Today Margin', $totalBalanceDaily, 'bg-gradient-success', 'attach_money'],
-            ['Total Deposit', $totalDepositDaily, 'bg-gradient-info', 'arrow_upward'],
-            ['Total Withdrawal', $totalWithdrawalDaily, 'bg-gradient-warning', 'arrow_downward'],
-            ['Total Expense', $totalExpenseDaily, 'bg-gradient-danger', 'money_off'],
-            ['Total Bonus', $totalBonusDaily, 'bg-gradient-dark', 'star'],
-            ['Total Exchanges', $totalExchanges, 'bg-gradient-primary', 'swap_horiz'],
-            ['Total Users', $totalUsers, 'bg-gradient-secondary', 'people'],
-            ['Customers', $totalOldCustomersDaily, 'bg-gradient-info', 'person'],
-            ['Today Profit', $totalOwnerProfitDaily, 'bg-gradient-success', 'money'],
-            ['Total New Customer', $totalCustomersDaily, 'bg-gradient-warning', 'group_add'],
-            ['Total Open Close Balance', $totalOpenCloseBalanceDaily, 'bg-gradient-warning', 'group_add'],
-            ['Total Paid Vender Amount', $totalPaidAmountDaily, 'bg-gradient-warning', 'group_add'],
-        ] as $card)
+
+        @foreach ([ 
+            ['Today Margin', $totalBalanceDaily, 'trending_up'],
+            ['Total Deposit', $totalDepositDaily, 'arrow_circle_up'],
+            ['Total Withdrawal', $totalWithdrawalDaily, 'arrow_circle_down'],
+            ['Total Expense', $totalExpenseDaily, 'payment'],
+            ['Total Bonus', $totalBonusDaily, 'star_border'],
+            ['Total Exchanges', $totalExchanges, 'swap_vert'],
+            ['Total Users', $totalUsers, 'group'],
+            ['Customers', $totalOldCustomersDaily, 'person_outline'],
+            ['Today Profit', $totalOwnerProfitDaily, 'attach_money'],
+            ['Total New Customer', $totalCustomersDaily, 'person_add'],
+            ['Total Open Close Balance', $totalOpenCloseBalanceDaily, 'monetization_on'],
+            ['Total Paid Vendor Amount', $totalPaidAmountDaily, 'shopping_cart'],
+        ] as $index => $card)
             <div class="col-xl-3 col-sm-6 mb-4">
                 <div class="card">
                     <div class="card-header p-3">
                         <div class="d-flex align-items-center">
-                            <div class="icon icon-lg icon-shape {{ $card[2] }} shadow-{{ strtolower($card[2]) }} text-center border-radius-xl position-relative">
-                                <i class="material-icons opacity-10">{{ $card[3] }}</i>
+                            <div class="icon icon-lg icon-shape {{ $dailyColorClasses[$index % count($dailyColorClasses)] }} shadow-{{ strtolower($dailyColorClasses[$index % count($dailyColorClasses)]) }} text-center border-radius-xl position-relative">
+                                <i class="material-icons opacity-10">{{ $card[2] }}</i>
                             </div>
                             <div class="text-end ms-3 text-center flex-grow-1"> <!-- Center alignment -->
                                 <p class="text-sm mb-0 text-capitalize">{{ $card[0] }}</p>
@@ -72,14 +85,26 @@
             </div>
         </div>
     </div>
-    
+
     <div class="row mb-4">
+        @php
+            $monthlyColorClasses = [
+                'bg-gradient-success',
+                'bg-gradient-info',
+                'bg-gradient-warning',
+                'bg-gradient-danger',
+                'bg-gradient-dark',
+                'bg-gradient-primary',
+                'bg-gradient-secondary',
+            ];
+        @endphp
+
         <div class="col-xl-3 col-sm-6 mb-4">
             <div class="card">
                 <div class="card-header p-3">
                     <div class="d-flex align-items-center">
                         <div class="icon icon-lg icon-shape bg-gradient-dark shadow-dark text-center border-radius-xl position-relative">
-                            <i class="material-icons opacity-10">attach_money</i> <!-- Monthly Profit -->
+                            <i class="material-icons opacity-10">account_balance_wallet</i> <!-- Monthly Profit -->
                         </div>
                         <div class="text-end ms-3 text-center flex-grow-1"> <!-- Center alignment -->
                             <p class="text-sm mb-0 text-capitalize">Monthly Margin</p>
@@ -91,26 +116,26 @@
             </div>
         </div>
 
-        @foreach ([
-            ['Total Deposit', $totalDepositMonthly, 'bg-gradient-info', 'arrow_upward'],
-            ['Total Withdrawal', $totalWithdrawalMonthly, 'bg-gradient-warning', 'arrow_downward'],
-            ['Total Expense', $totalExpenseMonthly, 'bg-gradient-danger', 'money_off'],
-            ['Total Bonus', $totalBonusMonthly, 'bg-gradient-dark', 'star'],
-            ['Total Exchanges', $totalExchanges, 'bg-gradient-primary', 'swap_horiz'],
-            ['Total Users', $totalUsers, 'bg-gradient-secondary', 'people'],
-            ['Customers', $totalOldCustomersMonthly, 'bg-gradient-info', 'person'],
-            ['Monthly Profit', $totalOwnerProfitMonthly, 'bg-gradient-success', 'money'],
-            ['Total New Customer', $totalCustomersMonthly, 'bg-gradient-warning', 'group_add'],
-            ['Total Settling Points', $totalMasterSettlingMonthly, 'bg-gradient-danger', 'point_of_sale'],
-            ['Total Open Close Balance', $totalOpenCloseBalanceMonthly, 'bg-gradient-warning', 'group_add'],
-            ['Total Paid Vender Amount', $totalPaidAmountMonthly, 'bg-gradient-warning', 'group_add'],
-        ] as $card)
+        @foreach ([ 
+            ['Total Deposit', $totalDepositMonthly, 'arrow_circle_up'],
+            ['Total Withdrawal', $totalWithdrawalMonthly, 'arrow_circle_down'],
+            ['Total Expense', $totalExpenseMonthly, 'money_off'],
+            ['Total Bonus', $totalBonusMonthly, 'star_border'],
+            ['Total Exchanges', $totalExchanges, 'swap_vert'],
+            ['Total Users', $totalUsers, 'group'],
+            ['Customers', $totalOldCustomersMonthly, 'person_outline'],
+            ['Monthly Profit', $totalOwnerProfitMonthly, 'attach_money'],
+            ['Total New Customer', $totalCustomersMonthly, 'person_add'],
+            ['Total Settling Points', $totalMasterSettlingMonthly, 'account_balance'],
+            ['Total Open Close Balance', $totalOpenCloseBalanceMonthly, 'monetization_on'],
+            ['Total Paid Vendor Amount', $totalPaidAmountMonthly, 'shopping_cart'],
+        ] as $index => $card)
             <div class="col-xl-3 col-sm-6 mb-4">
                 <div class="card">
                     <div class="card-header p-3">
                         <div class="d-flex align-items-center">
-                            <div class="icon icon-lg icon-shape {{ $card[2] }} shadow-{{ strtolower($card[2]) }} text-center border-radius-xl position-relative">
-                                <i class="material-icons opacity-10">{{ $card[3] }}</i>
+                            <div class="icon icon-lg icon-shape {{ $monthlyColorClasses[$index % count($monthlyColorClasses)] }} shadow-{{ strtolower($monthlyColorClasses[$index % count($monthlyColorClasses)]) }} text-center border-radius-xl position-relative">
+                                <i class="material-icons opacity-10">{{ $card[2] }}</i>
                             </div>
                             <div class="text-end ms-3 text-center flex-grow-1"> <!-- Center alignment -->
                                 <p class="text-sm mb-0 text-capitalize">{{ $card[0] }}</p>

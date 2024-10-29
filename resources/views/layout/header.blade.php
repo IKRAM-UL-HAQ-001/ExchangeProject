@@ -29,10 +29,23 @@
         color:black;
     }
 
-    .form-label{
+    .d-sm-inline, .breadcrumb-item{
+        font-weight:bold;
         color:black;
     }
 
+    .form-label{
+        color:black;
+    }
+    .text-capitalize{
+        font-weight:bold;
+        color:black;
+    }
+
+    .nav-link-text {
+        font-weight: bold;
+    }
+    
     .form-control:focus {
         border-color: #80bdff; /* Border color on focus */
         box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Shadow on focus */
