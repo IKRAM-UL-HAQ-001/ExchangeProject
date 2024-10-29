@@ -15,7 +15,6 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
     <link id="pagestyle" href="../assets/css/material-dashboard.css?v=3.1.0" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
-    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <style>
 
     .form-control{
@@ -25,10 +24,6 @@
         transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
     }
     
-    .table{
-        color:black;
-    }
-
     .d-sm-inline, .breadcrumb-item{
         font-weight:bold;
         color:black;
@@ -37,6 +32,7 @@
     .form-label{
         color:black;
     }
+    
     .text-capitalize{
         font-weight:bold;
         color:black;
@@ -60,13 +56,53 @@
         background-color: #343a40;
         color: white;
     }
+    
     .td-large {
         width: 45%;
     }
+    
     .td-small {
         width: 10%;
         text-align: center;
     }
+    
     .modal-header { background-color: #343a40; color: white; }
+    .table thead tr th {
+        color: black !important;          
+        font-size: 14px !important;        
+        font-weight: bold !important;       
+        text-transform: uppercase !important; 
+    }
+    /* DataTable Custom Styling */
+    .table tbody tr:nth-child(odd) {
+        background-color: black;
+        color: white;
+    }
+
+    .table tbody tr:nth-child(odd) td {
+        color: white;
+    }
+    .table tbody tr:nth-child(even) {
+        background-color: white !important; /* Use !important if needed */
+        color: black !important;
+         /* Use !important if needed */
+    }
+    .table tbody tr:nth-child(even) td {
+        background-color: white !important; /* Use !important if needed */
+        color: black !important;
+         /* Use !important if needed */
+    }
+
+    /* Optional: Adjust hover effect to keep text visible */
+   
+    .table tbody tr:nth-child(odd):hover {
+        background-color: black !important; /* Optional: Change background on hover */
+        color: white !important;            /* Change text to black */
+    }
+    .table tbody tr:nth-child(even):hover {
+        background-color: white !important; /* Use !important if needed */
+        color: black !important;
+         /* Use !important if needed */
+    }
 </style>
 </head>

@@ -18,14 +18,14 @@
                         <table id="masterSettlingTable" class="table align-items-center mb-0 table-striped table-hover">
                             <thead>
                                 <tr>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">User</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Exchange</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">White Label</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Credit Reff</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Settling Point</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Price</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Total Amount</th>
-                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">User</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Exchange</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">White Label</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Credit Reff</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Settling Point</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Price</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Total Amount</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder  ">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -37,7 +37,7 @@
                                     <td>{{ $masterSettling->credit_reff }}</td>
                                     <td>{{ $masterSettling->settling_point }}</td>
                                     <td>{{ $masterSettling->price }}</td>
-                                    <td></td>
+                                    <td>{{ $masterSettling->settling_point * $masterSettling->price }}</td>
                                     <td class="text-center">
                                         <button class="btn btn-danger btn-sm" aria-label="Delete Master Settling" onclick="deleteMasterSettling(this, {{ $masterSettling->id }})">Delete</button>
                                         <button class="btn btn-warning btn-sm" aria-label="Edit Master Settling" onclick="openEditModal({{ json_encode($masterSettling) }})">Edit</button>

@@ -18,16 +18,16 @@
                         <table id="userTable" class="table align-items-center mb-0 table-striped table-hover px-2">
                             <thead>
                                 <tr>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">User Name</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Exchange Name</th>
-                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
+                                    <th class="text-uppercase text-secondary  font-weight-bolder text-dark">User Name</th>
+                                    <th class="text-uppercase text-secondary  font-weight-bolder text-dark ps-2">Exchange Name</th>
+                                    <th class="text-center text-uppercase text-secondary font-weight-bolder text-dark">Action</th>
                                 </tr>
                             </thead>
                             
                             <tbody id="userTableBody">
                                 @foreach($userRecords as $user)
                                 <tr data-user-id="{{ $user->id ?? 'N/A' }}" data-exchange-id="{{ $user->exchange->id ?? 'N/A' }}">
-                                    <td style="width: 45%;">{{ $user->name ?? 'N/A'  }}</td>
+                                    <td style="width: 45%; ">{{ $user->name ?? 'N/A'  }}</td>
                                     <td style="width: 45%;">{{ $user->exchange->name ?? 'N/A' }}</td>
                                     <td style="width: 10%; text-align: center;">
                                         <button class="btn btn-danger btn-sm" onclick="deleteUser(this)">Delete</button>
@@ -123,10 +123,8 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-
 <script>
-    $(document).ready(function () {
-        // Initialize DataTable
+    $(document).ready(function() {
         const userTable = $('#userTable').DataTable({
             pagingType: "full_numbers",
             language: {
@@ -139,7 +137,7 @@
             },
             lengthMenu: [5, 10, 25, 50],
             pageLength: 10
-        });
+    });
 
         // Set up CSRF token for AJAX requests
         $.ajaxSetup({

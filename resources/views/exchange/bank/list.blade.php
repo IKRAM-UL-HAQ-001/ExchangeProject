@@ -17,12 +17,12 @@
                         <table id="bankTable" class="table align-items-center mb-0 table-striped table-hover px-2">
                             <thead>
                                 <tr>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Bank Name</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Account Number</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Cash Type</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Cash Amount</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Remarks</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Bank Balance</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Bank Name</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Account Number</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Cash Type</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Cash Amount</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Remarks</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Bank Balance</th>
                                 </tr>
                             </thead>
                             @php

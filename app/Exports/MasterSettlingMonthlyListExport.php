@@ -36,6 +36,7 @@ class MasterSettlingMonthlyListExport implements FromQuery, WithHeadings, WithSt
                 master_settlings.credit_reff,
                 master_settlings.settling_point,
                 master_settlings.price,
+                master_settlings.settling_point * master_settlings.price AS total_amount,
                 DATE_FORMAT(CONVERT_TZ(master_settlings.created_at, "+00:00", "+05:30"), "%Y-%m-%d %H:%i:%s") AS created_at,
                 DATE_FORMAT(CONVERT_TZ(master_settlings.updated_at, "+00:00", "+05:30"), "%Y-%m-%d %H:%i:%s") AS updated_at
             ')
@@ -67,6 +68,7 @@ class MasterSettlingMonthlyListExport implements FromQuery, WithHeadings, WithSt
             'Credit Ref',
             'Settling Point',
             'Price',
+            'Total Amount',
             'Created At',
             'Updated At',
         ];

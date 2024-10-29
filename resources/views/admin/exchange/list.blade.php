@@ -15,9 +15,9 @@
                         <table id="exchangeTable" class="table align-items-center mb-0 table-striped table-hover px-2">
                             <thead>
                                 <tr>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Exchange Name</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date and Time</th>
-                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
+                                    <th class="text-uppercase text-secondary font-weight-bolder">Exchange Name</th>
+                                    <th class="text-uppercase text-secondary font-weight-bolder">Date and Time</th>
+                                    <th class="text-center text-uppercase text-secondary font-weight-bolder">Action</th>
                                 </tr>
                             </thead>
                             <tbody>

@@ -5,14 +5,14 @@ namespace App\Exports;
 use Auth;
 use Carbon\Carbon;
 use App\Models\Cash;
-use Maatwebsite\Excel\Concerns\FromQuery;
+use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use Maatwebsite\Excel\Concerns\WithColumnWidths;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class WithdrawalListExport implements FromQuery, WithHeadings, WithStyles, WithColumnWidths
+class WithdrawalListExport implements FromCollection, WithHeadings, WithStyles, WithColumnWidths
 {
     use Exportable;
 
@@ -23,31 +23,62 @@ class WithdrawalListExport implements FromQuery, WithHeadings, WithStyles, WithC
         $this->exchangeId = $exchangeId;
     }
 
-    public function query()
-    {
-        $currentMonth = Carbon::now()->month;
-        $query = Cash::selectRaw('
-            cashes.id, 
-            exchanges.name AS name,
-            users.name AS user_name,
-            cashes.customer_name,
-            cashes.cash_type,
-            cashes.cash_amount,
-            cashes.remarks,
-            DATE_FORMAT(CONVERT_TZ(cashes.created_at, "+00:00", "+05:30"), "%Y-%m-%d %H:%i:%s") AS created_at,
-            DATE_FORMAT(CONVERT_TZ(cashes.updated_at, "+00:00", "+05:30"), "%Y-%m-%d %H:%i:%s") AS updated_at
-        ')
-        ->join('exchanges', 'cashes.exchange_id', '=', 'exchanges.id') 
-        ->join('users', 'cashes.user_id', '=', 'users.id') 
-        ->whereMonth('cashes.created_at', $currentMonth) 
-        ->where('cashes.cash_type', 'withdrawal');
+    public function collection()
+{
+    $currentMonth = Carbon::now()->month;
 
-        if (Auth::user()->role === "exchange") {
-            return $query->where('cashes.exchange_id', $this->exchangeId);
-        } 
+    // Fetching the records
+    $records = Cash::select('cashes.*', 'exchanges.name AS exchange_name', 'users.name AS user_name')
+        ->join('exchanges', 'cashes.exchange_id', '=', 'exchanges.id')
+        ->join('users', 'cashes.user_id', '=', 'users.id')
+        ->whereMonth('cashes.created_at', $currentMonth)
+        ->whereIn('cashes.cash_type', ['deposit', 'withdrawal', 'expense']);
 
-        return $query; // Return the query for admin and assistant roles
+    if (Auth::user()->role === "exchange") {
+        $records->where('cashes.exchange_id', $this->exchangeId);
     }
+
+    // Getting the results
+    $records = $records->get();
+
+    // Debugging: Check if records are fetched
+    if ($records->isEmpty()) {
+        throw new \Exception("No records found for the specified conditions.");
+    }
+
+    // Calculating total balance in PHP
+    $totalBalance = 0;
+    foreach ($records as $record) {
+        $totalBalance += ($record->cash_type === 'deposit' ? $record->cash_amount : -$record->cash_amount);
+        $record->total_balance = $totalBalance; // Assign total balance to each record
+    }
+
+    // Filtering for withdrawals
+    $withdrawals = $records->filter(function ($record) {
+        return $record->cash_type === 'withdrawal';
+    });
+
+    // Debugging: Check filtered withdrawals
+    if ($withdrawals->isEmpty()) {
+        throw new \Exception("No withdrawal records found.");
+    }
+
+    // Return only non-empty records and arrange columns in the desired order
+    return $withdrawals->map(function ($record) {
+        return [
+            'id' => $record->id,
+            'exchange_name' => $record->exchange_name,
+            'user_name' => $record->user_name,
+            'customer_name' => $record->customer_name,
+            'cash_type' => $record->cash_type,
+            'cash_amount' => $record->cash_amount,
+            'total_balance' => $record->total_balance,
+            'remarks' => $record->remarks,
+            'created_at' => $record->created_at,
+            'updated_at' => $record->updated_at,
+        ];
+    });
+}
 
     public function headings(): array
     {
@@ -58,6 +89,7 @@ class WithdrawalListExport implements FromQuery, WithHeadings, WithStyles, WithC
             'Customer Name',
             'Cash Type',
             'Cash Amount',
+            'Total Balance',
             'Remarks',
             'Created At',
             'Updated At',
@@ -66,8 +98,8 @@ class WithdrawalListExport implements FromQuery, WithHeadings, WithStyles, WithC
 
     public function styles(Worksheet $sheet)
     {
-        $sheet->getStyle('A1:I1')->getFont()->setBold(true); // Bold the header row
-        $sheet->getStyle('A1:I1')->getFont()->setSize(12); // Optional: set font size
+        $sheet->getStyle('A1:J1')->getFont()->setBold(true); // Bold the header row
+        $sheet->getStyle('A1:J1')->getFont()->setSize(12); // Optional: set font size
     }
 
     public function columnWidths(): array
@@ -79,9 +111,10 @@ class WithdrawalListExport implements FromQuery, WithHeadings, WithStyles, WithC
             'D' => 20, // Customer Name
             'E' => 15, // Cash Type
             'F' => 15, // Cash Amount
-            'G' => 30, // Remarks
-            'H' => 30, // Created At
-            'I' => 30, // Updated At
+            'G' => 30, // Total Balance
+            'H' => 30, // Remarks
+            'I' => 30, // Created At
+            'J' => 30, // Updated At
         ];
     }
 }

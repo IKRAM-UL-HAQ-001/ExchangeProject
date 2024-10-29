@@ -26,34 +26,78 @@ class OpenCloseBalanceListExport implements FromQuery,  WithHeadings, WithStyles
         $this->exchangeId = $exchangeId;
     }
 
-    public function query()
-    {
+    // public function query()
+    // {
 
-        $currentMonth = Carbon::now()->month; 
-        $query = OpenCloseBalance::selectRaw('
-            open_close_balances.id, 
-            exchanges.name AS name,
-            users.name AS user_name,
-            open_close_balances.open_balance,
-            open_close_balances.close_balance,
-            open_close_balances.remarks,
-            DATE_FORMAT(CONVERT_TZ(open_close_balances.created_at, "+00:00", "+05:30"), "%Y-%m-%d %H:%i:%s") as created_at,
-            DATE_FORMAT(CONVERT_TZ(open_close_balances.updated_at, "+00:00", "+05:30"), "%Y-%m-%d %H:%i:%s") as updated_at
-        ')
-        ->join('exchanges', 'open_close_balances.exchange_id', '=', 'exchanges.id')
-        ->join('users', 'open_close_balances.user_id', '=', 'users.id')
-        ->whereMonth('open_close_balances.created_at', $currentMonth) 
-        ->distinct(); // Ensure unique results
+    //     $currentMonth = Carbon::now()->month; 
+    //     $query = OpenCloseBalance::selectRaw('
+    //         open_close_balances.id, 
+    //         exchanges.name AS name,
+    //         users.name AS user_name,
+    //         open_close_balances.open_balance,
+    //         open_close_balances.close_balance,
+    //         open_close_balances.remarks,
+    //         DATE_FORMAT(CONVERT_TZ(open_close_balances.created_at, "+00:00", "+05:30"), "%Y-%m-%d %H:%i:%s") as created_at,
+    //         DATE_FORMAT(CONVERT_TZ(open_close_balances.updated_at, "+00:00", "+05:30"), "%Y-%m-%d %H:%i:%s") as updated_at
+    //     ')
+    //     ->join('exchanges', 'open_close_balances.exchange_id', '=', 'exchanges.id')
+    //     ->join('users', 'open_close_balances.user_id', '=', 'users.id')
+    //     ->whereMonth('open_close_balances.created_at', $currentMonth) 
+    //     ->distinct(); // Ensure unique results
     
-        switch (Auth::user()->role) {
-            case "exchange":
-                return $query->where('open_close_balances.exchange_id', $this->exchangeId );
-            case "admin":
-                return $query;
-            case "assistant":
-                return $query;
-        }
-    }    public function headings(): array
+    //     switch (Auth::user()->role) {
+    //         case "exchange":
+    //             return $query->where('open_close_balances.exchange_id', $this->exchangeId );
+    //         case "admin":
+    //             return $query;
+    //         case "assistant":
+    //             return $query;
+    //     }
+    // }   
+    public function query()
+{
+    $currentMonth = Carbon::now()->month;
+
+    $query = OpenCloseBalance::selectRaw('
+        open_close_balances.id, 
+        exchanges.name AS name,
+        users.name AS user_name,
+        open_close_balances.open_balance,
+        open_close_balances.close_balance,
+        -- Calculate the total balance
+        CASE 
+            WHEN @rownum := @rownum + 1 THEN 
+                IF(@rownum = 1, 
+                    open_close_balances.open_balance + open_close_balances.close_balance, 
+                    @prev_total_balance + open_close_balances.close_balance)
+            END AS total_balance,
+        open_close_balances.remarks,
+        DATE_FORMAT(CONVERT_TZ(open_close_balances.created_at, "+00:00", "+05:30"), "%Y-%m-%d %H:%i:%s") as created_at,
+        DATE_FORMAT(CONVERT_TZ(open_close_balances.updated_at, "+00:00", "+05:30"), "%Y-%m-%d %H:%i:%s") as updated_at,
+        @prev_total_balance := CASE 
+            WHEN @rownum = 1 THEN open_close_balances.open_balance + open_close_balances.close_balance 
+            ELSE @prev_total_balance + open_close_balances.close_balance 
+        END AS prev_total_balance
+    ')
+    ->join('exchanges', 'open_close_balances.exchange_id', '=', 'exchanges.id')
+    ->join('users', 'open_close_balances.user_id', '=', 'users.id')
+    ->whereMonth('open_close_balances.created_at', $currentMonth)
+    ->distinct()
+    ->join(DB::raw('(SELECT @rownum := 0, @prev_total_balance := 0) r'), DB::raw('1'), DB::raw('1')); // Initialize variables
+
+    switch (Auth::user()->role) {
+        case "exchange":
+            return $query->where('open_close_balances.exchange_id', $this->exchangeId);
+        case "admin":
+            return $query;
+        case "assistant":
+            return $query;
+    }
+}
+
+    
+    
+    public function headings(): array
     {
         return [
             'ID',
@@ -61,6 +105,7 @@ class OpenCloseBalanceListExport implements FromQuery,  WithHeadings, WithStyles
             'User Name',
             'Open Balance',
             'Close Balance',
+            'Total Balance',
             'Remarks',
             'Created At',
             'Updated At',

@@ -18,10 +18,10 @@
                         <table id="openingClosingBalanceTable" class="table align-items-center mb-0 table-striped table-hover px-2">
                             <thead>
                                 <tr>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Opening Balance</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Closing Balance</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Total Balance</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Remarks</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Opening Balance</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Closing Balance</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Total Balance</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Remarks</th>
                                 </tr>
                             </thead>
                             <tbody>

@@ -17,13 +17,13 @@
                         <table id="bankBalanceTable" class="table align-items-center mb-0 table-striped table-hover px-2">
                             <thead>
                                 <tr>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">User</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Exchange</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Bank</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Account No.</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Amount</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Type</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Remarks</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">User</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Exchange</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Bank</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Account No.</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Amount</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Type</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Remarks</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -31,7 +31,7 @@
                                 <tr>
                                     <td>{{ $bankBalance->user->name }}</td>
                                     <td>{{ $bankBalance->exchange->name }}</td>
-                                    <td>{{ $bankBalance->name }}</td>
+                                    <td>{{ $bankBalance->bank_name }}</td>
                                     <td>{{ $bankBalance->account_number }}</td>
                                     <td>{{ $bankBalance->cash_amount }}</td>
                                     <td>{{ $bankBalance->cash_type }}</td>

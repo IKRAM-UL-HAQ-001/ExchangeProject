@@ -15,10 +15,10 @@
                         <table id="cashTable" class="table align-items-center mb-0 table-striped table-hover">
                             <thead>
                                 <tr>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Cash Type</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Amount</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Total Balance</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date and Time</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Cash Type</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Amount</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Total Balance</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Date and Time</th>
                                 </tr>
                             </thead>
                             <tbody>

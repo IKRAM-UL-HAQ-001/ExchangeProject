@@ -36,6 +36,7 @@ class MasterSettlingWeeklyListExport implements FromQuery, WithHeadings, WithSty
                 master_settlings.credit_reff,
                 master_settlings.settling_point,
                 master_settlings.price,
+                master_settlings.settling_point * master_settlings.price AS total_amount,
                 DATE_FORMAT(CONVERT_TZ(master_settlings.created_at, "+00:00", "+05:30"), "%Y-%m-%d %H:%i:%s") AS created_at,
                 DATE_FORMAT(CONVERT_TZ(master_settlings.updated_at, "+00:00", "+05:30"), "%Y-%m-%d %H:%i:%s") AS updated_at
             ')
@@ -65,6 +66,7 @@ class MasterSettlingWeeklyListExport implements FromQuery, WithHeadings, WithSty
             'Credit Ref',
             'Settling Point',
             'Price',
+            'Total Amount',
             'Created At',
             'Updated At',
         ];
@@ -72,8 +74,8 @@ class MasterSettlingWeeklyListExport implements FromQuery, WithHeadings, WithSty
 
     public function styles(Worksheet $sheet)
     {
-        $sheet->getStyle('A1:I1')->getFont()->setBold(true); // Bold the header row
-        $sheet->getStyle('A1:I1')->getFont()->setSize(12); // Optional: set font size
+        $sheet->getStyle('A1:J1')->getFont()->setBold(true); // Bold the header row
+        $sheet->getStyle('A1:J1')->getFont()->setSize(12); // Optional: set font size
     }
 
     public function columnWidths(): array
@@ -86,8 +88,9 @@ class MasterSettlingWeeklyListExport implements FromQuery, WithHeadings, WithSty
             'E' => 15, // Credit Ref
             'F' => 20, // Settling Point
             'G' => 15, // Price
-            'H' => 30, // Created At
-            'I' => 30, // Updated At
+            'H' => 15, // Total Amount
+            'I' => 30, // Created At
+            'J' => 30, // Updated At
         ];
     }
 }
