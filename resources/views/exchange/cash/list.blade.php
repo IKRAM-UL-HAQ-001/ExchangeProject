@@ -81,18 +81,18 @@
                                 @enderror
                             </div>
 
-                            <div class="form-group" id="customer_name" style="display: none;">
-                                <label class="form-label" for="customer_name">Customer Name<span class="text-danger">*</span></label>
-                                <input type="text" class="form-control border" name="customer_name" placeholder="Enter Customer Name">
-                                @error('customer_name')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-                            
                             <div class="form-group" id="reference_number" style="display: none;">
                                 <label class="form-label" for="reference_number">Reference Number<span class="text-danger">*</span></label>
                                 <input type="text" class="form-control border" name="reference_number" placeholder="Enter Reference Number" >
                                 @error('reference_number')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="form-group" id="customer_name" style="display: none;">
+                                <label class="form-label" for="customer_name">Customer Name<span class="text-danger">*</span></label>
+                                <input type="text" class="form-control border" name="customer_name" placeholder="Enter Customer Name">
+                                @error('customer_name')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
