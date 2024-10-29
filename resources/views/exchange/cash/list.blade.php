@@ -69,7 +69,7 @@
                         @csrf
                         <div class="row">
                             <div class="form-group">
-                                <label for="cash_type">Cash Type<span class="text-danger">*</span></label>
+                                <label class="form-label" for="cash_type">Cash Type<span class="text-danger">*</span></label>
                                 <select class="form-control border px-3" id="cash_type" name="cash_type" required>
                                     <option disabled selected>Choose Cash Type</option>
                                     <option value="deposit" {{ old('cash_type') == 'deposit' ? 'selected' : '' }}>Deposit</option>
@@ -82,7 +82,7 @@
                             </div>
 
                             <div class="form-group" id="customer_name" style="display: none;">
-                                <label for="customer_name">Customer Name<span class="text-danger">*</span></label>
+                                <label class="form-label" for="customer_name">Customer Name<span class="text-danger">*</span></label>
                                 <input type="text" class="form-control border" name="customer_name" placeholder="Enter Customer Name">
                                 @error('customer_name')
                                     <div class="text-danger">{{ $message }}</div>
@@ -90,7 +90,7 @@
                             </div>
                             
                             <div class="form-group" id="reference_number" style="display: none;">
-                                <label for="reference_number">Reference Number<span class="text-danger">*</span></label>
+                                <label class="form-label" for="reference_number">Reference Number<span class="text-danger">*</span></label>
                                 <input type="text" class="form-control border" name="reference_number" placeholder="Enter Reference Number" >
                                 @error('reference_number')
                                     <div class="text-danger">{{ $message }}</div>
@@ -106,7 +106,7 @@
                             </div>
 
                             <div class="form-group" id="bonus-amount-field" style="display: none;">
-                                <label for="bonus_amount">Bonus Amount <span class="text-pink">(optional)</span></label>
+                                <label class="form-label" for="bonus_amount">Bonus Amount <span class="text-pink">(optional)</span></label>
                                 <input type="text" class="form-control border" name="bonus_amount" placeholder="Enter Bonus Amount if any">
                                 @error('bonus_amount')
                                     <div class="text-danger">{{ $message }}</div>
@@ -114,7 +114,7 @@
                             </div>
 
                             <div class="form-group" id="payment-type-field" style="display: none;">
-                                <label>Payment Type<span class="text-danger">*</span></label>
+                                <label class="form-label">Payment Type<span class="text-danger">*</span></label>
                                 <div class="row">
                                     @foreach(['google_pay', 'phone_pay', 'imps', 'neft', 'i20_pay'] as $index => $payment)
                                     <div class="col-md-6">
@@ -133,7 +133,7 @@
                             </div>
 
                             <div class="form-group" id="remarks">
-                                <label for="remarks">Remarks <span class="text-pink">(optional)</span></label>
+                                <label class="form-label" for="remarks">Remarks <span class="text-pink">(optional)</span></label>
                                 <input type="text" class="form-control border" name="remarks" placeholder="Enter Remarks if any">
                                 @error('remarks')
                                     <div class="text-danger">{{ $message }}</div>
