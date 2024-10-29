@@ -172,7 +172,7 @@ Route::group(['middleware' => 'exchange'], function () {
     //report
         //Report
         Route::get('/exchange/report', [ReportController::class, 'exchangeIndex'])->name('exchange.report.list');
-        Route::post('/admin/report/post', [ReportController::class, 'exchangeReport'])->name('exchange.report.generate');
+        Route::post('/exchange/report/post', [ReportController::class, 'exchangeReport'])->name('exchange.report.generate');
 
     //open close balance
     Route::get('/exchange/openCloseBalance', [OpenCloseBalanceController::class, 'exchangeIndex'])->name('exchange.open_close_balance.list');
