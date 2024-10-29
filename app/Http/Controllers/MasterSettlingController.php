@@ -76,8 +76,6 @@ class MasterSettlingController extends Controller
         }
     }
 
-    
-
     public function exchangeIndex()
     {
         if (!auth()->check()) {
