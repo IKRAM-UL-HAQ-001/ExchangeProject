@@ -60,7 +60,7 @@
             ['Today Profit', $totalOwnerProfitDaily, 'attach_money'],
             ['Today New Customer', $totalCustomersDaily, 'person_add'],
             ['Today Open Close Balance', $totalOpenCloseBalanceDaily, 'monetization_on'],
-            ['Today Paid Vendor Amount', $totalPaidAmountDaily, 'shopping_cart'],
+            ['Today Paid Vendor Amount', $totalPaidAmountDaily, 'attach_money'],
         ] as $index => $card)
             <div class="col-xl-3 col-sm-6 mb-4">
                 <div class="card">
@@ -134,7 +134,7 @@
             ['Total New Customer', $totalCustomersMonthly, 'person_add'],
             ['Total Settling Points', $totalMasterSettlingMonthly, 'account_balance'],
             ['Total Open Close Balance', $totalOpenCloseBalanceMonthly, 'monetization_on'],
-            ['Total Paid Vendor Amount', $totalPaidAmountMonthly, 'shopping_cart'],
+            ['Total Paid Vendor Amount', $totalPaidAmountMonthly, 'attach_money'],
         ] as $index => $card)
             <div class="col-xl-3 col-sm-6 mb-4">
                 <div class="card">
