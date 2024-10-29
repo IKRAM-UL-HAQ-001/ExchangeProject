@@ -26,6 +26,7 @@ class MasterSettlingMonthlyListExport implements FromQuery, WithHeadings, WithSt
     public function query()
     {
         $currentMonth = Carbon::now()->month;
+        $currentYear = Carbon::now()->year;
 
         $query = MasterSettling::selectRaw('
                 master_settlings.id, 
@@ -41,9 +42,9 @@ class MasterSettlingMonthlyListExport implements FromQuery, WithHeadings, WithSt
             ->join('exchanges', 'master_settlings.exchange_id', '=', 'exchanges.id')
             ->join('users', 'master_settlings.user_id', '=', 'users.id')
             ->whereMonth('master_settlings.created_at', $currentMonth)
-            ->distinct(); // Ensure unique results
+            ->whereYear('master_settlings.created_at', $currentYear)
+            ->distinct();
 
-        // User role filtering
         switch (Auth::user()->role) {
             case "exchange":
                 return $query->where('master_settlings.exchange_id', $this->exchangeId);

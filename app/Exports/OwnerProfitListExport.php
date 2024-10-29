@@ -31,6 +31,7 @@ class OwnerProfitListExport implements FromQuery,  WithHeadings, WithStyles, Wit
     {
 
         $currentMonth = Carbon::now()->month; 
+        $currentYear = Carbon::now()->year; 
 
         $query = OwnerProfit::selectRaw('
                 owner_profits.id, 
@@ -43,7 +44,8 @@ class OwnerProfitListExport implements FromQuery,  WithHeadings, WithStyles, Wit
             ')
             ->join('exchanges', 'owner_profits.exchange_id', '=', 'exchanges.id') // Join with shops
             ->join('users', 'owner_profits.user_id', '=', 'users.id') // Join with users based on user_id
-            ->whereMonth('owner_profits.created_at', $currentMonth) // Filter by today's date
+            ->whereMonth('owner_profits.created_at', $currentMonth)
+            ->whereYear('owner_profits.created_at', $currentYear)
             ->distinct(); // Ensure unique results
     
         switch (Auth::user()->role) {

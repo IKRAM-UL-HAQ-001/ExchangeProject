@@ -28,6 +28,8 @@ class CustomerListExport  implements FromQuery,  WithHeadings, WithStyles, WithC
     public function query()
     {
         $currentMonth = Carbon::now()->month;
+        $currentYear = Carbon::now()->year;
+        
         $query = Customer::selectRaw('
             customers.id, 
             exchanges.name as exchange_name,
@@ -41,7 +43,9 @@ class CustomerListExport  implements FromQuery,  WithHeadings, WithStyles, WithC
         ')
         ->join('exchanges', 'customers.exchange_id', '=', 'exchanges.id') 
         ->join('users', 'customers.user_id', '=', 'users.id') 
-        ->whereMonth('customers.created_at', $currentMonth);
+        ->whereMonth('customers.created_at', $currentMonth)
+        ->whereYear('customers.created_at', $currentYear)
+        ->distinct();
        
         if (Auth::user()->role == "exchange") {
             return $query->where('customers.exchange_id', $this->exchnageId); // No ->get() here, return the query builder
