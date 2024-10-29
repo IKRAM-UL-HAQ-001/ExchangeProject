@@ -32,15 +32,15 @@
 
         @foreach ([ 
             ['Today Margin', $totalBalanceDaily, 'bg-gradient-success', 'attach_money'],
-            ['Total Deposit', $totalDepositDaily, 'bg-gradient-info', 'arrow_upward'],
-            ['Total Withdrawal', $totalWithdrawalDaily, 'bg-gradient-danger', 'arrow_downward'],
-            ['Total Expense', $totalExpenseDaily, 'bg-gradient-warning', 'money_off'],
-            ['Total Bonus', $totalBonusDaily, 'bg-gradient-dark', 'star'],
-            ['Total Users', $userCount, 'bg-gradient-secondary', 'people'],
+            ['Today Deposit', $totalDepositDaily, 'bg-gradient-info', 'arrow_upward'],
+            ['Today Withdrawal', $totalWithdrawalDaily, 'bg-gradient-danger', 'arrow_downward'],
+            ['Today Expense', $totalExpenseDaily, 'bg-gradient-warning', 'money_off'],
+            ['Today Bonus', $totalBonusDaily, 'bg-gradient-dark', 'star'],
+            ['Today Users', $userCount, 'bg-gradient-secondary', 'people'],
             ['Customers', $customerCountDaily, 'bg-gradient-info', 'person'],
             ['Today Profit', $totalOwnerProfitDaily, 'bg-gradient-success', 'attach_money'],
-            ['Total New Customers', $totalNewCustomerDaily, 'bg-gradient-warning', 'group_add'],
-            ['Total Open Close Balance', $totalOpenCloseBalanceDaily, 'bg-gradient-info', 'account_balance'],
+            ['Today New Customers', $totalNewCustomerDaily, 'bg-gradient-warning', 'group_add'],
+            ['Today Open Close Balance', $totalOpenCloseBalanceDaily, 'bg-gradient-info', 'account_balance'],
         ] as $card)
             <div class="col-xl-3 col-sm-6 mb-4">
                 <div class="card">

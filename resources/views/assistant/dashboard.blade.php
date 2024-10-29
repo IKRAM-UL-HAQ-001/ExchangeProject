@@ -44,30 +44,30 @@
 
         @foreach ([
             ['Today Margin', $totalBalanceDaily],
-            ['Total Deposit', $totalDepositDaily],
-            ['Total Withdrawal', $totalWithdrawalDaily],
-            ['Total Expense', $totalExpenseDaily],
-            ['Total Bonus', $totalBonusDaily],
-            ['Total Exchanges', $totalExchanges],
-            ['Total Users', $totalUsers],
+            ['Today Deposit', $totalDepositDaily],
+            ['Today Withdrawal', $totalWithdrawalDaily],
+            ['Today Expense', $totalExpenseDaily],
+            ['Today Bonus', $totalBonusDaily],
+            ['Today Exchanges', $totalExchanges],
+            ['Today Users', $totalUsers],
             ['Customers', $totalOldCustomersDaily],
-            ['Total Profit', $totalOwnerProfitDaily],
-            ['Total New Customer', $totalCustomerDaily],
-            ['Total Open Close Balance', $totalOpenCloseBalanceDaily],
+            ['Today Profit', $totalOwnerProfitDaily],
+            ['Today New Customer', $totalCustomerDaily],
+            ['Today Open Close Balance', $totalOpenCloseBalanceDaily],
         ] as $index => $card)
             @php
                 $iconMapping = [
                     'Today Margin' => 'attach_money',
-                    'Total Deposit' => 'arrow_upward',
-                    'Total Withdrawal' => 'arrow_downward',
-                    'Total Expense' => 'money_off',
-                    'Total Bonus' => 'star',
-                    'Total Exchanges' => 'swap_horiz',
-                    'Total Users' => 'people',
+                    'Today Deposit' => 'arrow_upward',
+                    'Today Withdrawal' => 'arrow_downward',
+                    'Today Expense' => 'money_off',
+                    'Today Bonus' => 'star',
+                    'Today Exchanges' => 'swap_horiz',
+                    'Today Users' => 'people',
                     'Customers' => 'person',
-                    'Total Profit' => 'money',
-                    'Total New Customer' => 'group_add',
-                    'Total Open Close Balance' => 'account_balance',
+                    'Today Profit' => 'money',
+                    'Today New Customer' => 'group_add',
+                    'Today Open Close Balance' => 'account_balance',
                 ];
 
                 $icon = $iconMapping[$card[0]] ?? 'info'; // Default icon if not found

@@ -44,17 +44,17 @@
 
         @foreach ([ 
             ['Today Margin', $totalBalanceDaily, 'trending_up'],
-            ['Total Deposit', $totalDepositDaily, 'arrow_circle_up'],
-            ['Total Withdrawal', $totalWithdrawalDaily, 'arrow_circle_down'],
-            ['Total Expense', $totalExpenseDaily, 'payment'],
-            ['Total Bonus', $totalBonusDaily, 'star_border'],
-            ['Total Exchanges', $totalExchanges, 'swap_vert'],
-            ['Total Users', $totalUsers, 'group'],
+            ['Today Deposit', $totalDepositDaily, 'arrow_circle_up'],
+            ['Today Withdrawal', $totalWithdrawalDaily, 'arrow_circle_down'],
+            ['Today Expense', $totalExpenseDaily, 'payment'],
+            ['Today Bonus', $totalBonusDaily, 'star_border'],
+            ['Today Exchanges', $totalExchanges, 'swap_vert'],
+            ['Today Users', $totalUsers, 'group'],
             ['Customers', $totalOldCustomersDaily, 'person_outline'],
             ['Today Profit', $totalOwnerProfitDaily, 'attach_money'],
-            ['Total New Customer', $totalCustomersDaily, 'person_add'],
-            ['Total Open Close Balance', $totalOpenCloseBalanceDaily, 'monetization_on'],
-            ['Total Paid Vendor Amount', $totalPaidAmountDaily, 'shopping_cart'],
+            ['Today New Customer', $totalCustomersDaily, 'person_add'],
+            ['Today Open Close Balance', $totalOpenCloseBalanceDaily, 'monetization_on'],
+            ['Today Paid Vendor Amount', $totalPaidAmountDaily, 'shopping_cart'],
         ] as $index => $card)
             <div class="col-xl-3 col-sm-6 mb-4">
                 <div class="card">
