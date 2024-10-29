@@ -45,9 +45,9 @@ class AssistantController extends Controller
                 foreach ($entriesDaily as $entry) {
                     if ($totalOpenCloseBalanceDaily === 0) {
                         $totalOpenCloseBalanceDaily += $entry->close_balance;
-                    }
-                    $totalOpenCloseBalanceDaily += $entry->close_balance;
-                }
+                    }else{
+                        $totalOpenCloseBalanceDaily += $entry->close_balance;
+                    }                }
             }
 
             if ($entriesMonth->count() === 1) {
@@ -57,8 +57,9 @@ class AssistantController extends Controller
                 foreach ($entriesMonth as $entry) {
                     if ($totalOpenCloseBalanceMonthly === 0) {
                         $totalOpenCloseBalanceMonthly += $entry->close_balance;
+                    }else{
+                        $totalOpenCloseBalanceMonthly += $entry->close_balance;
                     }
-                    $totalOpenCloseBalanceMonthly += $entry->close_balance;
                 }
             }
             $totalDepositDaily = Cash::where('cash_type', 'deposit')

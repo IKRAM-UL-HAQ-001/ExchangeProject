@@ -1,64 +1,50 @@
 @extends("layout.main")
 @section('content')
-<!-- <div class="container-fluid py-4">
-    <div class="row">
-        <div class="col-12">
-            <div class="card my-4">
-                <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                    <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
-                        <p style="color: white;"><strong>Daily Reports</strong></p>
-                    </div>
+    <div class="container-fluid pb-5">
+        <br>
+        <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 mt-5">
+            <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
+                <p style="color: white;"><strong>Reports</strong></p>
+                <div>
+                    <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#reportModal">Show Report</button>
                 </div>
             </div>
         </div>
-    </div>
-</div> -->
-    <div class="container-fluid">
-        {{-- <div class="row page-titles mx-0">
-            <div class="col-sm-6 p-md-0">
-                <div class="welcome-text">
-                    <h4>Hi, welcome back!</h4>
-                    <p class="mb-0">Your business dashboard template</p>
-                </div>
-            </div>
-            <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="javascript:void(0)">Layout</a></li>
-                    <li class="breadcrumb-item active"><a href="javascript:void(0)">Daily Report</a></li>
-                </ol>
-            </div>
-        </div> --}}
-
+        
+        <br>
         <div class="row">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-4 col-sm-12">
+                    <!-- Withdrawals and Deposits Chart -->
+                    <div class="col-lg-4 col-sm-12 mb-4">
                         <div class="card equal-height">
                             <div class="card-header">
                                 <h4 class="card-title">Withdrawals and Deposits</h4>
-                                <span style="color:black"></span>
+                                <span id="withdrawalsDepositsLabel" style="color:black">Date Range: N/A</span>
                             </div>
                             <div class="card-body">
                                 <canvas id="withdrawalsChart"></canvas>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-4 col-sm-12">
+                    <!-- Expense and Bonus Chart -->
+                    <div class="col-lg-4 col-sm-12 mb-4">
                         <div class="card equal-height">
                             <div class="card-header">
-                                <h4 class="card-title">Expense and Bonus </h4>
-                                <span style="color:black"></span>
+                                <h4 class="card-title">Expense and Bonus</h4>
+                                <span id="expenseBonusLabel" style="color:black">Date Range: N/A</span>
                             </div>
                             <div class="card-body">
                                 <canvas id="profitsChart"></canvas>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-4 col-sm-12">
+                    <!-- Total Exchange Profit Chart -->
+                    <div class="col-lg-4 col-sm-12 mb-4">
                         <div class="card equal-height">
                             <div class="card-header">
                                 <h4 class="card-title">Total Exchange Profit</h4>
-                                <span style="color:black"></span>
+                                <span id="exchangeProfitLabel" style="color:black">Date Range: N/A</span>
                             </div>
                             <div class="card-body">
                                 <canvas id="bonusChart"></canvas>
@@ -68,64 +54,211 @@
                 </div>
             </div>
         </div>
+
+        <!-- Report Modal -->
+        <div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header d-flex justify-content-between align-items-center bg-primary">
+                        <h5 class="modal-title" id="reportModalLabel" style="color:white">Generate Report</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        {{-- <div class="alert alert-success text-white d-none" id='success'>
+                            Report generated successfully.
+                        </div>
+                        <div class="alert alert-danger text-white d-none" id='error'>
+                            Failed to generate report. Please try again.
+                        </div> --}}
+                        <form id="reportForm">
+                            @csrf
+                            {{-- <div class="mb-3"> --}}
+                                {{-- <label for="exchange" class="form-label">Exchange</label> --}}
+                                <input type="hidden" class="form-select px-3" id="exchange" name="exchange_id" value="{{Auth::user()->exchange_id}}" >
+                            {{-- </div> --}}
+                            {{-- <div class="mb-3">
+                                <label class="form-label">Select Date Range:</label>
+                                <div class="d-flex gap-2 mb-2">
+                                    <button type="button" class="btn btn-outline-primary btn-sm preset-date" data-preset="today">Today</button>
+                                    <button type="button" class="btn btn-outline-primary btn-sm preset-date" data-preset="yesterday">Yesterday</button>
+                                    <button type="button" class="btn btn-outline-primary btn-sm preset-date" data-preset="last7">Last 7 Days</button>
+                                </div>
+                                <small class="form-text text-muted">You can select a single date for a daily report or a date range for a custom report.</small>
+                            </div> --}}
+                            <div class="mb-3">
+                                <label for="sdate" class="form-label">Start Date:</label>
+                                <input type="date" class="form-control border px-3" id="sdate" name="start_date" required
+                                       value="{{ \Carbon\Carbon::today()->toDateString() }}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="edate" class="form-label">End Date:</label>
+                                <input type="date" class="form-control border px-3" id="edate" name="end_date" required
+                                       value="{{ \Carbon\Carbon::today()->toDateString() }}">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" id="generateReportBtn">
+                            <span id="btnText">Generate Report</span>
+                            <span id="btnSpinner" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
+    <!-- Include jQuery and Chart.js -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Chart Initialization and Report Generation Script -->
     <script>
-        (function($) {
+        $(document).ready(function() {
             "use strict";
-
-            // Withdrawals chart
-            const ctx2 = document.getElementById('withdrawalsChart').getContext('2d');
-            new Chart(ctx2, {
-                type: 'pie',
-                data: {
-                    labels: ['Withdrawals', 'Deposits'],
-                    datasets: [{
-                        data: [{{$withdrawal ?: 0}}, {{$deposit ?: 0}}],
-                        backgroundColor: ['rgb(192, 10, 39)', '#75B432'],
-                    }]
-                },
-                options: {
-                    responsive: true,
+    
+            // Initialize Charts
+            let withdrawalsChart = initializeChart('withdrawalsChart', ['Withdrawals', 'Deposits'], ['#C00A27', '#75B432']);
+            let profitsChart = initializeChart('profitsChart', ['Expenses', 'Bonuses'], ['#75B432', '#E0E0E0']);
+            let bonusChart = initializeChart('bonusChart', ['Total Exchange Profit', 'Remaining'], ['#FFCE56', '#36A2EB']);
+    
+            // Initialize a Chart
+            function initializeChart(canvasId, labels, colors) {
+                return new Chart(document.getElementById(canvasId).getContext('2d'), {
+                    type: 'pie',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            data: [0, 0],
+                            backgroundColor: colors,
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                            }
+                        }
+                    }
+                });
+            }
+    
+            // Update Chart Data
+            function updateChartData(chart, data) {
+                chart.data.datasets[0].data = data;
+                chart.update();
+            }
+    
+            // Generate Report Function
+            function generateReport(exchangeId, startDate, endDate) {
+                $.ajax({
+                    url: '{{ route("exchange.report.generate") }}',
+                    method: 'POST',
+                    data: {
+                        exchange_id: exchangeId,
+                        start_date: startDate,
+                        end_date: endDate,
+                        _token: '{{ csrf_token() }}'
+                    },
+                    beforeSend: function() {
+                        $('#btnText').text('Generating...');
+                        $('#btnSpinner').removeClass('d-none');
+                        $('#generateReportBtn').prop('disabled', true);
+                    },
+                    success: function(response) {
+                        // Update Charts with New Data
+                        updateChartData(withdrawalsChart, [response.withdrawal, response.deposit]);
+                        updateChartData(profitsChart, [response.expense, response.bonus]);
+                        updateChartData(bonusChart, [
+                            response.latestBalance < 0 ? 0 : response.latestBalance,
+                            response.latestBalance < 0 ? Math.abs(response.latestBalance) : 0
+                        ]);
+    
+                        // Update Labels with Date Range
+                        $('#withdrawalsDepositsLabel').text(`Date Range: ${response.date_range.start} to ${response.date_range.end}`);
+                        $('#expenseBonusLabel').text(`Date Range: ${response.date_range.start} to ${response.date_range.end}`);
+                        $('#exchangeProfitLabel').text(`Date Range: ${response.date_range.start} to ${response.date_range.end}`);
+    
+                        // Show Success Message
+                        $('#success').removeClass('d-none').text('Report generated successfully.');
+    
+                        // Close the Modal after a Short Delay
+                        setTimeout(function() {
+                            $('#reportModal').modal('hide');
+                        }, 1000);
+                    },
+                    error: function(xhr) {
+                        // Handle Errors
+                        let errorMsg = 'An error occurred. Please try again.';
+                        if (xhr.responseJSON && xhr.responseJSON.error) {
+                            errorMsg = xhr.responseJSON.error;
+                        }
+                        $('#error').removeClass('d-none').text(errorMsg);
+                    },
+                    complete: function() {
+                        // Reset Button Text and State
+                        $('#btnText').text('Generate Report');
+                        $('#btnSpinner').addClass('d-none');
+                        $('#generateReportBtn').prop('disabled', false);
+                    }
+                });
+            }
+    
+            // Handle Generate Report Button Click
+            $('#generateReportBtn').on('click', function() {
+                // Get Selected Values from Form
+                const exchangeId = $('#exchange').val();
+                const startDate = $('#sdate').val();
+                const endDate = $('#edate').val();
+    
+                // Validate Inputs
+                if (!exchangeId || !startDate || !endDate) {
+                    $('#error').removeClass('d-none').text('All fields are required.');
+                    return;
                 }
+    
+                // Call Generate Report Function
+                generateReport(exchangeId, startDate, endDate);
             });
-
-            // Profits chart
-            const ctx3 = document.getElementById('profitsChart').getContext('2d');
-            new Chart(ctx3, {
-                type: 'pie',
-                data: {
-                    labels: ['Expenses', 'Bonuses'],
-                    datasets: [{
-                        data: [{{$expense ?: 0}}, {{$bonus ?: 0}}],
-                        backgroundColor: ['#75B432', '#E0E0E0'],
-                    }]
-                },
-                options: {
-                    responsive: true,
+    
+            // Preset Date Button Click Handler
+            $('.preset-date').on('click', function() {
+                const preset = $(this).data('preset');
+                let today = new Date();
+                let start_date, end_date;
+    
+                switch (preset) {
+                    case 'today':
+                        start_date = end_date = formatDate(today);
+                        break;
+                    case 'yesterday':
+                        today.setDate(today.getDate() - 1);
+                        start_date = end_date = formatDate(today);
+                        break;
+                    case 'last7':
+                        let last7 = new Date();
+                        last7.setDate(last7.getDate() - 6);
+                        start_date = formatDate(last7);
+                        end_date = formatDate(today);
+                        break;
                 }
+    
+                // Set the Selected Dates
+                $('#sdate').val(start_date);
+                $('#edate').val(end_date);
             });
-
-            // Bonus chart
-            const ctx4 = document.getElementById('bonusChart').getContext('2d');
-            new Chart(ctx4, {
-                type: 'pie',
-                data: {
-                    labels: ['Total Exchange Profit'],
-                    datasets: [{
-                        data: [{{$latestBalance ?: 0}}],
-                        backgroundColor: ['#FFCE56'],
-                    }]
-                },
-                options: {
-                    responsive: true,
-                }
-            });
-        })(jQuery);
+    
+            // Helper Function to Format Date to YYYY-MM-DD
+            function formatDate(date) {
+                return date.toISOString().split('T')[0];
+            }
+        });
     </script>
-
+    
+  
+    <!-- Styles -->
     <style>
         .equal-height {
             display: flex;
@@ -142,9 +275,13 @@
 
         canvas {
             max-width: 100%;
-            max-height: 200px;
+            max-height: 300px; /* Increased height for better visibility */
+        }
+
+        /* Optional: Style the modal header for better visibility */
+        .modal-header {
+            background-color: #0d6efd;
+            color: white;
         }
     </style>
-
 @endsection
-

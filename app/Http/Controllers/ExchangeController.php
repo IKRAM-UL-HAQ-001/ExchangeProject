@@ -57,9 +57,9 @@ class ExchangeController extends Controller
                     // If it's the first entry, add its opening balance
                     if ($totalOpenCloseBalanceDaily === 0) {
                         $totalOpenCloseBalanceDaily += $entry->close_balance;
+                    }else{
+                        $totalOpenCloseBalanceDaily += $entry->close_balance;
                     }
-                    // Always add the closing balance
-                    $totalOpenCloseBalanceDaily += $entry->close_balance;
                 }
             }
 
@@ -71,7 +71,9 @@ class ExchangeController extends Controller
                     if ($totalOpenCloseBalanceMonthly === 0) {
                         $totalOpenCloseBalanceMonthly += $entry->close_balance;
                     }
-                    $totalOpenCloseBalanceMonthly += $entry->close_balance;
+                    else{
+                        $totalOpenCloseBalanceMonthly += $entry->close_balance;
+                    }
                 }
             }
 

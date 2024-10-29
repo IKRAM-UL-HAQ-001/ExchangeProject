@@ -16,11 +16,11 @@
             <div class="container">
                 <div class="row">
                     <!-- Withdrawals and Deposits Chart -->
-                    <div class="col-lg-4 col-sm-12">
+                    <div class="col-lg-4 col-sm-12 mb-4">
                         <div class="card equal-height">
                             <div class="card-header">
                                 <h4 class="card-title">Withdrawals and Deposits</h4>
-                                <span id="withdrawalsDepositsLabel" style="color:black">No Data Available</span>
+                                <span id="withdrawalsDepositsLabel" style="color:black">Date Range: N/A</span>
                             </div>
                             <div class="card-body">
                                 <canvas id="withdrawalsChart"></canvas>
@@ -28,11 +28,11 @@
                         </div>
                     </div>
                     <!-- Expense and Bonus Chart -->
-                    <div class="col-lg-4 col-sm-12">
+                    <div class="col-lg-4 col-sm-12 mb-4">
                         <div class="card equal-height">
                             <div class="card-header">
                                 <h4 class="card-title">Expense and Bonus</h4>
-                                <span id="expenseBonusLabel" style="color:black">No Data Available</span>
+                                <span id="expenseBonusLabel" style="color:black">Date Range: N/A</span>
                             </div>
                             <div class="card-body">
                                 <canvas id="profitsChart"></canvas>
@@ -40,11 +40,11 @@
                         </div>
                     </div>
                     <!-- Total Exchange Profit Chart -->
-                    <div class="col-lg-4 col-sm-12">
+                    <div class="col-lg-4 col-sm-12 mb-4">
                         <div class="card equal-height">
                             <div class="card-header">
                                 <h4 class="card-title">Total Exchange Profit</h4>
-                                <span id="exchangeProfitLabel" style="color:black">No Data Available</span>
+                                <span id="exchangeProfitLabel" style="color:black">Date Range: N/A</span>
                             </div>
                             <div class="card-body">
                                 <canvas id="bonusChart"></canvas>
@@ -64,14 +64,12 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <!-- Success and Error Messages -->
-                        <div class="alert alert-success text-white d-none" id='success'>
+                        {{-- <div class="alert alert-success text-white d-none" id='success'>
                             Report generated successfully.
                         </div>
                         <div class="alert alert-danger text-white d-none" id='error'>
                             Failed to generate report. Please try again.
-                        </div>
-                        <!-- Report Form -->
+                        </div> --}}
                         <form id="reportForm">
                             @csrf
                             <div class="mb-3">
@@ -83,19 +81,33 @@
                                     @endforeach
                                 </select>
                             </div>
+                            {{-- <div class="mb-3">
+                                <label class="form-label">Select Date Range:</label>
+                                <div class="d-flex gap-2 mb-2">
+                                    <button type="button" class="btn btn-outline-primary btn-sm preset-date" data-preset="today">Today</button>
+                                    <button type="button" class="btn btn-outline-primary btn-sm preset-date" data-preset="yesterday">Yesterday</button>
+                                    <button type="button" class="btn btn-outline-primary btn-sm preset-date" data-preset="last7">Last 7 Days</button>
+                                </div>
+                                <small class="form-text text-muted">You can select a single date for a daily report or a date range for a custom report.</small>
+                            </div> --}}
                             <div class="mb-3">
                                 <label for="sdate" class="form-label">Start Date:</label>
-                                <input type="date" class="form-control border px-3" id="sdate" name="start_date" required>
+                                <input type="date" class="form-control border px-3" id="sdate" name="start_date" required
+                                       value="{{ \Carbon\Carbon::today()->toDateString() }}">
                             </div>
                             <div class="mb-3">
                                 <label for="edate" class="form-label">End Date:</label>
-                                <input type="date" class="form-control border px-3" id="edate" name="end_date" required>
+                                <input type="date" class="form-control border px-3" id="edate" name="end_date" required
+                                       value="{{ \Carbon\Carbon::today()->toDateString() }}">
                             </div>
                         </form>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" id="generateReportBtn">Generate Report</button>
+                        <button type="button" class="btn btn-primary" id="generateReportBtn">
+                            <span id="btnText">Generate Report</span>
+                            <span id="btnSpinner" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -106,127 +118,151 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    <!-- Chart Initialization Script -->
+    <!-- Chart Initialization and Report Generation Script -->
     <script>
         $(document).ready(function() {
             "use strict";
-
-            // Initialize Charts with No Data
-            let withdrawalsChart = new Chart(document.getElementById('withdrawalsChart').getContext('2d'), {
-                type: 'pie',
-                data: {
-                    labels: ['Withdrawals', 'Deposits'],
-                    datasets: [{
-                        data: [0, 0],
-                        backgroundColor: ['rgb(192, 10, 39)', '#75B432'],
-                    }]
-                },
-                options: {
-                    responsive: true,
-                }
-            });
-
-            let profitsChart = new Chart(document.getElementById('profitsChart').getContext('2d'), {
-                type: 'pie',
-                data: {
-                    labels: ['Expenses', 'Bonuses'],
-                    datasets: [{
-                        data: [0, 0],
-                        backgroundColor: ['#75B432', '#E0E0E0'],
-                    }]
-                },
-                options: {
-                    responsive: true,
-                }
-            });
-
-            let bonusChart = new Chart(document.getElementById('bonusChart').getContext('2d'), {
-                type: 'pie',
-                data: {
-                    labels: ['Total Exchange Profit', 'Remaining'],
-                    datasets: [{
-                        data: [0, 0],
-                        backgroundColor: ['#FFCE56', '#36A2EB'],
-                    }]
-                },
-                options: {
-                    responsive: true,
-                }
-            });
-
-            // Handle Report Generation
-            $('#generateReportBtn').click(function() {
-                // Clear previous messages
-                $('#success').addClass('d-none').text('');
-                $('#error').addClass('d-none').text('');
-
-                // Get form data
-                let formData = {
-                    exchange_id: $('#exchange').val(),
-                    start_date: $('#sdate').val(),
-                    end_date: $('#edate').val(),
-                    _token: '{{ csrf_token() }}'
-                };
-
-                // Validate form inputs
-                if (!formData.exchange_id || !formData.start_date || !formData.end_date) {
-                    $('#error').removeClass('d-none').text('All fields are required.');
-                    return;
-                }
-
-                // Send AJAX request
+    
+            // Initialize Charts
+            let withdrawalsChart = initializeChart('withdrawalsChart', ['Withdrawals', 'Deposits'], ['#C00A27', '#75B432']);
+            let profitsChart = initializeChart('profitsChart', ['Expenses', 'Bonuses'], ['#75B432', '#E0E0E0']);
+            let bonusChart = initializeChart('bonusChart', ['Total Exchange Profit', 'Remaining'], ['#FFCE56', '#36A2EB']);
+    
+            // Initialize a Chart
+            function initializeChart(canvasId, labels, colors) {
+                return new Chart(document.getElementById(canvasId).getContext('2d'), {
+                    type: 'pie',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            data: [0, 0],
+                            backgroundColor: colors,
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                            }
+                        }
+                    }
+                });
+            }
+    
+            // Update Chart Data
+            function updateChartData(chart, data) {
+                chart.data.datasets[0].data = data;
+                chart.update();
+            }
+    
+            // Generate Report Function
+            function generateReport(exchangeId, startDate, endDate) {
                 $.ajax({
                     url: '{{ route("admin.report.generate") }}',
                     method: 'POST',
-                    data: formData,
+                    data: {
+                        exchange_id: exchangeId,
+                        start_date: startDate,
+                        end_date: endDate,
+                        _token: '{{ csrf_token() }}'
+                    },
                     beforeSend: function() {
-                        // Optionally, you can show a loader here
-                        $('#generateReportBtn').prop('disabled', true).text('Generating...');
+                        $('#btnText').text('Generating...');
+                        $('#btnSpinner').removeClass('d-none');
+                        $('#generateReportBtn').prop('disabled', true);
                     },
                     success: function(response) {
-                        // Update Charts with received data
-                        withdrawalsChart.data.datasets[0].data = [response.withdrawal, response.deposit];
-                        withdrawalsChart.update();
-
-                        profitsChart.data.datasets[0].data = [response.expense, response.bonus];
-                        profitsChart.update();
-
-                        // Ensure at least two data points for the pie chart
-                        bonusChart.data.datasets[0].data = [response.latestBalance, 0];
-                        bonusChart.update();
-
-                        // Update labels
-                        $('#withdrawalsDepositsLabel').text(`Date Range: {{ isset($date) ? $date : 'N/A' }}`);
-                        $('#expenseBonusLabel').text(`Date Range: {{ isset($date) ? $date : 'N/A' }}`);
-                        $('#exchangeProfitLabel').text(`Date Range: {{ isset($date) ? $date : 'N/A' }}`);
-
-                        // Show success message
+                        // Update Charts with New Data
+                        updateChartData(withdrawalsChart, [response.withdrawal, response.deposit]);
+                        updateChartData(profitsChart, [response.expense, response.bonus]);
+                        updateChartData(bonusChart, [
+                            response.latestBalance < 0 ? 0 : response.latestBalance,
+                            response.latestBalance < 0 ? Math.abs(response.latestBalance) : 0
+                        ]);
+    
+                        // Update Labels with Date Range
+                        $('#withdrawalsDepositsLabel').text(`Date Range: ${response.date_range.start} to ${response.date_range.end}`);
+                        $('#expenseBonusLabel').text(`Date Range: ${response.date_range.start} to ${response.date_range.end}`);
+                        $('#exchangeProfitLabel').text(`Date Range: ${response.date_range.start} to ${response.date_range.end}`);
+    
+                        // Show Success Message
                         $('#success').removeClass('d-none').text('Report generated successfully.');
-
-                        // Close the modal after a short delay
+    
+                        // Close the Modal after a Short Delay
                         setTimeout(function() {
                             $('#reportModal').modal('hide');
-                        }, 1500);
+                        }, 1000);
                     },
                     error: function(xhr) {
-                        // Handle errors
+                        // Handle Errors
                         let errorMsg = 'An error occurred. Please try again.';
                         if (xhr.responseJSON && xhr.responseJSON.error) {
                             errorMsg = xhr.responseJSON.error;
-                        } else if (xhr.responseJSON && xhr.responseJSON.errors) {
-                            errorMsg = Object.values(xhr.responseJSON.errors).join(' ');
                         }
                         $('#error').removeClass('d-none').text(errorMsg);
                     },
                     complete: function() {
-                        // Re-enable the button
-                        $('#generateReportBtn').prop('disabled', false).text('Generate Report');
+                        // Reset Button Text and State
+                        $('#btnText').text('Generate Report');
+                        $('#btnSpinner').addClass('d-none');
+                        $('#generateReportBtn').prop('disabled', false);
                     }
                 });
+            }
+    
+            // Handle Generate Report Button Click
+            $('#generateReportBtn').on('click', function() {
+                // Get Selected Values from Form
+                const exchangeId = $('#exchange').val();
+                const startDate = $('#sdate').val();
+                const endDate = $('#edate').val();
+    
+                // Validate Inputs
+                if (!exchangeId || !startDate || !endDate) {
+                    $('#error').removeClass('d-none').text('All fields are required.');
+                    return;
+                }
+    
+                // Call Generate Report Function
+                generateReport(exchangeId, startDate, endDate);
             });
+    
+            // Preset Date Button Click Handler
+            $('.preset-date').on('click', function() {
+                const preset = $(this).data('preset');
+                let today = new Date();
+                let start_date, end_date;
+    
+                switch (preset) {
+                    case 'today':
+                        start_date = end_date = formatDate(today);
+                        break;
+                    case 'yesterday':
+                        today.setDate(today.getDate() - 1);
+                        start_date = end_date = formatDate(today);
+                        break;
+                    case 'last7':
+                        let last7 = new Date();
+                        last7.setDate(last7.getDate() - 6);
+                        start_date = formatDate(last7);
+                        end_date = formatDate(today);
+                        break;
+                }
+    
+                // Set the Selected Dates
+                $('#sdate').val(start_date);
+                $('#edate').val(end_date);
+            });
+    
+            // Helper Function to Format Date to YYYY-MM-DD
+            function formatDate(date) {
+                return date.toISOString().split('T')[0];
+            }
         });
     </script>
-
+    
+  
     <!-- Styles -->
     <style>
         .equal-height {

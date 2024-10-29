@@ -25,6 +25,7 @@ class AdminController extends Controller
         }
         else{
             $today = Carbon::today();
+
             $currentMonth = Carbon::now()->month;
             $currentYear = Carbon::now()->year;
 
@@ -32,17 +33,20 @@ class AdminController extends Controller
             $entriesMonth = OpenCloseBalance::whereMonth('created_at', $currentMonth)->get();
             
             $totalOpenCloseBalanceDaily = 0;
+            
             $totalOpenCloseBalanceMonthly = 0;
 
-            if ($entriesDaily->count() === 1) {
+            if ($entriesDaily->count() == "1") {
                 $entry = $entriesDaily->first();
                 $totalOpenCloseBalanceDaily = $entry->close_balance;
             } else {
                 foreach ($entriesDaily as $entry) {
-                    if ($totalOpenCloseBalanceDaily === 0) {
-                        $totalOpenCloseBalanceDaily += $entry->close_balance;
+                    if ($totalOpenCloseBalanceDaily == "0") {
+                        $totalOpenCloseBalanceDaily = $entry->close_balance;
                     }
-                    $totalOpenCloseBalanceDaily += $entry->close_balance;
+                    else{
+                        $totalOpenCloseBalanceDaily = $totalOpenCloseBalanceDaily + $entry->close_balance;
+                    }
                 }
             }
             if ($entriesMonth->count() === 1) {
@@ -53,7 +57,9 @@ class AdminController extends Controller
                     if ($totalOpenCloseBalanceMonthly === 0) {
                         $totalOpenCloseBalanceMonthly += $entry->close_balance;
                     }
-                    $totalOpenCloseBalanceMonthly += $entry->close_balance;
+                    else{
+                        $totalOpenCloseBalanceMonthly += $entry->close_balance;
+                    }
                 }
             }
             $totalPaidAmountDaily = VenderPayment::whereDate('created_at', $today)
