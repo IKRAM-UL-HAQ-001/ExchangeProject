@@ -114,8 +114,8 @@ class OpenCloseBalanceListExport implements FromQuery,  WithHeadings, WithStyles
 
     public function styles(Worksheet $sheet)
     {
-        $sheet->getStyle('A1:H1')->getFont()->setBold(true); // Bold the header row
-        $sheet->getStyle('A1:H1')->getFont()->setSize(12); // Optional: set font size
+        $sheet->getStyle('A1:I1')->getFont()->setBold(true); // Bold the header row
+        $sheet->getStyle('A1:I1')->getFont()->setSize(12); // Optional: set font size
     }
 
     public function columnWidths(): array
@@ -129,6 +129,7 @@ class OpenCloseBalanceListExport implements FromQuery,  WithHeadings, WithStyles
             'F' => 30,
             'G' => 30,
             'H' => 30,
+            'I' => 30,
         ];
     }
 }

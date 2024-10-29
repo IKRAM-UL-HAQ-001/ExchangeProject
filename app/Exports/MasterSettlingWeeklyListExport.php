@@ -52,7 +52,7 @@ class MasterSettlingWeeklyListExport implements FromQuery, WithHeadings, WithSty
             case "assistant":
                 return $query; // Admin and assistant can see all
             default:
-                return collect(); // Return an empty collection for unrecognized roles
+                return query(); // Return an empty collection for unrecognized roles
         }
     }
 
