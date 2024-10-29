@@ -21,16 +21,16 @@ class VenderPaymentListExport implements FromQuery, WithHeadings, WithStyles, Wi
         $currentYear = Carbon::now()->year;
 
         return VenderPayment::selectRaw('
-            vender_payments..id, 
-            vender_payments..paid_amount,
-            vender_payments..remaining_amount,
-            vender_payments..payment_type,
-            vender_payments..remarks,
-            DATE_FORMAT(CONVERT_TZ(vender_payments..created_at, "+00:00", "+05:30"), "%Y-%m-%d %H:%i:%s") as created_at,
-            DATE_FORMAT(CONVERT_TZ(vender_payments..updated_at, "+00:00", "+05:30"), "%Y-%m-%d %H:%i:%s") as updated_at
+            vender_payments.id, 
+            vender_payments.paid_amount,
+            vender_payments.remaining_amount,
+            vender_payments.payment_type,
+            vender_payments.remarks,
+            DATE_FORMAT(CONVERT_TZ(vender_payments.created_at, "+00:00", "+05:30"), "%Y-%m-%d %H:%i:%s") as created_at,
+            DATE_FORMAT(CONVERT_TZ(vender_payments.updated_at, "+00:00", "+05:30"), "%Y-%m-%d %H:%i:%s") as updated_at
         ')
-        ->whereMonth('vender_payments..created_at', $currentMonth)
-        ->whereYear('vender_payments..created_at', $currentYear);
+        ->whereMonth('vender_payments.created_at', $currentMonth)
+        ->whereYear('vender_payments.created_at', $currentYear);
     }
 
     public function headings(): array
