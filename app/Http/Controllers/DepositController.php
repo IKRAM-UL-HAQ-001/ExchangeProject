@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Deposit;
 use App\Models\Cash;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
+Use App\Exports\DepositListExport;
 use Carbon\Carbon;
 use Auth;
 class DepositController extends Controller

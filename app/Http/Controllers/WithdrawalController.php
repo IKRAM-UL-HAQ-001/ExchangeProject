@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Withdrawal;
 use App\Models\Cash;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
+Use App\Exports\WithdarawalListExport;
 use Carbon\Carbon;
 use Auth;
 class WithdrawalController extends Controller
