@@ -191,11 +191,19 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white {{ request()->is('exchange/deposit-withdrawal') ? 'active bg-gradient-primary' : '' }}" href="{{route('exchange.deposit_withdrawal.list')}}">
+                        <a class="nav-link text-white {{ request()->is('exchange/deposit') ? 'active bg-gradient-primary' : '' }}" href="{{route('exchange.deposit.list')}}">
                             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                 <i class="material-icons opacity-10">attach_money</i>
                             </div>
-                            <span class="nav-link-text ms-1">Deposit - Withdrawal</span>
+                            <span class="nav-link-text ms-1">Deposit</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white {{ request()->is('exchange/withdrawal') ? 'active bg-gradient-primary' : '' }}" href="{{route('exchange.withdrawal.list')}}">
+                            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                                <i class="material-icons opacity-10">attach_money</i>
+                            </div>
+                            <span class="nav-link-text ms-1">Withdrawal</span>
                         </a>
                     </li>
                     <li class="nav-item">

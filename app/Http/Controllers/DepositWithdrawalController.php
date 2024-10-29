@@ -9,48 +9,22 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Models\Cash;
 use Illuminate\Http\Request;
 use Auth;
+use Carbon\Carbon;
 
 class DepositWithdrawalController extends Controller
 {
-    public function withdrawalExportExcel(Request $request)
-    {
-        if (!auth()->check()) {
-            return redirect()->route('auth.login');
-        }
-        else{
-            if(Auth::user()->role == "admin" || Auth::user()->role == "assistant"){
-                $exchangeId = null;
-            }
-            else{
-                $exchangeId = Auth::user()->exchange_id;
-            }
-            return Excel::download(new WithdrawalListExport($exchangeId), 'withdrawalRecord.xlsx');
-        }
-    }
     
-    public function depositExportExcel(Request $request)
-    {
-        if (!auth()->check()) {
-            return redirect()->route('auth.login');
-        }
-        else{
-            if(Auth::user()->role == "admin" || Auth::user()->role == "assistant"){
-                $exchangeId = null;
-            }
-            else{
-                $exchangeId = Auth::user()->exchange_id;
-            }
-            return Excel::download(new DepositListExport($exchangeId), 'depositRecord.xlsx');
-        }
-    }
-
     public function index()
     {
         if (!auth()->check()) {
             return redirect()->route('auth.login');
         }
         else{
+            $startOfWeek = Carbon::now()->startOfWeek();
+            $endOfWeek = Carbon::now()->endOfWeek();
+
             $depositWithdrawalRecords = Cash::with(['exchange', 'user'])
+            ->whereBetween('created_at', [$startOfWeek, $endOfWeek])
             ->get();
             return view('admin.deposit_withdrawal.list',compact('depositWithdrawalRecords'));
         }
@@ -62,7 +36,11 @@ class DepositWithdrawalController extends Controller
             return redirect()->route('auth.login');
         }
         else{
+            $startOfWeek = Carbon::now()->startOfWeek();
+            $endOfWeek = Carbon::now()->endOfWeek();
+
             $depositWithdrawalRecords = Cash::with(['exchange', 'user'])
+            ->whereBetween('created_at', [$startOfWeek, $endOfWeek])
             ->get();
             return view('assistant.deposit_withdrawal.list',compact('depositWithdrawalRecords'));
         }
@@ -125,20 +103,6 @@ class DepositWithdrawalController extends Controller
             return response()->json(['success' => false, 'message' => 'Deposit/Withdarwal not found.'], 404);
         }
     }
-    public function exchangeIndex()
-    {
-        if (!auth()->check()) {
-            return redirect()->route('auth.login');
-        }
-
-        $exchangeId = auth()->user()->exchange_id;
-        $userId = auth()->user()->id;
-        $depositWithdrawalRecords = Cash::with(['exchange', 'user'])
-            ->where('exchange_id', $exchangeId) 
-            ->where('user_id', $userId) 
-            ->whereIn('cash_type', ['deposit', 'withdrawal']) 
-            ->get();
-        return view('exchange.deposit_withdrawal.list', compact('depositWithdrawalRecords'));
-    }
+    
 
 }

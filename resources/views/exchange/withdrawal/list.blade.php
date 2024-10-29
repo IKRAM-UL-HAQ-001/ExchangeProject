@@ -6,26 +6,22 @@
             <div class="card my-4">
                 <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                     <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
-                        <p style="color: white;"><strong>Deposit - Withdrawal Table</strong></p>
+                        <p style="color: white;"><strong>Withdrawal Table (Weekly Bases)</strong></p>
                         <div>
-                        <a href="{{ route('export.deposit') }}" class="btn btn-dark">Deposit Export</a>
                         <a href="{{ route('export.withdrawal') }}" class="btn btn-dark">Withdrawal Export</a>
                         </div>
                     </div>
                 </div>
                 <div class="card-body px-0 pb-2 px-3">
                     <div class="table-responsive p-0">
-                        <table id="depositWithdrawalTable" class="table align-items-center mb-0 table-striped table-hover px-2">
+                        <table id="withdrawalTable" class="table align-items-center mb-0 table-striped table-hover px-2">
                             <thead>
                                 <tr>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">User </th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Exchange </th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Reference No.</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Customer </th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Customer Name</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Amount</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Type</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Bonus</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Payment</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Cash Type</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Remarks</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Balance</th>
                                 </tr>
@@ -35,25 +31,22 @@
                                     $balance = 0;
                                 @endphp
 
-                                @foreach($depositWithdrawalRecords as $depositWithdrawal)
+                                @foreach($withdrawalRecords as $withdrawal)
                                     @php
-                                        if ($depositWithdrawal->cash_type == 'deposit') {
-                                            $balance += $depositWithdrawal->cash_amount;
-                                        } elseif ($depositWithdrawal->cash_type == 'withdrawal') {
-                                            $balance -= $depositWithdrawal->cash_amount;
+                                        if ($withdrawal->cash_type == 'deposit') {
+                                            $balance += $withdrawal->cash_amount;
+                                        } elseif ($withdrawal->cash_type == 'withdrawal') {
+                                            $balance -= $withdrawal->cash_amount;
                                         }
                                     @endphp
-                                @if($depositWithdrawal->cash_type !="expense")
+                                    @if(!in_array($withdrawal->cash_type, ['expense', 'deposit']))
                                     <tr>
-                                        <td>{{ $depositWithdrawal->user->name }}</td>
-                                        <td>{{ $depositWithdrawal->exchange->name }}</td>
-                                        <td>{{ $depositWithdrawal->reference_number }}</td>
-                                        <td>{{ $depositWithdrawal->customer_name }}</td>
-                                        <td>{{ $depositWithdrawal->cash_amount }}</td>
-                                        <td>{{ $depositWithdrawal->cash_type }}</td>
-                                        <td>{{ $depositWithdrawal->bonus_amount }}</td>
-                                        <td>{{ $depositWithdrawal->payment_type }}</td>
-                                        <td>{{ $depositWithdrawal->remarks }}</td>
+                                        <td>{{ $withdrawal->user->name }}</td>
+                                        <td>{{ $withdrawal->exchange->name }}</td>
+                                        <td>{{ $withdrawal->customer_name }}</td>
+                                        <td>{{ $withdrawal->cash_amount }}</td>
+                                        <td>{{ $withdrawal->cash_type }}</td>
+                                        <td>{{ $withdrawal->remarks }}</td>
                                         <td>{{ number_format($balance, 2) }}</td>
                                     </tr>
                                 @endif
@@ -71,7 +64,7 @@
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <script>
     $(document).ready(function() {
-        const userTable = $('#depositWithdrawalTable').DataTable({
+        const userTable = $('#withdrawalTable').DataTable({
             pagingType: "full_numbers"
             , language: {
                 paginate: {

@@ -19,6 +19,9 @@ use App\Http\Controllers\BankUserController;
 use App\Http\Controllers\BankEntryController;
 use App\Http\Controllers\VenderPaymentController;
 use App\Http\Controllers\OpenCloseBalanceController;
+use App\Http\Controllers\DepositController;
+use App\Http\Controllers\WithdrawalController;
+
 
 Route::get('/', [LoginController::class, 'index'])->name('auth.login');
 Route::post('/auth/login/post', [LoginController::class, 'login'])->name('login.post');
@@ -26,8 +29,8 @@ Route::get('/auth/logout', [LoginController::class, 'logout'])->name('login.logo
 
 //admin export
 Route::get('/export-bank', [BankController::class, 'bankExportExcel'])->name('export.bank');
-Route::get('/export-deposit', [DepositWithdrawalController::class, 'depositExportExcel'])->name('export.deposit');
-Route::get('/export-withdrawal', [DepositWithdrawalController::class, 'withdrawalExportExcel'])->name('export.withdrawal');
+Route::get('/export-deposit', [DepositController::class, 'depositExportExcel'])->name('export.deposit');
+Route::get('/export-withdrawal', [WithdrawalController::class, 'withdrawalExportExcel'])->name('export.withdrawal');
 Route::get('/export-expense', [ExpenseController::class, 'expenseExportExcel'])->name('export.expense');
 Route::get('/export-masterSettlingWeekly', [MasterSettlingController::class, 'masterSettlingListWeeklyExportExcel'])->name('export.masterSettlingListWeekly');
 Route::get('/export-masterSettlingMonthly', [MasterSettlingController::class, 'masterSettlingListMonthlyExportExcel'])->name('export.masterSettlingListMonthly');
@@ -151,8 +154,11 @@ Route::group(['middleware' => 'exchange'], function () {
     Route::get('/exchange/ownerProfit', [OwnerProfitController::class, 'exchangeIndex'])->name('exchange.owner_profit.list');
     Route::post('/exchange/ownerProfit/post', [OwnerProfitController::class, 'store'])->name('exchange.owner_profit.store');
 
+    // withdrawal withdrawal
+    Route::get('/exchange/withdrawal', [WithdrawalController::class, 'index'])->name('exchange.withdrawal.list');
+
     // deposit withdrawal
-    Route::get('/exchange/deposit-withdrawal', [DepositWithdrawalController::class, 'exchangeIndex'])->name('exchange.deposit_withdrawal.list');
+    Route::get('/exchange/deposit', [DepositController::class, 'index'])->name('exchange.deposit.list');
         
     //expense
     Route::get('/exchange/expense', [ExpenseController::class, 'exchangeIndex'])->name('exchange.expense.list');

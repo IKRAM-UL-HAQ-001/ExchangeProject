@@ -1,5 +1,11 @@
 @extends("layout.main")
 @section('content')
+<style>
+    ..card-header{
+        background-color:black;
+        color:white;
+    }
+</style>
 <div class="container-fluid">
     <!-- Daily Bases Section -->
     <div class="row mb-4">
@@ -33,7 +39,7 @@
                             <i class="material-icons opacity-10">account_balance_wallet</i>
                         </div>
                         <div class="text-end ms-3 text-center flex-grow-1"> <!-- Center alignment -->
-                            <p class="text-sm mb-0 text-capitalize">Total Bank Balance</p>
+                            <p class="  text-sm mb-0 text-capitalize">Total Bank Balance</p>
                             <h4 class="mb-0">{{ $totalBankBalance }}</h4>
                         </div>
                     </div>
@@ -64,8 +70,8 @@
                                 <i class="material-icons opacity-10">{{ $card[2] }}</i>
                             </div>
                             <div class="text-end ms-3 text-center flex-grow-1"> <!-- Center alignment -->
-                                <p class="text-sm mb-0 text-capitalize">{{ $card[0] }}</p>
-                                <h4 class="mb-0">{{ $card[1] }}</h4>
+                                <p class="  text-sm mb-0 text-capitalize">{{ $card[0] }}</p>
+                                <h4 class="  mb-0">{{ $card[1] }}</h4>
                             </div>
                         </div>
                     </div>
