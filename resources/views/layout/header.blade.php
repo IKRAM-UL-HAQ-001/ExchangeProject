@@ -18,11 +18,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style> 
     
-    .copyright {
-        font-weight: 400; /* or a suitable value */
-        font-family: Arial, sans-serif; /* or any preferred font */
-        text-shadow: none; /* Ensure no text shadow is applied */
-    }
     .bg-gradient-to-white {
         background: linear-gradient(to bottom, #f0f0f0, white);
     }
