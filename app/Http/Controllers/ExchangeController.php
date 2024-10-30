@@ -39,7 +39,6 @@ class ExchangeController extends Controller
             
 
             $totalOpenCloseBalanceDaily = OpenCloseBalance::where('exchange_id', $exchangeId)
-            ->whereDate('created_at', $today)
             ->orderBy('created_at', 'desc')
             ->value('close_balance');
                     
@@ -132,11 +131,11 @@ class ExchangeController extends Controller
                 ->count('id');
 
             $totalBalanceMonthly = $totalDepositMonthly - $totalWithdrawalMonthly - $totalExpenseMonthly;
-
+            $nonce = base64_encode(random_bytes(16));
             return view("exchange.dashboard",compact('totalBankBalance','exchange_name','userCount',
                 'totalBalanceDaily','totalDepositDaily','totalWithdrawalDaily','totalExpenseDaily',
                 'customerCountDaily','totalBonusDaily','totalNewCustomerDaily','totalOwnerProfitDaily',
-                'totalOpenCloseBalanceDaily',
+                'totalOpenCloseBalanceDaily','nonce',
                 
                 'totalBalanceMonthly','totalDepositMonthly','totalWithdrawalMonthly','totalExpenseMonthly',
                 'totalMasterSettlingMonthly','totalBonusMonthly','customerCountMonthly','totalNewCustomerMonthly',

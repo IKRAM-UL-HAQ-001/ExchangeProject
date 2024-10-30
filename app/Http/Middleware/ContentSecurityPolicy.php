@@ -5,9 +5,8 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Illuminate\Support\Facades\Auth; 
 
-class Exchange
+class ContentSecurityPolicy
 {
     /**
      * Handle an incoming request.
@@ -16,9 +15,6 @@ class Exchange
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::check() && Auth::user()->isExchange()) {
-            return $next($request);
-        }
-        return redirect('/')->with('error', 'You do not have assistant access.');
+        return $next($request);
     }
 }

@@ -38,30 +38,30 @@ class AssistantController extends Controller
             $totalOpenCloseBalanceDaily = 0;
             $totalOpenCloseBalanceMonthly = 0;
 
-            // if ($entriesDaily->count() == "1") {
-            //     $entry = $entriesDaily->first();
-            //     $totalOpenCloseBalanceDaily =  $entry->close_balance;
-            // } else {
-            //     foreach ($entriesDaily as $entry) {
-            //         if ($totalOpenCloseBalanceDaily == "0") {
-            //             $totalOpenCloseBalanceDaily = $entry->close_balance;
-            //         }else{
-            //             $totalOpenCloseBalanceDaily += $entry->close_balance;
-            //         }                }
-            // }
+            if ($entriesDaily->count() == "1") {
+                $entry = $entriesDaily->first();
+                $totalOpenCloseBalanceDaily =  $entry->close_balance;
+            } else {
+                foreach ($entriesDaily as $entry) {
+                    if ($totalOpenCloseBalanceDaily == "0") {
+                        $totalOpenCloseBalanceDaily = $entry->close_balance;
+                    }else{
+                        $totalOpenCloseBalanceDaily += $entry->close_balance;
+                    }                }
+            }
 
-            // if ($entriesMonth->count() === 1) {
-            //     $entry = $entriesMonth->first();
-            //     $totalOpenCloseBalanceMonthly =  $entry->close_balance;
-            // } else {
-            //     foreach ($entriesMonth as $entry) {
-            //         if ($totalOpenCloseBalanceMonthly === 0) {
-            //             $totalOpenCloseBalanceMonthly += $entry->close_balance;
-            //         }else{
-            //             $totalOpenCloseBalanceMonthly += $entry->close_balance;
-            //         }
-            //     }
-            // }
+            if ($entriesMonth->count() === 1) {
+                $entry = $entriesMonth->first();
+                $totalOpenCloseBalanceMonthly =  $entry->close_balance;
+            } else {
+                foreach ($entriesMonth as $entry) {
+                    if ($totalOpenCloseBalanceMonthly === 0) {
+                        $totalOpenCloseBalanceMonthly += $entry->close_balance;
+                    }else{
+                        $totalOpenCloseBalanceMonthly += $entry->close_balance;
+                    }
+                }
+            }
 
             $totalDepositDaily = Cash::where('cash_type', 'deposit')
                 ->whereDate('created_at', $today)
