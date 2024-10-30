@@ -21,7 +21,7 @@
     <div class="row mb-4">
         @php
             $dailyColorClasses = [
-                'bg-gradient-warning',
+                'bg-gradient-to-white',
             ];
         @endphp
 
@@ -29,8 +29,8 @@
             <div class="card">
                 <div class="test1 card-header p-3">
                     <div class="d-flex align-items-center">
-                        <div class="icon icon-lg icon-shape bg-gradient-warning shadow-dark text-center border-radius-xl position-relative">
-                            <i class="material-icons opacity-10">account_balance_wallet</i>
+                        <div class="icon icon-lg icon-shape bg-gradient-to-white shadow-dark text-center border-radius-xl position-relative">
+                            <i class="material-icons"style="color:black">account_balance_wallet</i>
                         </div>
                         <div class=" text-end ms-3 text-center flex-grow-1"> <!-- Center alignment -->
                             <p class="test1  text-sm mb-0 text-capitalize">Total Bank Balance</p>
@@ -61,7 +61,7 @@
                     <div class="test1 card-header p-3">
                         <div class="d-flex align-items-center">
                             <div class=" icon icon-lg icon-shape {{ $dailyColorClasses[$index % count($dailyColorClasses)] }} shadow-{{ strtolower($dailyColorClasses[$index % count($dailyColorClasses)]) }} text-center border-radius-xl position-relative">
-                                <i class="material-icons opacity-10">{{ $card[2] }}</i>
+                                <i class=" material-icons" style="color:black">{{ $card[2] }}</i>
                             </div>
                             <div class="text-end ms-3 text-center flex-grow-1"> <!-- Center alignment -->
                                 <p class="test1 text-sm mb-0 text-capitalize">{{ $card[0] }}</p>
@@ -89,7 +89,7 @@
     <div class="row mb-4">
         @php
             $monthlyColorClasses = [
-                'bg-gradient-warning',
+                'bg-gradient-to-white',
             ];
         @endphp
 
@@ -97,8 +97,8 @@
             <div class="card">
                 <div class="test1 card-header p-3">
                     <div class="d-flex align-items-center">
-                        <div class=" icon icon-lg icon-shape bg-gradient-warning shadow-dark text-center border-radius-xl position-relative">
-                            <i class="material-icons opacity-10">account_balance_wallet</i> <!-- Monthly Profit -->
+                        <div class=" icon icon-lg icon-shape bg-gradient-to-white shadow-dark text-center border-radius-xl position-relative">
+                            <i class="material-icons" style="color:black">account_balance_wallet</i> <!-- Monthly Profit -->
                         </div>
                         <div class=" text-end ms-3 text-center flex-grow-1"> <!-- Center alignment -->
                             <p class="test1 text-sm mb-0 text-capitalize">Monthly Margin</p>
@@ -129,7 +129,7 @@
                     <div class="test1 card-header p-3">
                         <div class="d-flex align-items-center">
                             <div class=" icon icon-lg icon-shape {{ $monthlyColorClasses[$index % count($monthlyColorClasses)] }} shadow-{{ strtolower($monthlyColorClasses[$index % count($monthlyColorClasses)]) }} text-center border-radius-xl position-relative">
-                                <i class="material-icons opacity-10">{{ $card[2] }}</i>
+                                <i class="material-icons" style="color:black">{{ $card[2] }}</i>
                             </div>
                             <div class="text-end ms-3 text-center flex-grow-1"> <!-- Center alignment -->
                                 <p class="test1 text-sm mb-0 text-capitalize">{{ $card[0] }}</p>

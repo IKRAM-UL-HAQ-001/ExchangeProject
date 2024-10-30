@@ -17,8 +17,15 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
     <style>
     
+    .image1{
+        color:black;
+    }
+    .bg-gradient-to-white {
+        background: linear-gradient(to bottom, #f0f0f0, white);
+    }
+
     .test1{
-        background-color:black;
+        background-color:orange;
         color:white
     }
 
