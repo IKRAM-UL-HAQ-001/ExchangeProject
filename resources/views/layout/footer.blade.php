@@ -7,7 +7,7 @@
             document.write(new Date().getFullYear())
           </script>,
           MADE BY
-          <a href="" class="font-weight-bold" style="color: black;" target="_blank">HIF SOLUTIONS</a>
+          <a href="" class="font-weight-bold" style="color: black;" target="_blank">DannySoft</a>
         </div>
       </div>
     </div>
