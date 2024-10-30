@@ -17,17 +17,16 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
     <style>
     
-    .image1{
-        color:black;
-    }
+    
     .bg-gradient-to-white {
         background: linear-gradient(to bottom, #f0f0f0, white);
     }
 
-    .test1{
-        background-color:orange;
-        color:white
-    }
+    .test1 {
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.9)); /* Replace with your desired gradient */
+    color: white;
+    opacity: 1;
+}
 
     .form-control{
         color:black;
