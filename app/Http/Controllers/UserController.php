@@ -89,7 +89,7 @@ class UserController extends Controller
             $user = User::findOrFail($request->id);    
             $request->validate([
                 'name' => 'required|string|max:255',
-                'exchange' => 'required|exists:exchanges,id',
+                'exchange' => 'nullable|exists:exchanges,id',
                 'password' => 'nullable|string|min:8', // Password is optional
             ]);
             $user->name = $request->name;

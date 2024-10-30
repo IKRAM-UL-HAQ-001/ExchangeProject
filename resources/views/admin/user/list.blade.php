@@ -103,7 +103,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="editExchange" class="form-label">Exchange</label>
-                            <select class="form-select px-3" id="editExchange" required>
+                            <select class="form-select px-3" id="editExchange">
                                 <option value="" disabled selected>Select an exchange</option>
                                 @foreach($exchangeRecords as $exchange)
                                     <option value="{{ $exchange->id }}">{{ $exchange->name }}</option>
