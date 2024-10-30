@@ -14,6 +14,7 @@ use App\Models\Exchange;
 use App\Models\VenderPayment;
 use Carbon\Carbon;
 use Auth;
+use DB;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
