@@ -44,7 +44,7 @@
         ] as $card)
             <div class="col-xl-3 col-sm-6 mb-4">
                 <div class="card">
-                    <div class="card-header p-3">
+                    <div class="test1 card-header p-3">
                         <div class="d-flex align-items-center">
                             <div class="icon icon-lg icon-shape {{ $card[2] }} shadow-{{ strtolower($card[2]) }} text-center border-radius-xl position-relative">
                                 <i class="material-icons opacity-10">{{ $card[3] }}</i>
@@ -75,7 +75,7 @@
     <div class="row mb-4">
         <div class="col-xl-3 col-sm-6 mb-4">
             <div class="card">
-                <div class="card-header p-3">
+                <div class="test1 card-header p-3">
                     <div class="d-flex align-items-center">
                         <div class="icon icon-lg icon-shape bg-gradient-dark shadow-dark text-center border-radius-xl position-relative">
                             <i class="material-icons opacity-10">account_balance_wallet</i>
