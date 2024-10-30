@@ -11,8 +11,8 @@
     <div class="row mb-4">
         <div class="col-12">
             <div class="card-header p-0 position-relative mb-3">
-                <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
-                    <p style="color: white;"><strong>Daily Bases</strong></p>
+                <div class="bg-gradient-warning shadow-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
+                    <p style="color: black;"><strong>Daily Bases</strong></p>
                 </div>
             </div>
         </div>
@@ -79,8 +79,8 @@
     <div class="row mb-4">
         <div class="col-12">
             <div class="card-header p-0 position-relative mb-3">
-                <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
-                    <p style="color: white;"><strong>Monthly Bases</strong></p>
+                <div class="bg-gradient-warning shadow-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
+                    <p style="color: black;"><strong>Monthly Bases</strong></p>
                 </div>
             </div>
         </div>
