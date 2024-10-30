@@ -48,8 +48,8 @@
             ['Today Withdrawal', $totalWithdrawalDaily, 'arrow_circle_down'],
             ['Today Expense', $totalExpenseDaily, 'payment'],
             ['Today Bonus', $totalBonusDaily, 'star_border'],
-            ['Today Exchanges', $totalExchanges, 'swap_vert'],
-            ['Today Users', $totalUsers, 'group'],
+            ['Total Exchanges', $totalExchanges, 'swap_vert'],
+            ['Total Users', $totalUsers, 'group'],
             ['Customers', $totalOldCustomersDaily, 'person_outline'],
             ['Today Profit', $totalOwnerProfitDaily, 'attach_money'],
             ['Today New Customer', $totalCustomersDaily, 'person_add'],
@@ -129,7 +129,7 @@
                     <div class="test1 card-header p-3">
                         <div class="d-flex align-items-center">
                             <div class=" icon icon-lg icon-shape {{ $monthlyColorClasses[$index % count($monthlyColorClasses)] }} shadow-{{ strtolower($monthlyColorClasses[$index % count($monthlyColorClasses)]) }} text-center border-radius-xl position-relative">
-                                <i class="material-icons" style="color:black">{{ $card[2] }}</i>
+                                <i class="material-icons" style="color:white">{{ $card[2] }}</i>
                             </div>
                             <div class="text-end ms-3 text-center flex-grow-1"> <!-- Center alignment -->
                                 <p class=" text-sm mb-0 text-capitalize">{{ $card[0] }}</p>
