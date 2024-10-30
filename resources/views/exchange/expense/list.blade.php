@@ -6,7 +6,7 @@
             <div class="card my-4">
                 <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                     <div class="bg-gradient-warning shadow-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
-                        <p style="color: white;"><strong>Expense Table (Weekly Bases)</strong></p>
+                        <p style="color: black;"><strong>Expense Table (Weekly Bases)</strong></p>
                         <div>
                         <a href="{{ route('export.expense') }}" class="btn btn-dark">Expense Export</a>                        </div>
                     </div>

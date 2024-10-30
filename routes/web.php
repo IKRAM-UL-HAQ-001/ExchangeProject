@@ -44,9 +44,12 @@ Route::group(['middleware' => 'admin'], function () {
 
     //admin dashboard
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.dashboard');
+
+    //update password
+    Route::post('/passwordUpdate', [LoginController::class, 'update'])->name('password.update');
     
     //logout all
-    Route::post('/post', [LoginController::class, 'logoutAll'])->name('logout.all');
+    Route::get('/post', [LoginController::class, 'logoutAll'])->name('logout.all');
     
     //Report
     Route::get('/admin/report', [ReportController::class, 'index'])->name('admin.report.list');

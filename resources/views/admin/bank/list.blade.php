@@ -6,7 +6,7 @@
             <div class="card my-4">
                 <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                     <div class="bg-gradient-warning shadow-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
-                        <p style="color: white;"><strong>Bank Table</strong></p>
+                        <p style="color: black;"><strong>Bank Table</strong></p>
                         <div>
                             <a href="{{ route('export.bank') }}" class="btn btn-dark">Export Bank List</a>
                             <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#addBankModal">Add New Bank</button>

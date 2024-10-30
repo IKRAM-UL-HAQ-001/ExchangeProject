@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
   @include("layout.header")
-<body class="g-sidenav-show  bg-gray-200" style="background-image: url('../assets/img/background.jpg'); background-size: cover; background-position: center;">>
+<body class="g-sidenav-show  bg-gray-200 p-1">
+<!-- <div style="position: relative; top: 0; left: 0; width: 100%; height: 100%; background-image: url('../assets/img/background.jpg'); filter: blur(2px); background-size: cover; background-position: center;">
+</div> -->
+
     @include("layout.sideNavBar")
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
         @include("layout.topNavBar")        

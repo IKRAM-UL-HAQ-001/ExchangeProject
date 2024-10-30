@@ -6,7 +6,7 @@
             <div class="card my-4">
                 <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                     <div class="bg-gradient-warning shadow-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
-                        <p style="color: white;"><strong>Master Settling Table (Yearly Bases)</strong></p>
+                        <p style="color: black;"><strong>Master Settling Table (Yearly Bases)</strong></p>
                         <div>
                             <a href="{{ route('export.masterSettlingListWeekly') }}" class="btn btn-dark">Weekly Master Settling Excel</a>
                             <a href="{{ route('export.masterSettlingListMonthly') }}" class="btn btn-dark">Monthly Master Settling Excel</a>
@@ -148,8 +148,8 @@
                 $('#error').text('Please Fill The All The Fields').show();
                 $('#success').hide();
                 setTimeout(() => {
-                        $('#error').hide();
-                        }, 2000);
+                    $('#error').hide();
+                }, 2000);
             }
         });
     });

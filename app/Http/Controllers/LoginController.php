@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Exchange;
 use App\Models\BankUser;
 use Illuminate\Http\Request;
+use Hash;
 use Auth;
 class LoginController extends Controller
 {
@@ -84,9 +85,29 @@ class LoginController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Auth $auth)
+    public function update(Request $request)
     {
-        //
+        if (!auth()->check()) {
+            return redirect()->route('auth.login');
+        }
+        else{
+            $request->validate([
+                'currentPassword' => 'required',
+                'newPassword' => 'required|min:8',
+            ]);
+            $user = Auth::user();
+            if($user->role=="admin"){
+                if (!Hash::check($request->currentPassword, $user->password)) {
+                    return response()->json(['message' => 'Current password is incorrect.'], 422);
+                }
+                else{
+                    $user->password = Hash::make($request->newPassword);
+                    $user->save();
+                    return response()->json(['message' => 'Password updated successfully.']);
+                }
+            }
+        }
+        return response()->json(['message' => 'you are not eligible to perform this action.'], 422);
     }
 
     /**
@@ -109,11 +130,15 @@ class LoginController extends Controller
 
     public function logoutAll(Request $request)
     {
-        // $users = User::all();
-        $users = User::with('tokens')->get();
-        foreach ($users as $user) {
-            $user->tokens()->delete();
-        }
-        return redirect()->route("auth.login")->with('status', 'All users have been logged out.');
+        $admin = Auth::user();
+        Auth::logout();
+        $this->invalidateAllSessions();
+        return redirect()->route('auth.login')->with('status', 'All users have been logged out.');
+    }
+
+    protected function invalidateAllSessions()
+    {
+        
+        \DB::table('sessions')->truncate();
     }
 }
