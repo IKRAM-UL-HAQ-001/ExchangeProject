@@ -9,7 +9,7 @@
           background-image: url('../assets/img/background.jpg'); 
           background-size: cover; 
           background-position: center; 
-          opacity: 0.75;">
+          opacity: 0.7;">
       </div>
   </div>
 
