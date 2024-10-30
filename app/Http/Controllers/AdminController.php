@@ -29,39 +29,68 @@ class AdminController extends Controller
             $currentMonth = Carbon::now()->month;
             $currentYear = Carbon::now()->year;
 
-            $entriesDaily = OpenCloseBalance::whereDate('created_at', $today)->get();
-            $entriesMonth = OpenCloseBalance::whereMonth('created_at', $currentMonth)->get();
-            
             $totalOpenCloseBalanceDaily = 0;
-            
             $totalOpenCloseBalanceMonthly = 0;
+            
+            // Get the latest entries for today
+            $latestEntriesDaily = OpenCloseBalance::select('exchange_id', DB::raw('MAX(created_at) as latest_created_at'))
+                ->whereDate('created_at', $today)
+                ->groupBy('exchange_id')
+                ->get();
+            
+            foreach ($latestEntriesDaily as $entry) {
+                $latestEntry = OpenCloseBalance::where('exchange_id', $entry->exchange_id)
+                    ->where('created_at', $entry->latest_created_at)
+                    ->first();
+            
+                if ($latestEntry) {
+                    $totalOpenCloseBalanceDaily += $latestEntry->close_balance;
+                }
+            }
+            
+            // Get the latest entries for the current month
+            $latestEntriesMonthly = OpenCloseBalance::select('exchange_id', DB::raw('MAX(created_at) as latest_created_at'))
+                ->whereMonth('created_at', $currentMonth)
+                ->whereYear('created_at', $currentYear)
+                ->groupBy('exchange_id')
+                ->get();
+            
+            foreach ($latestEntriesMonthly as $entry) {
+                $latestEntry = OpenCloseBalance::where('exchange_id', $entry->exchange_id)
+                    ->where('created_at', $entry->latest_created_at)
+                    ->first();
+            
+                if ($latestEntry) {
+                    $totalOpenCloseBalanceMonthly += $latestEntry->close_balance;
+                }
+            }
 
-            if ($entriesDaily->count() == "1") {
-                $entry = $entriesDaily->first();
-                $totalOpenCloseBalanceDaily = $entry->close_balance;
-            } else {
-                foreach ($entriesDaily as $entry) {
-                    if ($totalOpenCloseBalanceDaily == "0") {
-                        $totalOpenCloseBalanceDaily = $entry->close_balance;
-                    }
-                    else{
-                        $totalOpenCloseBalanceDaily = $totalOpenCloseBalanceDaily + $entry->close_balance;
-                    }
-                }
-            }
-            if ($entriesMonth->count() =="1") {
-                $entry = $entriesMonth->first();
-                $totalOpenCloseBalanceMonthly =  $entry->close_balance;
-            } else {
-                foreach ($entriesMonth as $entry) {
-                    if ($totalOpenCloseBalanceMonthly == "0") {
-                        $totalOpenCloseBalanceMonthly = $entry->close_balance;
-                    }
-                    else{
-                        $totalOpenCloseBalanceMonthly += $entry->close_balance;
-                    }
-                }
-            }
+            // if ($entriesDaily->count() == "1") {
+            //     $entry = $entriesDaily->first();
+            //     $totalOpenCloseBalanceDaily = $entry->close_balance;
+            // } else {
+            //     foreach ($entriesDaily as $entry) {
+            //         if ($totalOpenCloseBalanceDaily == "0") {
+            //             $totalOpenCloseBalanceDaily = $entry->close_balance;
+            //         }
+            //         else{
+            //             $totalOpenCloseBalanceDaily = $totalOpenCloseBalanceDaily + $entry->close_balance;
+            //         }
+            //     }
+            // }
+            // if ($entriesMonth->count() =="1") {
+            //     $entry = $entriesMonth->first();
+            //     $totalOpenCloseBalanceMonthly =  $entry->close_balance;
+            // } else {
+            //     foreach ($entriesMonth as $entry) {
+            //         if ($totalOpenCloseBalanceMonthly == "0") {
+            //             $totalOpenCloseBalanceMonthly = $entry->close_balance;
+            //         }
+            //         else{
+            //             $totalOpenCloseBalanceMonthly += $entry->close_balance;
+            //         }
+            //     }
+            // }
             $totalPaidAmountDaily = VenderPayment::whereDate('created_at', $today)
                 ->sum('paid_amount');
 
