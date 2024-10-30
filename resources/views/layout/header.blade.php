@@ -16,6 +16,11 @@
     <link id="pagestyle" href="../assets/css/material-dashboard.css?v=3.1.0" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
     <style>
+    
+    .test1{
+        background-color:black;
+        color:white
+    }
 
     .form-control{
         color:black;
@@ -35,7 +40,7 @@
     
     .text-capitalize{
         font-weight:bold;
-        color:black;
+        color:white;
     }
 
     .nav-link-text {

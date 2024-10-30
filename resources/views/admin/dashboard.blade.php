@@ -21,26 +21,20 @@
     <div class="row mb-4">
         @php
             $dailyColorClasses = [
-                'bg-gradient-success',
-                'bg-gradient-info',
                 'bg-gradient-warning',
-                'bg-gradient-danger',
-                'bg-gradient-dark',
-                'bg-gradient-primary',
-                'bg-gradient-secondary',
             ];
         @endphp
 
         <div class="col-xl-3 col-sm-6 mb-4">
             <div class="card">
-                <div class="card-header p-3">
+                <div class="test1 card-header p-3">
                     <div class="d-flex align-items-center">
-                        <div class="icon icon-lg icon-shape bg-gradient-dark shadow-dark text-center border-radius-xl position-relative">
+                        <div class="icon icon-lg icon-shape bg-gradient-warning shadow-dark text-center border-radius-xl position-relative">
                             <i class="material-icons opacity-10">account_balance_wallet</i>
                         </div>
-                        <div class="text-end ms-3 text-center flex-grow-1"> <!-- Center alignment -->
-                            <p class="  text-sm mb-0 text-capitalize">Total Bank Balance</p>
-                            <h4 class="mb-0">{{ $totalBankBalance }}</h4>
+                        <div class=" text-end ms-3 text-center flex-grow-1"> <!-- Center alignment -->
+                            <p class="test1  text-sm mb-0 text-capitalize">Total Bank Balance</p>
+                            <h4 class="test1 smb-0">{{ $totalBankBalance }}</h4>
                         </div>
                     </div>
                 </div>
@@ -64,14 +58,14 @@
         ] as $index => $card)
             <div class="col-xl-3 col-sm-6 mb-4">
                 <div class="card">
-                    <div class="card-header p-3">
+                    <div class="test1 card-header p-3">
                         <div class="d-flex align-items-center">
-                            <div class="icon icon-lg icon-shape {{ $dailyColorClasses[$index % count($dailyColorClasses)] }} shadow-{{ strtolower($dailyColorClasses[$index % count($dailyColorClasses)]) }} text-center border-radius-xl position-relative">
+                            <div class=" icon icon-lg icon-shape {{ $dailyColorClasses[$index % count($dailyColorClasses)] }} shadow-{{ strtolower($dailyColorClasses[$index % count($dailyColorClasses)]) }} text-center border-radius-xl position-relative">
                                 <i class="material-icons opacity-10">{{ $card[2] }}</i>
                             </div>
                             <div class="text-end ms-3 text-center flex-grow-1"> <!-- Center alignment -->
-                                <p class="  text-sm mb-0 text-capitalize">{{ $card[0] }}</p>
-                                <h4 class="  mb-0">{{ $card[1] }}</h4>
+                                <p class="test1 text-sm mb-0 text-capitalize">{{ $card[0] }}</p>
+                                <h4 class="test1 mb-0">{{ $card[1] }}</h4>
                             </div>
                         </div>
                     </div>
@@ -95,26 +89,20 @@
     <div class="row mb-4">
         @php
             $monthlyColorClasses = [
-                'bg-gradient-success',
-                'bg-gradient-info',
                 'bg-gradient-warning',
-                'bg-gradient-danger',
-                'bg-gradient-dark',
-                'bg-gradient-primary',
-                'bg-gradient-secondary',
             ];
         @endphp
 
         <div class="col-xl-3 col-sm-6 mb-4">
             <div class="card">
-                <div class="card-header p-3">
+                <div class="test1 card-header p-3">
                     <div class="d-flex align-items-center">
-                        <div class="icon icon-lg icon-shape bg-gradient-dark shadow-dark text-center border-radius-xl position-relative">
+                        <div class=" icon icon-lg icon-shape bg-gradient-warning shadow-dark text-center border-radius-xl position-relative">
                             <i class="material-icons opacity-10">account_balance_wallet</i> <!-- Monthly Profit -->
                         </div>
-                        <div class="text-end ms-3 text-center flex-grow-1"> <!-- Center alignment -->
-                            <p class="text-sm mb-0 text-capitalize">Monthly Margin</p>
-                            <h4 class="mb-0">{{ $totalBalanceMonthly }}</h4>
+                        <div class=" text-end ms-3 text-center flex-grow-1"> <!-- Center alignment -->
+                            <p class="test1 text-sm mb-0 text-capitalize">Monthly Margin</p>
+                            <h4 class="test1 mb-0">{{ $totalBalanceMonthly }}</h4>
                         </div>
                     </div>
                 </div>
@@ -138,14 +126,14 @@
         ] as $index => $card)
             <div class="col-xl-3 col-sm-6 mb-4">
                 <div class="card">
-                    <div class="card-header p-3">
+                    <div class="test1 card-header p-3">
                         <div class="d-flex align-items-center">
-                            <div class="icon icon-lg icon-shape {{ $monthlyColorClasses[$index % count($monthlyColorClasses)] }} shadow-{{ strtolower($monthlyColorClasses[$index % count($monthlyColorClasses)]) }} text-center border-radius-xl position-relative">
+                            <div class=" icon icon-lg icon-shape {{ $monthlyColorClasses[$index % count($monthlyColorClasses)] }} shadow-{{ strtolower($monthlyColorClasses[$index % count($monthlyColorClasses)]) }} text-center border-radius-xl position-relative">
                                 <i class="material-icons opacity-10">{{ $card[2] }}</i>
                             </div>
                             <div class="text-end ms-3 text-center flex-grow-1"> <!-- Center alignment -->
-                                <p class="text-sm mb-0 text-capitalize">{{ $card[0] }}</p>
-                                <h4 class="mb-0">{{ $card[1] }}</h4>
+                                <p class="test1 text-sm mb-0 text-capitalize">{{ $card[0] }}</p>
+                                <h4 class="test1 mb-0">{{ $card[1] }}</h4>
                             </div>
                         </div>
                     </div>

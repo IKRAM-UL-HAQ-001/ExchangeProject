@@ -113,7 +113,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    <!-- Chart Initialization and Report Generation Script -->
     <script>
         $(document).ready(function() {
             "use strict";
@@ -275,10 +274,9 @@
 
         canvas {
             max-width: 100%;
-            max-height: 300px; /* Increased height for better visibility */
+            max-height: 300px;
         }
 
-        /* Optional: Style the modal header for better visibility */
         .modal-header {
             background-color: #0d6efd;
             color: white;
