@@ -5,33 +5,33 @@
           @if(Auth::check())
           @if(Auth::user()->role === "admin")
             <li class="breadcrumb-item text-sm">
-              <a class="text-dark" href="javascript:;">
+              <a class="text-white" href="javascript:;">
                 @if(Auth::user()->role =="admin")
                   Admin Dashboard
                 @endif
               </a>
             </li>
-            <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Dashboard</li>
+            <li class="breadcrumb-item text-sm text-white active" aria-current="page">Dashboard</li>
           @endif
           @if(Auth::user()->role === "assistant")
             <li class="breadcrumb-item text-sm">
-              <a class="text-dark" href="javascript:;">
+              <a class="text-white" href="javascript:;">
                 @if(Auth::user()->role =="assistant")
                   Assistant Dashboard
                 @endif  
               </a>
             </li>
-            <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Dashboard</li>
+            <li class="breadcrumb-item text-sm text-white active" aria-current="page">Dashboard</li>
           @endif
           @if(Auth::user()->role === "exchange")
             <li class="breadcrumb-item text-sm">
-              <a class="text-dark" href="javascript:;">
+              <a class="text-white" href="javascript:;">
                 @if(Auth::user()->role =="exchange")
                   {{ Auth::user()->exchange->name ?? 'No Exchange' }} Exchange Dashboard
                 @endif
               </a>
             </li>
-            <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Dashboard</li>
+            <li class="breadcrumb-item text-sm text-white active" aria-current="page">Dashboard</li>
           @endif
           @endif
           </ol>
@@ -41,7 +41,7 @@
             <li class="nav-item dropdown pe-2 d-flex align-items-center">
               <a href="javascript:;" class="nav-link text-body p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="fa fa-user cursor-pointer"></i>
-                <span class="d-sm-inline">{{Auth::user()->name}}</span>
+                <span class="d-sm-inline"style="color:white">{{Auth::user()->name}}</span>
               </a>
               <ul class="dropdown-menu  dropdown-menu-end  px-2 py-3 me-sm-n4" aria-labelledby="dropdownMenuButton">
                 @if(Auth::check())

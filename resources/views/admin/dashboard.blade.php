@@ -1,13 +1,7 @@
 @extends("layout.main")
 @section('content')
-<style>
-    ..card-header{
-        background-color:black;
-        color:white;
-    }
 </style>
 <div class="container-fluid">
-    <!-- Daily Bases Section -->
     <div class="row mb-4">
         <div class="col-12">
             <div class="card-header p-0 position-relative mb-3">

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   @include("layout.header")
-<body class="g-sidenav-show  bg-gray-200">
+<body class="g-sidenav-show  bg-gray-200" style="background-image: url('../assets/img/background.jpg'); background-size: cover; background-position: center;">>
     @include("layout.sideNavBar")
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
         @include("layout.topNavBar")        
