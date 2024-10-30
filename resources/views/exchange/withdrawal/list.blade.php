@@ -5,7 +5,7 @@
         <div class="col-12">
             <div class="card my-4">
                 <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                    <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
+                    <div class="bg-gradient-warning shadow-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
                         <p style="color: white;"><strong>Withdrawal Table (Weekly Bases)</strong></p>
                         <div>
                         <a href="{{ route('export.withdrawal') }}" class="btn btn-dark">Withdrawal Export</a>

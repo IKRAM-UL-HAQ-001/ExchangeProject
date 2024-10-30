@@ -38,79 +38,11 @@ class ExchangeController extends Controller
             $userCount = Cash::where('exchange_id', $exchangeId)->distinct('user_id')->count('user_id');
             
 
-            $entriesDaily = OpenCloseBalance::where('exchange_id', $exchangeId)
+            $totalOpenCloseBalanceDaily = OpenCloseBalance::where('exchange_id', $exchangeId)
             ->whereDate('created_at', $today)
-            ->get();
-
-            $entriesMonth = OpenCloseBalance::where('exchange_id', $exchangeId)
-            ->whereMonth('created_at', $currentMonth)
-            ->get();
-        
-            $totalOpenCloseBalanceDaily = 0;
-            $totalOpenCloseBalanceMonthly=0;
-            
-            // Get the latest entries for today
-            $latestEntriesDaily = OpenCloseBalance::select('exchange_id', DB::raw('MAX(created_at) as latest_created_at'))
-                ->whereDate('created_at', $today)
-                ->groupBy('exchange_id')
-                ->get();
-            
-            foreach ($latestEntriesDaily as $entry) {
-                $latestEntry = OpenCloseBalance::where('exchange_id', $entry->exchange_id)
-                    ->where('created_at', $entry->latest_created_at)
-                    ->first();
-            
-                if ($latestEntry) {
-                    $totalOpenCloseBalanceDaily += $latestEntry->close_balance;
-                }
-            }
-            
-            // Get the latest entries for the current month
-            $latestEntriesMonthly = OpenCloseBalance::select('exchange_id', DB::raw('MAX(created_at) as latest_created_at'))
-                ->whereMonth('created_at', $currentMonth)
-                ->whereYear('created_at', $currentYear)
-                ->groupBy('exchange_id')
-                ->get();
-            
-            foreach ($latestEntriesMonthly as $entry) {
-                $latestEntry = OpenCloseBalance::where('exchange_id', $entry->exchange_id)
-                    ->where('created_at', $entry->latest_created_at)
-                    ->first();
-            
-                if ($latestEntry) {
-                    $totalOpenCloseBalanceMonthly += $latestEntry->close_balance;
-                }
-            }
-            
-            // if ($entriesDaily->count() ==" 1") {
-            //     $entry = $entriesDaily->first();
-            //     $totalOpenCloseBalanceDaily = $entry->close_balance;
-            // } else {
-            //     // If there are multiple entriesDaily, sum the closing balances
-            //     foreach ($entriesDaily as $entry) {
-            //         // If it's the first entry, add its opening balance
-            //         if ($totalOpenCloseBalanceDaily == "0") {
-            //             $totalOpenCloseBalanceDaily = $entry->close_balance;
-            //         }else{
-            //             $totalOpenCloseBalanceDaily += $entry->close_balance;
-            //         }
-            //     }
-            // }
-
-            // if ($entriesMonth->count() === 1) {
-            //     $entry = $entriesMonth->first();
-            //     $totalOpenCloseBalanceMonthly = $entry->close_balance;
-            // } else {
-            //     foreach ($entriesMonth as $entry) {
-            //         if ($totalOpenCloseBalanceMonthly === 0) {
-            //             $totalOpenCloseBalanceMonthly += $entry->close_balance;
-            //         }
-            //         else{
-            //             $totalOpenCloseBalanceMonthly += $entry->close_balance;
-            //         }
-            //     }
-            // }
-
+            ->orderBy('created_at', 'desc')
+            ->value('close_balance');
+                    
             $customerCountDaily = Cash::where('exchange_id', $exchangeId)
                 ->whereDate('created_at', $today)
                 ->distinct('reference_number')
@@ -208,7 +140,7 @@ class ExchangeController extends Controller
                 
                 'totalBalanceMonthly','totalDepositMonthly','totalWithdrawalMonthly','totalExpenseMonthly',
                 'totalMasterSettlingMonthly','totalBonusMonthly','customerCountMonthly','totalNewCustomerMonthly',
-                'totalOwnerProfitMonthly','totalOpenCloseBalanceMonthly',
+                'totalOwnerProfitMonthly',
             ));
         }
     }
