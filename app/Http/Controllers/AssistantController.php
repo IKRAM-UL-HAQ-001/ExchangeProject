@@ -38,13 +38,13 @@ class AssistantController extends Controller
             $totalOpenCloseBalanceDaily = 0;
             $totalOpenCloseBalanceMonthly = 0;
 
-            if ($entriesDaily->count() === 1) {
+            if ($entriesDaily->count() == "1") {
                 $entry = $entriesDaily->first();
                 $totalOpenCloseBalanceDaily =  $entry->close_balance;
             } else {
                 foreach ($entriesDaily as $entry) {
-                    if ($totalOpenCloseBalanceDaily === 0) {
-                        $totalOpenCloseBalanceDaily += $entry->close_balance;
+                    if ($totalOpenCloseBalanceDaily == "0") {
+                        $totalOpenCloseBalanceDaily = $entry->close_balance;
                     }else{
                         $totalOpenCloseBalanceDaily += $entry->close_balance;
                     }                }

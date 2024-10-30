@@ -49,13 +49,13 @@ class AdminController extends Controller
                     }
                 }
             }
-            if ($entriesMonth->count() === 1) {
+            if ($entriesMonth->count() =="1") {
                 $entry = $entriesMonth->first();
                 $totalOpenCloseBalanceMonthly =  $entry->close_balance;
             } else {
                 foreach ($entriesMonth as $entry) {
-                    if ($totalOpenCloseBalanceMonthly === 0) {
-                        $totalOpenCloseBalanceMonthly += $entry->close_balance;
+                    if ($totalOpenCloseBalanceMonthly == "0") {
+                        $totalOpenCloseBalanceMonthly = $entry->close_balance;
                     }
                     else{
                         $totalOpenCloseBalanceMonthly += $entry->close_balance;
