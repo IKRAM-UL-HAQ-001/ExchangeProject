@@ -13,7 +13,7 @@ class DatabaseExportController extends Controller
     }
 
     // Return a confirmation view (you can create this view)
-    return view('admin.dashboard'); // Make sure to create this view file
+    return rediect()->route('admin.dashboard'); // Make sure to create this view file
 }
 
 public function export()
@@ -40,7 +40,7 @@ public function export()
         return response()->download($outputFile)->deleteFileAfterSend(true);
     }
 
-    return redirect()->back()->with('error', 'Failed to create the database export.');
+    return redirect()->route('admin.dashboard')->with('error', 'Failed to create the database export.');
 }
 
 }
