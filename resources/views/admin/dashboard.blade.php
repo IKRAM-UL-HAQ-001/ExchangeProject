@@ -115,7 +115,6 @@
             ['Monthly Profit', $totalOwnerProfitMonthly, 'attach_money'],
             ['Total New Customer', $totalCustomersMonthly, 'person_add'],
             ['Total Settling Points', $totalMasterSettlingMonthly, 'account_balance'],
-            <!-- ['Total Open Close Balance', $totalOpenCloseBalanceMonthly, 'monetization_on'], -->
             ['Total Paid Vendor Amount', $totalPaidAmountMonthly, 'attach_money'],
         ] as $index => $card)
             <div class="col-xl-3 col-sm-6 mb-4">
