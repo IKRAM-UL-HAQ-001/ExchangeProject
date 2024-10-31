@@ -35,7 +35,6 @@ class LoginController extends Controller
             'role' => 'required',
             'exchange' => 'nullable|required_if:role,exchange',
         ]);
-        dd($request);
         if (Auth::attempt($request->only('name', 'password'))) {
             $request->session()->regenerate();
     
