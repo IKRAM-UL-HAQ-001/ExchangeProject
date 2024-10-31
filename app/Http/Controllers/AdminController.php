@@ -48,7 +48,7 @@ class AdminController extends Controller
                     $totalOpenCloseBalanceDaily += $latestEntry->close_balance;
                 }
             }
-            
+                dd($totalOpenCloseBalanceDaily);
             // Get the latest entries for the current month
             $latestEntriesMonthly = OpenCloseBalance::select('exchange_id', DB::raw('MAX(created_at) as latest_created_at'))
                 ->whereMonth('created_at', $currentMonth)
