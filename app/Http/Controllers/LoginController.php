@@ -19,10 +19,7 @@ class LoginController extends Controller
         $exchangeRecords = Exchange::all();
 
         // Create the view response
-        $view = view("auth.login", compact('exchangeRecords'));
-
-        // Return the response with security headers
-        return response($view)
+        return view("auth.login", compact('exchangeRecords'))
             ->header('X-Frame-Options', 'DENY')
             ->header('Content-Security-Policy', "frame-ancestors 'self'");
     }
@@ -156,7 +153,7 @@ class LoginController extends Controller
         return redirect()->route('auth.login')->with('status', 'All users have been logged out.')
             ->withHeaders([
                 'X-Frame-Options' => 'DENY', // Prevents framing
-                'Content-Security-Policy' => "frame-ancestors 'self'", // Allows framing only from the same origin
+                // 'Content-Security-Policy' => "frame-ancestors 'self'", // Allows framing only from the same origin
             ]);
     }
 
