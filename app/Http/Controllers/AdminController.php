@@ -35,10 +35,9 @@ class AdminController extends Controller
             
             // Get the latest entries for today
             $latestEntriesDaily = OpenCloseBalance::select('exchange_id', DB::raw('MAX(created_at) as latest_created_at'))
-                ->whereDate('created_at', $today)
                 ->groupBy('exchange_id')
                 ->get();
-            
+            dd($latestEntriesDaily);
             foreach ($latestEntriesDaily as $entry) {
                 $latestEntry = OpenCloseBalance::where('exchange_id', $entry->exchange_id)
                     ->where('created_at', $entry->latest_created_at)
