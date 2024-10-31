@@ -3,44 +3,42 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Response;
 use Auth;
 class DatabaseExportController extends Controller
 {
-    public function index()
+    public function downloadDatabase()
     {
-      if (Auth::user()->role !== 'admin') {
-        return redirect()->back()->with('error', 'Unauthorized action.');
+        // Set the name for the SQL file
+        $filename = 'database_export_' . date('Y-m-d_H-i-s') . '.sql';
+
+        // Command to export the database
+        $databaseName = env('DB_DATABASE');
+        $username = env('DB_USERNAME');
+        $password = env('DB_PASSWORD');
+        $host = env('DB_HOST');
+
+        $command = "mysqldump --user={$username} --password={$password} --host={$host} {$databaseName}";
+
+        // Execute the command and get the output
+        $output = [];
+        $returnVar = 0;
+
+        exec($command, $output, $returnVar);
+
+        // Check if the command was successful
+        if ($returnVar !== 0) {
+            return redirect()->back()->with('error', 'Failed to export database.');
+        }
+
+        // Create the SQL file content
+        $sqlContent = implode("\n", $output);
+
+        // Return the SQL file as a download
+        return Response::make($sqlContent, 200, [
+            'Content-Type' => 'application/sql',
+            'Content-Disposition' => "attachment; filename={$filename}",
+        ]);
     }
-
-    // Return a confirmation view (you can create this view)
-    return redirect()->route('admin.dashboard'); // Make sure to create this view file
-}
-
-public function export()
-{
-    // Check if the user is an admin
-    if (Auth::user()->role !== 'admin') {
-        return redirect()->back()->with('error', 'Unauthorized action.');
-    }
-
-    $databaseName = env('DB_DATABASE');
-    $user = env('DB_USERNAME');
-    $password = env('DB_PASSWORD');
-    $host = env('DB_HOST');
-
-    // Define the output file path
-    $outputFile = storage_path("app/exports/{$databaseName}_" . date('Y-m-d_H-i-s') . '.sql');
-
-    // Run the mysqldump command
-    $command = "mysqldump -u {$user} -p{$password} -h {$host} {$databaseName} > {$outputFile}";
-    exec($command);
-
-    // Check if the file exists and return it as a download
-    if (file_exists($outputFile)) {
-        return response()->download($outputFile)->deleteFileAfterSend(true);
-    }
-
-    return redirect()->route('admin.dashboard')->with('error', 'Failed to create the database export.');
-}
-
 }
