@@ -45,14 +45,12 @@ class MasterSettlingWeeklyListExport implements FromQuery, WithHeadings, WithSty
             ->whereBetween('master_settlings.created_at', [$startOfWeek, $endOfWeek]) // Filter by the week range
             ->distinct();
 
-            if ($query->isEmpty()) {
-                // Flash a message to the session
-                session()->flash('error', 'No records found for the specified conditions.');
-    
-                // Redirect back to the previous page
-                return redirect()->back();
-            }  
-            
+        // Check if the result is empty before executing the query
+        if ($query->count() === 0) {
+            // Return an empty collection if no records found
+            return collect(); // This will generate an empty Excel file
+        }  
+
         switch (Auth::user()->role) {
             case "exchange":
                 return $query->where('master_settlings.exchange_id', $this->exchangeId);

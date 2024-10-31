@@ -27,63 +27,85 @@ class DepositListExport implements FromCollection,  WithHeadings, WithStyles, Wi
     }
 
     public function collection()
-{
-    $currentMonth = Carbon::now()->month;
-
-    // Fetching the records
-    $records = Cash::select('cashes.*', 'exchanges.name AS exchange_name', 'users.name AS user_name')
-        ->join('exchanges', 'cashes.exchange_id', '=', 'exchanges.id')
-        ->join('users', 'cashes.user_id', '=', 'users.id')
-        ->whereMonth('cashes.created_at', $currentMonth)
-        ->whereIn('cashes.cash_type', ['deposit', 'withdrawal', 'expense']);
-
-    if (Auth::user()->role === "exchange") {
-        $records->where('cashes.exchange_id', $this->exchangeId);
-    }
-
-    // Getting the results
-    $records = $records->get();
-
-    // Debugging: Check if records are fetched
-            if ($records->isEmpty()) {
+    {
+        $currentMonth = Carbon::now()->month;
+    
+        // Fetching the records
+        $records = Cash::select('cashes.*', 'exchanges.name AS exchange_name', 'users.name AS user_name')
+            ->join('exchanges', 'cashes.exchange_id', '=', 'exchanges.id')
+            ->join('users', 'cashes.user_id', '=', 'users.id')
+            ->whereMonth('cashes.created_at', $currentMonth)
+            ->whereIn('cashes.cash_type', ['deposit', 'withdrawal', 'expense']);
+    
+        if (Auth::user()->role === "exchange") {
+            $records->where('cashes.exchange_id', $this->exchangeId);
+        }
+    
+        // Getting the results
+        $records = $records->get();
+    
+        // Debugging: Check if records are fetched
+        if ($records->isEmpty()) {
             // Flash a message to the session
             session()->flash('error', 'No records found for the specified conditions.');
-
+    
             // Redirect back to the previous page
             return redirect()->back();
-        }  
-
-    // Calculating total balance in PHP
-    $totalBalance = 0;
-    foreach ($records as $record) {
-        $totalBalance += ($record->cash_type === 'deposit' ? $record->cash_amount : -$record->cash_amount);
-        $record->total_balance = $totalBalance; // Assign total balance to each record
+        }
+    
+        // Calculating total balance in PHP
+        $totalBalance = 0;
+        foreach ($records as $record) {
+            $totalBalance += ($record->cash_type === 'deposit' ? $record->cash_amount : -$record->cash_amount);
+            $record->total_balance = $totalBalance; // Assign total balance to each record
+        }
+    
+        // Filtering for deposits (changed from withdrawals to deposits)
+        $deposits = $records->filter(function ($record) {
+            return $record->cash_type === 'deposit';
+        });
+    
+        // If no deposits are found, return a collection with a default record
+        if ($deposits->isEmpty()) {
+            return collect([
+                [
+                    'id' => 0,
+                    'exchange_name' => '',
+                    'user_name' => '',
+                    'reference_number' => '',
+                    'customer_name' => '',
+                    'cash_type' => 'deposit',
+                    'cash_amount' => 0,
+                    'total_balance' => 0,
+                    'bonus_amount' => 0,
+                    'payment_type' => '',
+                    'remarks' => '',
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ],
+            ]);
+        }
+    
+        // Return only non-empty records and arrange columns in the desired order
+        return $deposits->map(function ($record) {
+            return [
+                'id' => $record->id,
+                'exchange_name' => $record->exchange_name,
+                'user_name' => $record->user_name,
+                'reference_number' => $record->reference_number,
+                'customer_name' => $record->customer_name,
+                'cash_type' => $record->cash_type,
+                'cash_amount' => $record->cash_amount,
+                'total_balance' => $record->total_balance,
+                'bonus_amount' => $record->bonus_amount,
+                'payment_type' => $record->payment_type,
+                'remarks' => $record->remarks,
+                'created_at' => $record->created_at,
+                'updated_at' => $record->updated_at,
+            ];
+        });
     }
-
-    // Filtering for withdrawals
-    $withdrawals = $records->filter(function ($record) {
-        return $record->cash_type === 'deposit';
-    });
-
-    // Return only non-empty records and arrange columns in the desired order
-    return $withdrawals->map(function ($record) {
-        return [
-            'id' => $record->id,
-            'exchange_name' => $record->exchange_name,
-            'user_name' => $record->user_name,
-            'reference_number' => $record->reference_number,
-            'customer_name' => $record->customer_name,
-            'cash_type' => $record->cash_type,
-            'cash_amount' => $record->cash_amount,
-            'total_balance' => $record->total_balance,
-            'bonus_amount' => $record->bonus_amount,
-            'payment_type' => $record->payment_type,
-            'remarks' => $record->remarks,
-            'created_at' => $record->created_at,
-            'updated_at' => $record->updated_at,
-        ];
-    });
-}
+    
     public function headings(): array{
         return [
             'ID',

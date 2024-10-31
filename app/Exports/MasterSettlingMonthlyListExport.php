@@ -46,21 +46,17 @@ class MasterSettlingMonthlyListExport implements FromQuery, WithHeadings, WithSt
             ->whereYear('master_settlings.created_at', $currentYear)
             ->distinct();
 
-            if ($query->isEmpty()) {
-                // Flash a message to the session
-                session()->flash('error', 'No records found for the specified conditions.');
-    
-                // Redirect back to the previous page
-                return redirect()->back();
-            }  
+        // Check if the query returns any results
+        if ($query->count() === 0) {
+            return collect(); // Return an empty collection if no records found
+        }
 
         switch (Auth::user()->role) {
             case "exchange":
                 return $query->where('master_settlings.exchange_id', $this->exchangeId);
             case "admin":
-                return $query;
             case "assistant":
-                return $query;
+                return $query; // Admin and assistant can see all
             default:
                 return collect(); // Return an empty collection for unrecognized roles
         }
@@ -84,8 +80,8 @@ class MasterSettlingMonthlyListExport implements FromQuery, WithHeadings, WithSt
 
     public function styles(Worksheet $sheet)
     {
-        $sheet->getStyle('A1:I1')->getFont()->setBold(true);
-        $sheet->getStyle('A1:I1')->getFont()->setSize(12);
+        $sheet->getStyle('A1:J1')->getFont()->setBold(true);
+        $sheet->getStyle('A1:J1')->getFont()->setSize(12);
     }
 
     public function columnWidths(): array
@@ -98,8 +94,9 @@ class MasterSettlingMonthlyListExport implements FromQuery, WithHeadings, WithSt
             'E' => 15, // Credit Ref
             'F' => 20, // Settling Point
             'G' => 15, // Price
-            'H' => 30, // Created At
-            'I' => 30, // Updated At
+            'H' => 30, // Total Amount
+            'I' => 30, // Created At
+            'J' => 30, // Updated At
         ];
     }
 }
