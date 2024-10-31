@@ -36,7 +36,7 @@ class AdminController extends Controller
             $latestEntriesDaily = OpenCloseBalance::select('exchange_id', DB::raw('MAX(created_at) as latest_created_at'))
                 ->groupBy('exchange_id')
                 ->get();
-            $latestBalances = OpenCloseBalance::whereIn('id', function ($query) {
+            $totalOpenCloseBalanceDaily = OpenCloseBalance::whereIn('id', function ($query) {
                 $query->select(DB::raw('MAX(id)'))
                       ->from('open_close_balances')
                       ->groupBy('exchange_id');

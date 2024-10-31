@@ -42,6 +42,10 @@ Route::get('/export-customer', [CustomerController::class, 'customerExportExcel'
 
 Route::group(['middleware' => 'admin'], function () {
 
+    //download databsae
+    Route::get('/admin/download', [DatabaseExportController::class, 'index'])->name('admin.confirm.download');
+
+
     //admin dashboard
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.dashboard');
 

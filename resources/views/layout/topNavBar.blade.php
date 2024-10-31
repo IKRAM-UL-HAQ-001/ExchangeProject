@@ -34,6 +34,9 @@
                             <a href="javascript:void(0);" class="d-inline btn btn-danger mt-3" style="margin-right: 16px;" onclick="confirmLogout()">
                                 Logout ALL
                             </a>
+                            <a href="{{ route('admin.confirm.download')}}" class="d-inline btn btn-danger mt-3" style="margin-right: 16px;" onclick="confirmDownload()">
+                                Download DATABASE
+                            </a>
                         @endif
                     @endif
                     <a href="javascript:void(0);" class="nav-link text-body p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
