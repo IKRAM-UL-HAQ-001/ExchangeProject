@@ -65,11 +65,6 @@ class DepositListExport implements FromCollection,  WithHeadings, WithStyles, Wi
         return $record->cash_type === 'deposit';
     });
 
-    // Debugging: Check filtered withdrawals
-    if ($withdrawals->isEmpty()) {
-        throw new \Exception("No withdrawal records found.");
-    }
-
     // Return only non-empty records and arrange columns in the desired order
     return $withdrawals->map(function ($record) {
         return [
