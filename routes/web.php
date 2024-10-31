@@ -21,6 +21,7 @@ use App\Http\Controllers\VenderPaymentController;
 use App\Http\Controllers\OpenCloseBalanceController;
 use App\Http\Controllers\DepositController;
 use App\Http\Controllers\WithdrawalController;
+use App\Http\Controllers\DatabaseExportController;
 
 
 Route::get('/', [LoginController::class, 'index'])->name('auth.login');
