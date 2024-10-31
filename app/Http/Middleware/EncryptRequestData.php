@@ -16,13 +16,13 @@ class EncryptRequestData
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $encryptedData = [];
-        foreach ($request->all() as $key => $value) {
-            $encryptedData[$key] = Crypt::encryptString($value);
-        }
+        // $encryptedData = [];
+        // foreach ($request->all() as $key => $value) {
+        //     $encryptedData[$key] = Crypt::encryptString($value);
+        // }
 
-        // Replace request data with encrypted values
-        $request->merge($encryptedData);
+        // // Replace request data with encrypted values
+        // $request->merge($encryptedData);
 
         return $next($request);
     }
