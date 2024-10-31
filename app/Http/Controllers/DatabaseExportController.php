@@ -13,7 +13,7 @@ class DatabaseExportController extends Controller
     }
 
     // Return a confirmation view (you can create this view)
-    return view('admin.confirm-download'); // Make sure to create this view file
+    return view('admin.dashboard'); // Make sure to create this view file
 }
 
 public function export()
