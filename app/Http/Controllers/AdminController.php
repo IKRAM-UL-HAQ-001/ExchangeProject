@@ -37,16 +37,21 @@ class AdminController extends Controller
             $latestEntriesDaily = OpenCloseBalance::select('exchange_id', DB::raw('MAX(created_at) as latest_created_at'))
                 ->groupBy('exchange_id')
                 ->get();
-            dd($latestEntriesDaily);
-            foreach ($latestEntriesDaily as $entry) {
-                $latestEntry = OpenCloseBalance::where('exchange_id', $entry->exchange_id)
-                    ->where('created_at', $entry->latest_created_at)
-                    ->first();
+            // dd($latestEntriesDaily);
+            $totalOpenCloseBalanceDaily = OpenCloseBalance::whereIn('id', function ($query) {
+                $query->select(DB::raw('MAX(id)'))
+                      ->from('open_close_balances')
+                      ->groupBy('exchange_id');
+            })->get(['exchange_id', 'close_balance', 'created_at']);
+            // foreach ($latestEntriesDaily as $entry) {
+            //     $latestEntry = OpenCloseBalance::where('exchange_id', $entry->exchange_id)
+            //         ->where('created_at', $entry->latest_created_at)
+            //         ->first();
             
-                if ($latestEntry) {
-                    $totalOpenCloseBalanceDaily += $latestEntry->close_balance;
-                }
-            }
+            //     if ($latestEntry) {
+            //         $totalOpenCloseBalanceDaily += $latestEntry->close_balance;
+            //     }
+            // }
                 dd($totalOpenCloseBalanceDaily);
             // Get the latest entries for the current month
             $latestEntriesMonthly = OpenCloseBalance::select('exchange_id', DB::raw('MAX(created_at) as latest_created_at'))
