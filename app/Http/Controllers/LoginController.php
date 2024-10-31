@@ -19,8 +19,8 @@ class LoginController extends Controller
         $exchangeRecords = Exchange::all();
 
         // Create the view response
-        return view("auth.login", compact('exchangeRecords'))
-            ->header('X-Frame-Options', 'DENY');
+        return view("auth.login", compact('exchangeRecords'));
+            // ->header('X-Frame-Options', 'DENY');
             // ->header('Content-Security-Policy', "frame-ancestors 'self'");
     }
 
