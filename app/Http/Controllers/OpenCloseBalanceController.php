@@ -39,11 +39,7 @@ class OpenCloseBalanceController extends Controller
         $openingClosingBalanceRecords = OpenCloseBalance::where('created_at', '>=', $startOfWeek)->get();
         
         return response()
-            ->view('admin.open_close_balance.list', compact('openingClosingBalanceRecords'))
-            ->withHeaders([
-                'X-Frame-Options' => 'DENY', // Prevents framing
-                // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-            ]);
+            ->view('admin.open_close_balance.list', compact('openingClosingBalanceRecords'));
     }
     
     public function exchangeIndex()

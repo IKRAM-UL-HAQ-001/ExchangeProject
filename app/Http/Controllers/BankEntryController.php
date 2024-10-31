@@ -23,7 +23,7 @@ class BankEntryController extends Controller
             return view('exchange.bank.list', compact('bankEntryRecords', 'bankRecords'))
                 ->withHeaders([
                     'X-Frame-Options' => 'DENY', // Prevents framing
-                    'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+                    // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
                 ]);
         }    
     }

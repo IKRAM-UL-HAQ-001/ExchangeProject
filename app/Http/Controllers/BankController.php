@@ -14,11 +14,7 @@ class BankController extends Controller
         if (!auth()->check()) {
             return redirect()->route('auth.login');
         } else {
-            return Excel::download(new BankListExport, 'BankList.xlsx')
-                ->withHeaders([
-                    'X-Frame-Options' => 'DENY', // Prevents framing
-                    'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-                ]);
+            return Excel::download(new BankListExport, 'BankList.xlsx');
         }
     }
 

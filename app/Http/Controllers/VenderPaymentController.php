@@ -19,10 +19,7 @@ class VenderPaymentController extends Controller
                 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
             ]);
         } else {
-            return Excel::download(new VenderPaymentListExport(), 'venderPaymentRecord.xlsx')->withHeaders([
-                'X-Frame-Options' => 'DENY', // Prevents framing
-                'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-            ]);
+            return Excel::download(new VenderPaymentListExport(), 'venderPaymentRecord.xlsx');
         }
     }
     
