@@ -35,9 +35,10 @@ class ExchangeController extends Controller
             
             // $totalOpenBalanceDaily = OpenCloseBalance::where('exchange_id', $exchangeId)->sum('open_balance');
              
-            $totalOpenCloseBalanceDaily = OpenCloseBalance::where('exchange_id', $exchangeId)
-            ->orderBy('created_at', 'desc') // or use 'updated_at' if that's more appropriate
+            $totalOpenBalanceDaily = OpenCloseBalance::where('exchange_id', $exchangeId)
+            ->orderBy('created_at', 'desc')
             ->first();
+            $totalOpenCloseBalance = $totalOpenBalanceDaily ? $totalOpenBalanceDaily->close_balance : null;
 
             $customerCountDaily = Cash::where('exchange_id', $exchangeId)
                 ->whereDate('created_at', $today)
