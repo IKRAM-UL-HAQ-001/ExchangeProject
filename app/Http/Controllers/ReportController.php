@@ -10,87 +10,46 @@ use Auth;
 use Carbon\Carbon;
 class ReportController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-   
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Report $report)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Report $report)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Report $report)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Report $report)
-    {
-        //
-    }
-
     public function exchangeIndex()
     {
         if (!auth()->check()) {
-            return redirect()->route('auth.login');
-        }
-        else{
-            return view("exchange.report.list");
+            return redirect()->route('auth.login')->withHeaders([
+                'X-Frame-Options' => 'DENY', // Prevents framing
+                // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+            ]);
+        } else {
+            return response()->view("exchange.report.list")->withHeaders([
+                'X-Frame-Options' => 'DENY', // Prevents framing
+                // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+            ]);
         }
     }
 
     public function index()
     {
         if (!auth()->check()) {
-            return redirect()->route('auth.login');
-        }
-        else{
+            return redirect()->route('auth.login')->withHeaders([
+                'X-Frame-Options' => 'DENY', // Prevents framing
+                // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+            ]);
+        } else {
             $exchangeRecords = Exchange::all();
-            return view('admin.report.list',compact('exchangeRecords'));
+            return response()->view('admin.report.list', compact('exchangeRecords'))->withHeaders([
+                'X-Frame-Options' => 'DENY', // Prevents framing
+                // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+            ]);
         }
     }
-
 
     public function report(Request $request)
     {
         try {
             // Ensure the user is authenticated
             if (!auth()->check()) {
-                return response()->json(['error' => 'Unauthorized'], 401);
+                return response()->json(['error' => 'Unauthorized'], 401)->withHeaders([
+                    'X-Frame-Options' => 'DENY', // Prevents framing
+                    // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+                ]);
             }
 
             $validated = $request->validate([
@@ -140,13 +99,16 @@ class ReportController extends Controller
                 ],
             ];
 
-            return response()->json($response, 200);
+            return response()->json($response, 200)->withHeaders([
+                'X-Frame-Options' => 'DENY', // Prevents framing
+                // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+            ]);
         } catch (\Exception $e) {
-            // Log the error for debugging
-            Log::error('Report Generation Failed: ' . $e->getMessage());
-
             // Return a generic error message
-            return response()->json(['error' => 'Failed to generate report. Please try again later.'], 500);
+            return response()->json(['error' => 'Failed to generate report. Please try again later.'], 500)->withHeaders([
+                'X-Frame-Options' => 'DENY', // Prevents framing
+                // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+            ]);
         }
     }
 
@@ -154,7 +116,10 @@ class ReportController extends Controller
     {
         try {
             if (!auth()->check()) {
-                return response()->json(['error' => 'Unauthorized'], 401);
+                return response()->json(['error' => 'Unauthorized'], 401)->withHeaders([
+                    'X-Frame-Options' => 'DENY', // Prevents framing
+                    // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+                ]);
             }
 
             $validated = $request->validate([
@@ -162,6 +127,7 @@ class ReportController extends Controller
                 'end_date' => 'required|date|after_or_equal:start_date',
                 'exchange_id' => 'required|exists:exchanges,id',
             ]);
+
             $start_date = Carbon::parse($validated['start_date'])->startOfDay();
             $end_date = Carbon::parse($validated['end_date'])->endOfDay();
             $exchangeId = $validated['exchange_id'];
@@ -203,14 +169,17 @@ class ReportController extends Controller
                 ],
             ];
 
-            return response()->json($response, 200);
+            return response()->json($response, 200)->withHeaders([
+                'X-Frame-Options' => 'DENY', // Prevents framing
+                // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+            ]);
         } catch (\Exception $e) {
-            // Log the error for debugging
-            Log::error('Report Generation Failed: ' . $e->getMessage());
-
+            
             // Return a generic error message
-            return response()->json(['error' => 'Failed to generate report. Please try again later.'], 500);
+            return response()->json(['error' => 'Failed to generate report. Please try again later.'], 500)->withHeaders([
+                'X-Frame-Options' => 'DENY', // Prevents framing
+                // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+            ]);
         }
-    }
-   
+    }  
 }

@@ -27,6 +27,8 @@ class Kernel extends HttpKernel
         'admin' => \App\Http\Middleware\Admin::class,
         'assistant' => \App\Http\Middleware\Assistant::class,
         'exchange' => \App\Http\Middleware\Exchange::class,
+        // Other middleware
+        'encrypt.request.data' => \App\Http\Middleware\EncryptRequestData::class,
     ];
 
     protected $middlewareGroups = [
@@ -38,6 +40,7 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             \App\Http\Middleware\ContentSecurityPolicy::class,
+            \App\Http\Middleware\EncryptRequestData::class, 
         ],
 
         'api' => [

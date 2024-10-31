@@ -66,32 +66,6 @@ class AdminController extends Controller
                 }
             }
 
-            // if ($entriesDaily->count() == "1") {
-            //     $entry = $entriesDaily->first();
-            //     $totalOpenCloseBalanceDaily = $entry->close_balance;
-            // } else {
-            //     foreach ($entriesDaily as $entry) {
-            //         if ($totalOpenCloseBalanceDaily == "0") {
-            //             $totalOpenCloseBalanceDaily = $entry->close_balance;
-            //         }
-            //         else{
-            //             $totalOpenCloseBalanceDaily = $totalOpenCloseBalanceDaily + $entry->close_balance;
-            //         }
-            //     }
-            // }
-            // if ($entriesMonth->count() =="1") {
-            //     $entry = $entriesMonth->first();
-            //     $totalOpenCloseBalanceMonthly =  $entry->close_balance;
-            // } else {
-            //     foreach ($entriesMonth as $entry) {
-            //         if ($totalOpenCloseBalanceMonthly == "0") {
-            //             $totalOpenCloseBalanceMonthly = $entry->close_balance;
-            //         }
-            //         else{
-            //             $totalOpenCloseBalanceMonthly += $entry->close_balance;
-            //         }
-            //     }
-            // }
             $totalPaidAmountDaily = VenderPayment::whereDate('created_at', $today)
                 ->sum('paid_amount');
 
@@ -175,65 +149,20 @@ class AdminController extends Controller
             $totalBalanceMonthly = $totalDepositMonthly - $totalWithdrawalMonthly - $totalExpenseMonthly;
             $totalUsers = User::count();
             $totalExchanges = Exchange::count();
-            return view('/admin.dashboard',compact('totalUsers','totalExchanges',
-                'totalBalanceMonthly','totalDepositMonthly','totalWithdrawalMonthly',
-                'totalExpenseMonthly','totalMasterSettlingMonthly',
-                'totalOpenCloseBalanceMonthly','totalPaidAmountMonthly',
-                
-                'totalBonusMonthly','totalOldCustomersMonthly','totalOwnerProfitMonthly',
-                'totalCustomersMonthly','totalBalanceDaily','totalDepositDaily',
-                'totalWithdrawalDaily','totalExpenseDaily','totalBonusDaily','totalOldCustomersDaily',
-                'totalOwnerProfitDaily','totalCustomersDaily','totalBankBalance','totalOpenCloseBalanceDaily',
-                'totalPaidAmountDaily',
-            ));
+            $viewData = compact(
+                'totalUsers', 'totalExchanges', 'totalBalanceMonthly', 'totalDepositMonthly', 
+                'totalWithdrawalMonthly', 'totalExpenseMonthly', 'totalMasterSettlingMonthly',
+                'totalOpenCloseBalanceMonthly', 'totalPaidAmountMonthly', 'totalBonusMonthly',
+                'totalOldCustomersMonthly', 'totalOwnerProfitMonthly', 'totalCustomersMonthly',
+                'totalBalanceDaily', 'totalDepositDaily', 'totalWithdrawalDaily', 'totalExpenseDaily',
+                'totalBonusDaily', 'totalOldCustomersDaily', 'totalOwnerProfitDaily', 'totalCustomersDaily',
+                'totalBankBalance', 'totalOpenCloseBalanceDaily', 'totalPaidAmountDaily'
+            );
+            return response()
+            ->view('admin.dashboard', $viewData)
+            // ->header('Content-Security-Policy', "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;")
+            ->header('X-Frame-Options', 'DENY');
         }   
     }    
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Admin $admin)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Admin $admin)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Admin $admin)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Admin $admin)
-    {
-        //
-    }
 }

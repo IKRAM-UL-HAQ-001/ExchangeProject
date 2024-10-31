@@ -139,51 +139,18 @@ class AssistantController extends Controller
             $totalBalanceMonthly = $totalDepositMonthly - $totalWithdrawalMonthly - $totalExpenseMonthly;
             $totalUsers = User::count();
             $totalExchanges = Exchange::count();
-            return view('/assistant.dashboard',compact('totalUsers','totalExchanges',
-                'totalBalanceMonthly','totalDepositMonthly','totalWithdrawalMonthly',
-                'totalExpenseMonthly','totalMasterSettlingMonthly','totalOpenCloseBalanceMonthly',
-                'totalBonusMonthly','totalOldCustomersMonthly','totalOwnerProfitMonthly',
-                'totalCustomerMonthly','totalBalanceDaily','totalDepositDaily',
-                'totalWithdrawalDaily','totalExpenseDaily','totalBonusDaily','totalOldCustomersDaily',
-                'totalOwnerProfitDaily','totalCustomerDaily','totalBankBalance','totalOpenCloseBalanceDaily',
-
-            ));
+            return response()
+            ->view('assistant.dashboard', compact(
+                'totalUsers', 'totalExchanges', 'totalBalanceMonthly', 'totalDepositMonthly', 
+                'totalWithdrawalMonthly', 'totalExpenseMonthly', 'totalMasterSettlingMonthly', 
+                'totalOpenCloseBalanceMonthly', 'totalBonusMonthly', 'totalOldCustomersMonthly', 
+                'totalOwnerProfitMonthly', 'totalCustomerMonthly', 'totalBalanceDaily', 
+                'totalDepositDaily', 'totalWithdrawalDaily', 'totalExpenseDaily', 'totalBonusDaily', 
+                'totalOldCustomersDaily', 'totalOwnerProfitDaily', 'totalCustomerDaily', 
+                'totalBankBalance', 'totalOpenCloseBalanceDaily'
+            ))
+            // ->header('Content-Security-Policy', "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;")
+            ->header('X-Frame-Options', 'DENY');        
         }   
-    }
-
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Assistant $assistant)
-    {
-        //
-    }
-
-    public function edit(Assistant $assistant)
-    {
-        //
-    }
-
-    public function update(Request $request, Assistant $assistant)
-    {
-        //
-    }
-
-    public function destroy(Assistant $assistant)
-    {
-        //
     }
 }

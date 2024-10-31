@@ -11,28 +11,36 @@ use Carbon\Carbon;
 use Auth;
 class WithdrawalController extends Controller
 {
-    
+
     public function withdrawalExportExcel(Request $request)
     {
         if (!auth()->check()) {
-            return redirect()->route('auth.login');
-        }
-        else{
-            if(Auth::user()->role == "admin" || Auth::user()->role == "assistant"){
+            return redirect()->route('auth.login')->withHeaders([
+                'X-Frame-Options' => 'DENY', // Prevents framing
+                'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+            ]);
+        } else {
+            if (Auth::user()->role == "admin" || Auth::user()->role == "assistant") {
                 $exchangeId = null;
-            }
-            else{
+            } else {
                 $exchangeId = Auth::user()->exchange_id;
             }
-            return Excel::download(new WithdrawalListExport($exchangeId), 'withdrawalRecord.xlsx');
+            return Excel::download(new WithdrawalListExport($exchangeId), 'withdrawalRecord.xlsx')->withHeaders([
+                'X-Frame-Options' => 'DENY', // Prevents framing
+                'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+            ]);
         }
     }
     
     public function index()
     {
         if (!auth()->check()) {
-            return redirect()->route('auth.login');
+            return redirect()->route('auth.login')->withHeaders([
+                'X-Frame-Options' => 'DENY', // Prevents framing
+                // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+            ]);
         }
+        
         $startOfWeek = Carbon::now()->startOfWeek();
         $endOfWeek = Carbon::now()->endOfWeek();
         
@@ -43,54 +51,10 @@ class WithdrawalController extends Controller
             ->where('user_id', $userId) 
             ->whereBetween('created_at', [$startOfWeek, $endOfWeek])
             ->get();
-        return view('exchange.withdrawal.list', compact('withdrawalRecords'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Withdrawal $withdrawal)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Withdrawal $withdrawal)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Withdrawal $withdrawal)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Withdrawal $withdrawal)
-    {
-        //
-    }
+            
+        return response()->view('exchange.withdrawal.list', compact('withdrawalRecords'))->withHeaders([
+            'X-Frame-Options' => 'DENY', // Prevents framing
+            // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+        ]);
+    }    
 }

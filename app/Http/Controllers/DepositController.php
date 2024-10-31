@@ -17,15 +17,15 @@ class DepositController extends Controller
         if (!auth()->check()) {
             return redirect()->route('auth.login');
         }
-        else{
-            if(Auth::user()->role == "admin" || Auth::user()->role == "assistant"){
-                $exchangeId = null;
-            }
-            else{
-                $exchangeId = Auth::user()->exchange_id;
-            }
-            return Excel::download(new DepositListExport($exchangeId), 'depositRecord.xlsx');
-        }
+
+        $exchangeId = (Auth::user()->role == "admin" || Auth::user()->role == "assistant") ? null : Auth::user()->exchange_id;
+
+        // Generate the Excel download response with security headers
+        return Excel::download(new DepositListExport($exchangeId), 'depositRecord.xlsx')
+            ->withHeaders([
+                'X-Frame-Options' => 'DENY', // Prevents framing
+                'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+            ]);
     }
 
     public function index()
@@ -33,18 +33,26 @@ class DepositController extends Controller
         if (!auth()->check()) {
             return redirect()->route('auth.login');
         }
+
         $startOfWeek = Carbon::now()->startOfWeek();
         $endOfWeek = Carbon::now()->endOfWeek();
 
         $exchangeId = auth()->user()->exchange_id;
         $userId = auth()->user()->id;
+
         $depositRecords = Cash::with(['exchange', 'user'])
-            ->where('exchange_id', $exchangeId) 
-            ->where('user_id', $userId) 
+            ->where('exchange_id', $exchangeId)
+            ->where('user_id', $userId)
             ->whereBetween('created_at', [$startOfWeek, $endOfWeek])
             ->get();
-        return view('exchange.deposit.list', compact('depositRecords'));
+
+        return view('exchange.deposit.list', compact('depositRecords'))
+            ->withHeaders([
+                'X-Frame-Options' => 'DENY', // Prevents framing
+                'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+            ]);
     }
+
 
     public function create()
     {

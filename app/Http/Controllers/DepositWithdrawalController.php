@@ -19,90 +19,63 @@ class DepositWithdrawalController extends Controller
         if (!auth()->check()) {
             return redirect()->route('auth.login');
         }
-        else{
-            $startOfWeek = Carbon::now()->startOfWeek();
-            $endOfWeek = Carbon::now()->endOfWeek();
 
-            $depositWithdrawalRecords = Cash::with(['exchange', 'user'])
+        $startOfWeek = Carbon::now()->startOfWeek();
+        $endOfWeek = Carbon::now()->endOfWeek();
+
+        $depositWithdrawalRecords = Cash::with(['exchange', 'user'])
             ->whereBetween('created_at', [$startOfWeek, $endOfWeek])
             ->get();
-            return view('admin.deposit_withdrawal.list',compact('depositWithdrawalRecords'));
-        }
+
+        return view('admin.deposit_withdrawal.list', compact('depositWithdrawalRecords'))
+            ->withHeaders([
+                'X-Frame-Options' => 'DENY', // Prevents framing
+                'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+            ]);
     }
-    
+
     public function assistantIndex()
     {
         if (!auth()->check()) {
             return redirect()->route('auth.login');
         }
-        else{
-            $startOfWeek = Carbon::now()->startOfWeek();
-            $endOfWeek = Carbon::now()->endOfWeek();
 
-            $depositWithdrawalRecords = Cash::with(['exchange', 'user'])
+        $startOfWeek = Carbon::now()->startOfWeek();
+        $endOfWeek = Carbon::now()->endOfWeek();
+
+        $depositWithdrawalRecords = Cash::with(['exchange', 'user'])
             ->whereBetween('created_at', [$startOfWeek, $endOfWeek])
             ->get();
-            return view('assistant.deposit_withdrawal.list',compact('depositWithdrawalRecords'));
-        }
+
+        return view('assistant.deposit_withdrawal.list', compact('depositWithdrawalRecords'))
+            ->withHeaders([
+                'X-Frame-Options' => 'DENY', // Prevents framing
+                'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+            ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(DepositWithdrawal $depositWithdrawal)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(DepositWithdrawal $depositWithdrawal)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, DepositWithdrawal $depositWithdrawal)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Request $request)
     {
         if (!auth()->check()) {
             return redirect()->route('auth.login');
         }
-        else{
-            $depositWithdarwal = Cash::find($request->id);
-            if ($depositWithdarwal) {
-                $depositWithdarwal->delete();
-                return response()->json(['success' => true, 'message' => 'Deposit/Withdarwal deleted successfully!']);
-            }
-            return response()->json(['success' => false, 'message' => 'Deposit/Withdarwal not found.'], 404);
+
+        $depositWithdarwal = Cash::find($request->id);
+        if ($depositWithdarwal) {
+            $depositWithdarwal->delete();
+            return response()->json(['success' => true, 'message' => 'Deposit/Withdrawal deleted successfully!'])
+                ->withHeaders([
+                    'X-Frame-Options' => 'DENY', // Prevents framing
+                    'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+                ]);
         }
+
+        return response()->json(['success' => false, 'message' => 'Deposit/Withdrawal not found.'], 404)
+            ->withHeaders([
+                'X-Frame-Options' => 'DENY', // Prevents framing
+                'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+            ]);
     }
-    
 
 }

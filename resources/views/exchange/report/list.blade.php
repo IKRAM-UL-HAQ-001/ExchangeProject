@@ -15,7 +15,6 @@
         <div class="row">
             <div class="container">
                 <div class="row">
-                    <!-- Withdrawals and Deposits Chart -->
                     <div class="col-lg-4 col-sm-12 mb-4">
                         <div class="card equal-height">
                             <div class="card-header">
@@ -59,32 +58,15 @@
         <div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <div class="modal-header d-flex justify-content-between align-items-center bg-primary">
+                    <div class="modal-header d-flex justify-content-between align-items-center bg-warning">
                         <h5 class="modal-title" id="reportModalLabel" style="color:white">Generate Report</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        {{-- <div class="alert alert-success text-white d-none" id='success'>
-                            Report generated successfully.
-                        </div>
-                        <div class="alert alert-danger text-white d-none" id='error'>
-                            Failed to generate report. Please try again.
-                        </div> --}}
+                 
                         <form id="reportForm">
                             @csrf
-                            {{-- <div class="mb-3"> --}}
-                                {{-- <label for="exchange" class="form-label">Exchange</label> --}}
-                                <input type="hidden" class="form-select px-3" id="exchange" name="exchange_id" value="{{Auth::user()->exchange_id}}" >
-                            {{-- </div> --}}
-                            {{-- <div class="mb-3">
-                                <label class="form-label">Select Date Range:</label>
-                                <div class="d-flex gap-2 mb-2">
-                                    <button type="button" class="btn btn-outline-primary btn-sm preset-date" data-preset="today">Today</button>
-                                    <button type="button" class="btn btn-outline-primary btn-sm preset-date" data-preset="yesterday">Yesterday</button>
-                                    <button type="button" class="btn btn-outline-primary btn-sm preset-date" data-preset="last7">Last 7 Days</button>
-                                </div>
-                                <small class="form-text text-muted">You can select a single date for a daily report or a date range for a custom report.</small>
-                            </div> --}}
+                            <input type="hidden" class="form-select px-3" id="exchange" name="exchange_id" value="{{Auth::user()->exchange_id}}" >
                             <div class="mb-3">
                                 <label for="sdate" class="form-label">Start Date:</label>
                                 <input type="date" class="form-control border px-3" id="sdate" name="start_date" required
@@ -99,7 +81,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" id="generateReportBtn">
+                        <button type="button" class="btn btn-warning" id="generateReportBtn">
                             <span id="btnText">Generate Report</span>
                             <span id="btnSpinner" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
                         </button>
