@@ -20,8 +20,8 @@ class LoginController extends Controller
 
         // Create the view response
         return view("auth.login", compact('exchangeRecords'))
-            ->header('X-Frame-Options', 'DENY')
-            ->header('Content-Security-Policy', "frame-ancestors 'self'");
+            ->header('X-Frame-Options', 'DENY');
+            // ->header('Content-Security-Policy', "frame-ancestors 'self'");
     }
 
     /**
