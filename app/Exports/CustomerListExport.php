@@ -46,7 +46,13 @@ class CustomerListExport  implements FromQuery,  WithHeadings, WithStyles, WithC
         ->whereMonth('customers.created_at', $currentMonth)
         ->whereYear('customers.created_at', $currentYear)
         ->distinct();
-       
+        if ($query->isEmpty()) {
+            // Flash a message to the session
+            session()->flash('error', 'No records found for the specified conditions.');
+
+            // Redirect back to the previous page
+            return redirect()->back();
+        }  
         if (Auth::user()->role == "exchange") {
             return $query->where('customers.exchange_id', $this->exchnageId); // No ->get() here, return the query builder
         } elseif (Auth::user()->role == "admin") {

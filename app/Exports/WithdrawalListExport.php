@@ -43,8 +43,12 @@ class WithdrawalListExport implements FromCollection, WithHeadings, WithStyles, 
 
     // Debugging: Check if records are fetched
     if ($records->isEmpty()) {
-        throw new \Exception("No records found for the specified conditions.");
-    }
+        // Flash a message to the session
+        session()->flash('error', 'No records found for the specified conditions.');
+
+        // Redirect back to the previous page
+        return redirect()->back();
+    }  
 
     // Calculating total balance in PHP
     $totalBalance = 0;

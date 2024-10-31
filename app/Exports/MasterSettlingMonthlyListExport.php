@@ -46,6 +46,14 @@ class MasterSettlingMonthlyListExport implements FromQuery, WithHeadings, WithSt
             ->whereYear('master_settlings.created_at', $currentYear)
             ->distinct();
 
+            if ($query->isEmpty()) {
+                // Flash a message to the session
+                session()->flash('error', 'No records found for the specified conditions.');
+    
+                // Redirect back to the previous page
+                return redirect()->back();
+            }  
+
         switch (Auth::user()->role) {
             case "exchange":
                 return $query->where('master_settlings.exchange_id', $this->exchangeId);

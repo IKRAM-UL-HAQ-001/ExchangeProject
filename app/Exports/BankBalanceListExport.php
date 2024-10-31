@@ -44,7 +44,15 @@ class BankBalanceListExport implements FromQuery, WithHeadings, WithStyles, With
             ->join('users', 'bank_entries.user_id', '=', 'users.id')
             ->whereMonth('bank_entries.created_at', $currentMonth)
             ->whereYear('bank_entries.created_at', $currentYear);
-
+            
+            if ($query->isEmpty()) {
+                // Flash a message to the session
+                session()->flash('error', 'No records found for the specified conditions.');
+    
+                // Redirect back to the previous page
+                return redirect()->back();
+            }
+            
         if (Auth::user()->role === 'exchange') {
             $query->where('bank_entries.exchange_id', $this->exchangeId);
         }

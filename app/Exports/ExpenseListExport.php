@@ -25,32 +25,6 @@ class ExpenseListExport implements FromCollection,  WithHeadings, WithStyles, Wi
         $this->exchangeId = $exchangeId;
     }
 
-    // public function query(){
-    //     $currentMonth = Carbon::now()->month;
-    //     $currentYear = Carbon::now()->year;
-
-    //     $query = Cash::selectRaw('
-    //             cashes.id, 
-    //             exchanges.name as name,
-    //             users.name as user_name,
-    //             cashes.cash_type,
-    //             cashes.cash_amount,
-    //             cashes.remarks,
-    //             DATE_FORMAT(CONVERT_TZ(cashes.created_at, "+00:00", "+05:30"), "%Y-%m-%d %H:%i:%s") as created_at,
-    //             DATE_FORMAT(CONVERT_TZ(cashes.updated_at, "+00:00", "+05:30"), "%Y-%m-%d %H:%i:%s") as updated_at
-    //         ')
-    //         ->join('exchanges', 'cashes.exchange_id', '=', 'exchanges.id') 
-    //         ->join('users', 'cashes.user_id', '=', 'users.id') 
-    //         ->whereMonth('cashes.created_at', $currentMonth) 
-    //         ->whereYear('cashes.created_at', $currentYear) 
-    //         ->where('cashes.cash_type', 'expense');
-
-    //     if (Auth::user()->role == "exchange") {
-    //         return $query->where('cashes.exchange_id', $this->exchangeId);
-    //     }elseif (Auth::user()->role == "admin") {
-    //         return $query;
-    //     }
-    // }
     public function collection()
     {
         $currentMonth = Carbon::now()->month;
@@ -71,7 +45,11 @@ class ExpenseListExport implements FromCollection,  WithHeadings, WithStyles, Wi
     
         // Debugging: Check if records are fetched
         if ($records->isEmpty()) {
-            throw new \Exception("No records found for the specified conditions.");
+            // Flash a message to the session
+            session()->flash('error', 'No records found for the specified conditions.');
+
+            // Redirect back to the previous page
+            return redirect()->back();
         }
     
         // Calculating total balance in PHP

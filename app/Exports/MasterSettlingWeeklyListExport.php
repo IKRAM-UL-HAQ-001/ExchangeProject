@@ -44,6 +44,15 @@ class MasterSettlingWeeklyListExport implements FromQuery, WithHeadings, WithSty
             ->join('users', 'master_settlings.user_id', '=', 'users.id')
             ->whereBetween('master_settlings.created_at', [$startOfWeek, $endOfWeek]) // Filter by the week range
             ->distinct();
+
+            if ($query->isEmpty()) {
+                // Flash a message to the session
+                session()->flash('error', 'No records found for the specified conditions.');
+    
+                // Redirect back to the previous page
+                return redirect()->back();
+            }  
+            
         switch (Auth::user()->role) {
             case "exchange":
                 return $query->where('master_settlings.exchange_id', $this->exchangeId);

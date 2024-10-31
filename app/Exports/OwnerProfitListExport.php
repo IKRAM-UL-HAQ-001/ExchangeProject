@@ -47,7 +47,13 @@ class OwnerProfitListExport implements FromQuery,  WithHeadings, WithStyles, Wit
             ->whereMonth('owner_profits.created_at', $currentMonth)
             ->whereYear('owner_profits.created_at', $currentYear)
             ->distinct(); // Ensure unique results
+            if ($query->isEmpty()) {
+                // Flash a message to the session
+                session()->flash('error', 'No records found for the specified conditions.');
     
+                // Redirect back to the previous page
+                return redirect()->back();
+            }  
         switch (Auth::user()->role) {
             case "exchange":
                 return $query->where('owner_profits.exchange_id', $this->exchangeId );

@@ -14,13 +14,12 @@ use Carbon\Carbon;
 class VenderPaymentListExport implements FromQuery, WithHeadings, WithStyles, WithColumnWidths
 {
     use Exportable;
-
     public function query()
-    {
-        $currentMonth = Carbon::now()->month;
-        $currentYear = Carbon::now()->year;
+{
+    $currentMonth = Carbon::now()->month;
+    $currentYear = Carbon::now()->year;
 
-        return VenderPayment::selectRaw('
+            $query = VenderPayment::selectRaw('
             vender_payments.id, 
             vender_payments.paid_amount,
             vender_payments.remaining_amount,
@@ -30,8 +29,21 @@ class VenderPaymentListExport implements FromQuery, WithHeadings, WithStyles, Wi
             DATE_FORMAT(CONVERT_TZ(vender_payments.updated_at, "+00:00", "+05:30"), "%Y-%m-%d %H:%i:%s") as updated_at
         ')
         ->whereMonth('vender_payments.created_at', $currentMonth)
-        ->whereYear('vender_payments.created_at', $currentYear);
-    }
+        ->whereYear('vender_payments.created_at', $currentYear)
+        ->get(); // Execute the query
+
+        // Check if the result is empty
+        if ($query->isEmpty()) {
+            // Flash a message to the session
+            session()->flash('error', 'No records found for the specified conditions.');
+
+            // Redirect back to the previous page
+            return redirect()->back();
+        }
+
+        // Return the results if not empty (add your logic here)
+        return $query; // Or however you want to handle the results
+        }
 
     public function headings(): array
     {

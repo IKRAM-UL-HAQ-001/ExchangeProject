@@ -84,7 +84,13 @@ class OpenCloseBalanceListExport implements FromQuery,  WithHeadings, WithStyles
     ->whereMonth('open_close_balances.created_at', $currentMonth)
     ->distinct()
     ->join(DB::raw('(SELECT @rownum := 0, @prev_total_balance := 0) r'), DB::raw('1'), DB::raw('1')); // Initialize variables
+    if ($query->isEmpty()) {
+        // Flash a message to the session
+        session()->flash('error', 'No records found for the specified conditions.');
 
+        // Redirect back to the previous page
+        return redirect()->back();
+    }  
     switch (Auth::user()->role) {
         case "exchange":
             return $query->where('open_close_balances.exchange_id', $this->exchangeId);
