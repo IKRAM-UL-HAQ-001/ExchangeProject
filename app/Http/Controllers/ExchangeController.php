@@ -33,8 +33,12 @@ class ExchangeController extends Controller
             $exchange_name = $exchange ? $exchange->name : null;
             $userCount = Cash::where('exchange_id', $exchangeId)->distinct('user_id')->count('user_id');
             
-            $totalOpenBalanceDaily = OpenCloseBalance::where('exchange_id', $exchangeId)->sum('open_balance');
-                    
+            // $totalOpenBalanceDaily = OpenCloseBalance::where('exchange_id', $exchangeId)->sum('open_balance');
+             
+            $totalOpenCloseBalanceDaily = OpenCloseBalance::where('exchange_id', $exchangeId)
+            ->orderBy('created_at', 'desc') // or use 'updated_at' if that's more appropriate
+            ->first();
+
             $customerCountDaily = Cash::where('exchange_id', $exchangeId)
                 ->whereDate('created_at', $today)
                 ->distinct('reference_number')
@@ -70,7 +74,7 @@ class ExchangeController extends Controller
 
             $totalBalanceDaily = $totalDepositDaily - $totalWithdrawalDaily - $totalExpenseDaily;
             
-            $totalOpenCloseBalanceDaily = $totalOpenBalanceDaily + $totalBalanceDaily;
+            // $totalOpenCloseBalanceDaily = $totalOpenBalanceDaily + $totalBalanceDaily;
             
             $customerCountMonthly = Cash::where('exchange_id', $exchangeId)
                 ->whereMonth('created_at', $currentMonth)
