@@ -20,11 +20,7 @@ class CustomerController extends Controller
         $exchangeId = (Auth::user()->role == "admin" || Auth::user()->role == "assistant") ? null : Auth::user()->exchange_id;
 
         // Generate the Excel download response with security headers
-        return Excel::download(new CustomerListExport($exchangeId), 'customerRecord.xlsx')
-            ->withHeaders([
-                'X-Frame-Options' => 'DENY', // Prevents framing
-                // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-            ]);
+        return Excel::download(new CustomerListExport($exchangeId), 'customerRecord.xlsx');
     }
 
     public function index()
