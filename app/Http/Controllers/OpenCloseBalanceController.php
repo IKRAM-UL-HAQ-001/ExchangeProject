@@ -25,11 +25,7 @@ class OpenCloseBalanceController extends Controller
             } else {
                 $exchangeId = Auth::user()->exchange_id;
             }
-            return Excel::download(new OpenCloseBalanceListExport($exchangeId), 'openingClosingBalanceRecord.xlsx')
-            ->withHeaders([
-                'X-Frame-Options' => 'DENY', // Prevents framing
-                'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-            ]);
+            return Excel::download(new OpenCloseBalanceListExport($exchangeId), 'openingClosingBalanceRecord.xlsx');
         }
     }
     
