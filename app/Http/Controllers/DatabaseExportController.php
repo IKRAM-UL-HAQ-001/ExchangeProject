@@ -13,7 +13,7 @@ class DatabaseExportController extends Controller
     }
 
     // Return a confirmation view (you can create this view)
-    return rediect()->route('admin.dashboard'); // Make sure to create this view file
+    return redirect()->route('admin.dashboard'); // Make sure to create this view file
 }
 
 public function export()
