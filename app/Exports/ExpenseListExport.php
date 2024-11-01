@@ -24,6 +24,56 @@ class ExpenseListExport implements FromCollection,  WithHeadings, WithStyles, Wi
     public function __construct($exchangeId){
         $this->exchangeId = $exchangeId;
     }
+
+    public function collection()
+    {
+        $currentMonth = Carbon::now()->month;
+
+        // Fetching the records
+        $records = Cash::select('cashes.*', 'exchanges.name AS exchange_name', 'users.name AS user_name')
+            ->join('exchanges', 'cashes.exchange_id', '=', 'exchanges.id')
+            ->join('users', 'cashes.user_id', '=', 'users.id')
+            ->whereMonth('cashes.created_at', $currentMonth)
+            ->whereIn('cashes.cash_type', ['deposit', 'withdrawal', 'expense']);
+
+        if (Auth::user()->role === "exchange") {
+            $records->where('cashes.exchange_id', $this->exchangeId);
+        }
+
+        // Getting the results
+        $records = $records->get();
+
+        // If there are no records for the month, return an empty collection
+        if ($records->isEmpty()) {
+            return collect(); // Return an empty collection
+        }
+
+        // Calculating total balance in PHP
+        $totalBalance = 0;
+        foreach ($records as $record) {
+            $totalBalance += ($record->cash_type === 'deposit' ? $record->cash_amount : -$record->cash_amount);
+            $record->total_balance = $totalBalance; // Assign total balance to each record
+        }
+
+        // Filtering for withdrawals
+        $withdrawals = $records->filter(function ($record) {
+            return $record->cash_type === 'expense';
+        });
+
+        // Return only non-empty records and arrange columns in the desired order
+        return $withdrawals->map(function ($record) {
+            return [
+                'id' => $record->id,
+                'exchange_name' => $record->exchange_name,
+                'user_name' => $record->user_name,
+                'cash_type' => $record->cash_type,
+                'cash_amount' => $record->cash_amount,
+                'remarks' => $record->remarks,
+                'created_at' => $record->created_at,
+                'updated_at' => $record->updated_at,
+            ];
+        });
+    }
     
     public function headings(): array
     {
