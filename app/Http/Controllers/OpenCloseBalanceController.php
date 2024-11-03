@@ -32,13 +32,6 @@ class OpenCloseBalanceController extends Controller
     public function index()
     {
         $startOfWeek = Carbon::now()->startOfWeek();
-    
-        // Get unique entries based on specific columns, if necessary
-        // $openingClosingBalanceRecords = OpenCloseBalance::
-        // // where('created_at', '>=', $startOfWeek)
-        //     orderBy('created_at', 'desc')
-        //     // ->distinct() // Use distinct if you want to avoid duplicates based on all selected fields
-        //     ->get();
         $openingClosingBalanceRecords = OpenCloseBalance::where('created_at', '>=', $startOfWeek)
         ->orderBy('created_at', 'desc')->get();
         return response()
@@ -51,6 +44,7 @@ class OpenCloseBalanceController extends Controller
         $exchangeId = Auth::user()->exchange_id;
         $openingClosingBalanceRecords = OpenCloseBalance::where('exchange_id', $exchangeId)
             ->where('created_at', '>=', $startOfWeek)
+            ->orderBy('created_at', 'desc')
             ->get();
     
         return response()
@@ -87,15 +81,13 @@ class OpenCloseBalanceController extends Controller
             $exchangeId = $user->exchange_id;  
             $userId = $user->id;
             $validatedData = $request->validate([
-                'open_balance' => 'required|numeric|min:0',
-                'close_balance' => 'required|numeric|min:0',
+                'open_balance' => 'required',
                 'remarks' => 'nullable|string|max:255',
             ]);
     
             try {
                 OpenCloseBalance::create([
                     'open_balance' => $validatedData['open_balance'],
-                    'close_balance' => $validatedData['close_balance'],
                     'remarks' => $validatedData['remarks'],
                     'exchange_id' => $exchangeId,
                     'user_id' => $userId,

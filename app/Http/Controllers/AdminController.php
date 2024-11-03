@@ -29,17 +29,7 @@ class AdminController extends Controller
             $currentMonth = Carbon::now()->month;
             $currentYear = Carbon::now()->year;
             
-            $totalOpenCloseBalanceDaily = OpenCloseBalance::select('exchange_id', 'close_balance')
-            ->whereDate('created_at', DB::raw('CURDATE() - INTERVAL 1 DAY'))
-            ->whereIn(
-                DB::raw('(exchange_id, created_at)'),
-                function ($query) {
-                    $query->select('exchange_id', DB::raw('MAX(created_at)'))
-                          ->from('open_close_balances')
-                          ->whereDate('created_at', DB::raw('CURDATE() - INTERVAL 1 DAY'))
-                          ->groupBy('exchange_id');
-                }
-            )->sum('close_balance');
+            $totalOpenCloseBalance = OpenCloseBalance::sum('open_balance');
             
             $totalPaidAmountDaily = VenderPayment::whereDate('created_at', $today)
                 ->sum('paid_amount');
@@ -75,6 +65,8 @@ class AdminController extends Controller
 
             $totalBalanceDaily =  $totalDepositDaily -  $totalWithdrawalDaily -  $totalExpenseDaily ;
             
+            $totalOpenCloseBalanceDaily = $$totalOpenCloseBalance + $totalBalanceDaily;
+
             $totalDepositMonthly = Cash::where('cash_type', 'deposit')
                 ->whereMonth('created_at', $currentMonth)
                 ->whereYear('created_at', $currentYear)
