@@ -36,23 +36,23 @@ class OpenCloseBalanceListExport implements FromQuery, WithHeadings, WithStyles,
             open_close_balances.close_balance,
             open_close_balances.remarks,
             DATE_FORMAT(CONVERT_TZ(open_close_balances.created_at, "+00:00", "+05:30"), "%Y-%m-%d %H:%i:%s") as created_at,
-            DATE_FORMAT(CONVERT_TZ(open_close_balances.updated_at, "+00:00", "+05:30"), "%Y-%m-%d %H:%i:%s") as updated_at,
+            DATE_FORMAT(CONVERT_TZ(open_close_balances.updated_at, "+00:00", "+05:30"), "%Y-%m-%d %H:%i:%s") as updated_at
         ')
         ->join('exchanges', 'open_close_balances.exchange_id', '=', 'exchanges.id')
         ->join('users', 'open_close_balances.user_id', '=', 'users.id')
         ->whereYear('open_close_balances.created_at', $currentYear);
-    
-        if ($query->count() === 0) {
-            return collect();
-        }
 
         switch (Auth::user()->role) {
             case "exchange":
-                return $query->where('open_close_balances.exchange_id', $this->exchangeId);
+                $query->where('open_close_balances.exchange_id', $this->exchangeId);
+                break;
             case "admin":
             case "assistant":
-                return $query;
+                // No additional filters for admin or assistant roles
+                break;
         }
+
+        return $query; // Always return the query object
     }
 
     public function headings(): array
@@ -83,9 +83,9 @@ class OpenCloseBalanceListExport implements FromQuery, WithHeadings, WithStyles,
             'C' => 15, // User Name
             'D' => 20, // Open Balance
             'E' => 20, // Close Balance
-            'F' => 30, // Total Balance
-            'G' => 30, // Remarks
-            'H' => 30, // Created At
+            'F' => 30, // Remarks
+            'G' => 30, // Created At
+            'H' => 30, // Updated At
         ];
     }
 }
