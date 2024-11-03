@@ -35,9 +35,8 @@ class ExchangeController extends Controller
             
              
             $totalOpenCloseBalanceDaily = OpenCloseBalance::where('exchange_id', $exchangeId)
-                ->whereDate('created_at', DB::raw('CURDATE() '))
+                ->whereDate('created_at', DB::raw('CURDATE() - INTERVAL 1 DAY'))
                 ->sum('close_balance');
-            // dd($totalOpenCloseBalanceDaily);
             $customerCountDaily = Cash::where('exchange_id', $exchangeId)
                 ->whereDate('created_at', $today)
                 ->distinct('reference_number')
