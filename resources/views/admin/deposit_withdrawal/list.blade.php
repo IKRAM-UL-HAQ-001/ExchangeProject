@@ -6,10 +6,10 @@
             <div class="card my-4">
                 <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                     <div class="bg-gradient-warning shadow-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
-                        <p style="color: black;"><strong>Deposit - Withdrawal Table (Weekly Bases)</strong></p>
+                        <p style="color: black;"><strong>Deposit - Withdrawal Table (Weekly Basis)</strong></p>
                         <div>
-                        <a href="{{ route('export.deposit') }}" class="btn btn-dark">Deposit Export</a>
-                        <a href="{{ route('export.withdrawal') }}" class="btn btn-dark">Withdrawal Export</a>
+                            <a href="{{ route('export.deposit') }}" class="btn btn-dark">Deposit Export</a>
+                            <a href="{{ route('export.withdrawal') }}" class="btn btn-dark">Withdrawal Export</a>
                         </div>
                     </div>
                 </div>
@@ -18,18 +18,18 @@
                         <table id="depositWithdrawalTable" class="table align-items-center mb-0 table-striped table-hover px-2">
                             <thead>
                                 <tr>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">User </th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Exchange </th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Reference No.</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Customer </th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Amount</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Type</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Bonus</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Payment</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Remarks</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Balance</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Date and Time</th>
-                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder  ">Action</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder">User</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Exchange</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Reference No.</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Customer</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Amount</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Type</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Bonus</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Payment</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Remarks</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Balance</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Date and Time</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -45,28 +45,28 @@
                                             $balance -= $depositWithdrawal->cash_amount;
                                         }
                                     @endphp
-                                @if($depositWithdrawal->cash_type !="expense")
-                                    <tr>
-                                        <td>{{ $depositWithdrawal->user->name }}</td>
-                                        <td>{{ $depositWithdrawal->exchange->name }}</td>
-                                        <td>{{ $depositWithdrawal->reference_number }}</td>
-                                        <td>{{ $depositWithdrawal->customer_name }}</td>
-                                        <td>{{ $depositWithdrawal->cash_amount }}</td>
-                                        <td>{{ $depositWithdrawal->cash_type }}</td>
-                                        <td>{{ $depositWithdrawal->bonus_amount }}</td>
-                                        <td>{{ $depositWithdrawal->payment_type }}</td>
-                                        <td>{{ $depositWithdrawal->remarks }}</td>
-                                        <td>{{ number_format($balance, 2) }}</td>
-                                        <td>{{ $depositWithdrawal->created_at}}</td>
-                                        <td class="text-center">
-                                            <button class="btn btn-danger btn-sm" 
-                                                    onclick="deleteDepositWithdrawal(this, {{ $depositWithdrawal->id }})">
-                                                Delete
-                                            </button>
-                                        </td>
-                                    </tr>
-                                @endif
-                            @endforeach
+                                    @if($depositWithdrawal->cash_type != "expense")
+                                        <tr>
+                                            <td>{{ $depositWithdrawal->user->name }}</td>
+                                            <td>{{ $depositWithdrawal->exchange->name }}</td>
+                                            <td>{{ $depositWithdrawal->reference_number }}</td>
+                                            <td>{{ $depositWithdrawal->customer_name }}</td>
+                                            <td>{{ $depositWithdrawal->cash_amount }}</td>
+                                            <td>{{ $depositWithdrawal->cash_type }}</td>
+                                            <td>{{ $depositWithdrawal->bonus_amount }}</td>
+                                            <td>{{ $depositWithdrawal->payment_type }}</td>
+                                            <td>{{ $depositWithdrawal->remarks }}</td>
+                                            <td>{{ number_format($balance, 2) }}</td>
+                                            <td>{{ $depositWithdrawal->created_at }}</td>
+                                            <td class="text-center">
+                                                <button class="btn btn-danger btn-sm" 
+                                                        onclick="deleteDepositWithdrawal(this, {{ $depositWithdrawal->id }})">
+                                                    Delete
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    @endif
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -80,27 +80,27 @@
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <script>
 $(document).ready(function() {
-        const userTable = $('#depositWithdrawalTable').DataTable({
-            pagingType: "full_numbers"
-            , language: {
-                paginate: {
-                    first: '«'
-                    , last: '»'
-                    , next: '›'
-                    , previous: '‹'
-                }
+    const userTable = $('#depositWithdrawalTable').DataTable({
+        pagingType: "full_numbers",
+        language: {
+            paginate: {
+                first: '«',
+                last: '»',
+                next: '›',
+                previous: '‹'
             }
-            lengthMenu: [1, 10, 25, 50],
-            pageLength: 10,
-            order: [[10, 'desc']]
-        });
+        },
+        lengthMenu: [1, 10, 25, 50],
+        pageLength: 10,
+        order: [[10, 'desc']]
+    });
 });
 
 function deleteDepositWithdrawal(button, id) {
-    const row = $(button).parents('tr');
+    const row = $(button).closest('tr'); // Changed to closest for better readability
     const table = $('#depositWithdrawalTable').DataTable();
 
-    if (!confirm('Are you sure you want to delete this deposit/Withdrawal?')) {
+    if (!confirm('Are you sure you want to delete this deposit/withdrawal?')) {
         return;
     }
 
