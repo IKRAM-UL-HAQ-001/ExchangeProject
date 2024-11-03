@@ -90,8 +90,9 @@ $(document).ready(function() {
                     , previous: '‹'
                 }
             }
-            , lengthMenu: [1, 10, 25, 50]
-            , pageLength: 10
+            lengthMenu: [1, 10, 25, 50],
+            pageLength: 10,
+            order: [[10, 'desc']]
         });
 });
 
