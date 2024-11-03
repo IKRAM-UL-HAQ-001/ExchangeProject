@@ -26,7 +26,6 @@ class AdminController extends Controller
         }
         else{
             $today = Carbon::today();
-            dd($today);
             $currentMonth = Carbon::now()->month;
             $currentYear = Carbon::now()->year;
             
