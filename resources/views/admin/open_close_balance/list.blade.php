@@ -18,7 +18,6 @@
                             <thead>
                                 <tr>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Opening Balance</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Closing Balance</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Remarks</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Date and Time</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">Action</th>
@@ -28,9 +27,8 @@
                                 @foreach($openingClosingBalanceRecords as $openingClosingBalance)
                                     <tr>
                                         <td>{{ $openingClosingBalance->open_balance }}</td>
-                                        <td>{{ $openingClosingBalance->close_balance }}</td>
                                         <td>{{ $openingClosingBalance->remarks }}</td>
-                                        <td>{{ \Carbon\Carbon::parse($openingClosingBalance->created_at)->format('Y-m-d H:i:s') }}</td>
+                                        <td>{{ $openingClosingBalance->created_at}}</td>
                                         <td class="text-center">
                                             <button class="btn btn-danger btn-sm" onclick="deleteOpeningClosingBalance(this, {{ $openingClosingBalance->id }})">Delete</button>
                                         </td>                                       
@@ -61,7 +59,7 @@ $(document).ready(function() {
         },
         lengthMenu: [5, 10, 25, 50],
         pageLength: 10,
-        position:[order:desc]
+        order: [[2, 'desc']]
     });
 });$(document).ready(function() {
     const userTable = $('#openingClosingBalanceTable').DataTable({
