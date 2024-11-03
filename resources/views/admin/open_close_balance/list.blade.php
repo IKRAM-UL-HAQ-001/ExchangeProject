@@ -61,8 +61,25 @@ $(document).ready(function() {
         },
         lengthMenu: [5, 10, 25, 50],
         pageLength: 10,
+        position:[order:desc]
+    });
+});$(document).ready(function() {
+    const userTable = $('#openingClosingBalanceTable').DataTable({
+        pagingType: "full_numbers",
+        language: {
+            paginate: {
+                first: '«',
+                last: '»',
+                next: '›',
+                previous: '‹'
+            }
+        },
+        lengthMenu: [5, 10, 25, 50],
+        pageLength: 10,
+        order: [[4, 'desc']] // Change this to the appropriate column index you want to sort by
     });
 });
+
 
 function deleteOpeningClosingBalance(button, id) {
     const row = $(button).parents('tr');
