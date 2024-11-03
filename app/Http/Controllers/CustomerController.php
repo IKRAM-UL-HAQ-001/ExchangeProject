@@ -31,7 +31,8 @@ class CustomerController extends Controller
 
         $startOfWeek = Carbon::now()->startOfWeek();
         $endOfWeek = Carbon::now()->endOfWeek();
-        $customerRecords = Customer::whereBetween('created_at', [$startOfWeek, $endOfWeek])->get();
+        $customerRecords = Customer::whereBetween('created_at', [$startOfWeek, $endOfWeek])
+        ->orderBy('created_at', 'desc')->get();
 
         return view("admin.customer.list", compact('customerRecords'))
             ->withHeaders([

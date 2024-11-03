@@ -80,7 +80,6 @@ $(document).ready(function() {
             },
             lengthMenu: [1, 10, 25, 50],
             pageLength: 10,
-            order: [[0, 'desc']] 
         });
 });
 function deleteExpense(button, id) {

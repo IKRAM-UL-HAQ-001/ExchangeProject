@@ -79,7 +79,6 @@ $(document).ready(function() {
             },
             lengthMenu: [5, 10, 25, 50],
             pageLength: 10,
-            order: [[4, 'desc']]
         });
 });
 

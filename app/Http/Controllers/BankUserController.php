@@ -16,7 +16,8 @@ class BankUserController extends Controller
         }
         else{
             $bankUserRecords = BankUser::all();
-            $userRecords = User::whereNotIn('role', ['admin', 'assistant'])->get();
+            $userRecords = User::whereNotIn('role', ['admin', 'assistant'])
+            ->orderBy('created_at', 'desc')->get();
             $response = view("admin.bank_user.list", compact('bankUserRecords', 'userRecords'));
             return response($response)
             ->header('X-Frame-Options', 'DENY') // Prevents framing

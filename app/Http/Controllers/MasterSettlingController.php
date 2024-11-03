@@ -59,6 +59,7 @@ class MasterSettlingController extends Controller
             $endOfYear = Carbon::now()->endOfYear();
             $masterSettlingRecords = MasterSettling::with(['exchange', 'user'])
                 ->whereBetween('created_at', [$startOfYear, $endOfYear])
+                ->orderBy('created_at', 'desc')
                 ->get();
     
             return response()

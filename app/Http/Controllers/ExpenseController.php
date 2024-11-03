@@ -35,6 +35,7 @@ class ExpenseController extends Controller
             $endOfWeek = Carbon::now()->endOfWeek();
             $expenseRecords = Cash::with(['exchange', 'user'])
                 ->whereBetween('created_at', [$startOfWeek, $endOfWeek])
+                ->orderBy('created_at', 'desc')
                 ->get();
     
             return response()

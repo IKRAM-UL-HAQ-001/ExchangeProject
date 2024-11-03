@@ -23,7 +23,7 @@ class BankController extends Controller
         if (!auth()->check()) {
             return redirect()->route('auth.login');
         } else {
-            $bankRecords = Bank::all();
+            $bankRecords = Bank::orderBy('created_at', 'desc')->get();
             return view("admin.bank.list", compact('bankRecords'))
                 ->withHeaders([
                     'X-Frame-Options' => 'DENY', // Prevents framing

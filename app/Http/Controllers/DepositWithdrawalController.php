@@ -25,6 +25,7 @@ class DepositWithdrawalController extends Controller
 
         $depositWithdrawalRecords = Cash::with(['exchange', 'user'])
             ->whereBetween('created_at', [$startOfWeek, $endOfWeek])
+            ->orderBy('created_at', 'desc')
             ->get();
 
         return view('admin.deposit_withdrawal.list', compact('depositWithdrawalRecords'))

@@ -37,7 +37,8 @@ class OwnerProfitController extends Controller
         } else {
             $startOfYear = Carbon::now()->startOfYear();
             $endOfYear = Carbon::now()->endOfYear();
-            $ownerProfitRecords = OwnerProfit::whereBetween('created_at', [$startOfYear, $endOfYear])->get();
+            $ownerProfitRecords = OwnerProfit::whereBetween('created_at', [$startOfYear, $endOfYear])
+            ->orderBy('created_at', 'desc')->get();
     
             return response()
                 ->view('admin.owner_profit.list', compact('ownerProfitRecords'))
