@@ -19,9 +19,8 @@
                                 @break
                             @case('exchange')
                                 <li class="breadcrumb-item text-sm">
-                                    <a class="text-white" href="javascript:void(0);">{{ Auth::user()->exchange->name ?? 'No Exchange' }} Exchange Dashboard</a>
+                                    <a class="text-white" href="javascript:void(0);" style="font-size:18px">{{ Auth::user()->exchange->name ?? 'No Exchange' }} Exchange Dashboard</a>
                                 </li>
-                                <li class="breadcrumb-item text-sm text-white active" aria-current="page">Dashboard</li>
                                 @break
                         @endswitch
                     @endif
