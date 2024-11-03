@@ -16,7 +16,10 @@ class UserController extends Controller
             return redirect()->route('auth.login');
         }
         else{
-            $userRecords = User::with('exchange')->where('role', '!=', 'admin')->get();
+            $userRecords = User::with('exchange')
+            ->where('role', '!=', 'admin')
+            ->orderBy('created_at', 'desc')
+            ->get();
             $exchangeRecords = Exchange::all();
             return view("admin.user.list", compact('userRecords', 'exchangeRecords'));
         }

@@ -139,7 +139,6 @@
             },
             lengthMenu: [5, 10, 25, 50],
             pageLength: 10,
-            order: [[3, 'desc']] 
     });
 
         // Set up CSRF token for AJAX requests
