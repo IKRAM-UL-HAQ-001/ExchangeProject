@@ -22,6 +22,7 @@
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Name</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Cash Amount</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Remarks</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Date and Time</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder  ">Action</th>
                                 </tr>
                             </thead>
@@ -33,6 +34,7 @@
                                     <td>{{ $customer->name }}</td>
                                     <td>{{ $customer->cash_amount }}</td>
                                     <td>{{ $customer->remarks }}</td>
+                                    <td>{{ $customer->created_at }}</td>
                                     <td class="text-center">
                                         <button class="btn btn-danger btn-sm" aria-label="Delete Bank Balance" onclick="deleteCustomer(this, {{ $customer->id }})">Delete</button>
                                     </td>
@@ -63,6 +65,7 @@
             }
             , lengthMenu: [5, 10, 25, 50]
             , pageLength: 10
+            , order: [[0, 'desc']] 
         });
     });
 

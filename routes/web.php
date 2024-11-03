@@ -22,7 +22,8 @@ use App\Http\Controllers\OpenCloseBalanceController;
 use App\Http\Controllers\DepositController;
 use App\Http\Controllers\WithdrawalController;
 use App\Http\Controllers\DatabaseExportController;
-
+use App\Http\Middleware\XSSMiddleware;
+use App\Http\Middleware\sanitizeInput;
 
 Route::get('/', [LoginController::class, 'index'])->name('auth.login');
 Route::post('/auth/login/post', [LoginController::class, 'login'])->name('login.post');
@@ -41,7 +42,7 @@ Route::get('/export-venderPayment', [VenderPaymentController::class, 'venderPaym
 Route::get('/export-openCloseBalance', [OpenCloseBalanceController::class, 'openCloseBalanceExportExcel'])->name('export.openCloseBalance');
 Route::get('/export-customer', [CustomerController::class, 'customerExportExcel'])->name('export.customer');
 
-Route::group(['middleware' => 'admin'], function () {
+Route::group(['middleware' => ['admin']], function () {
 
     //download databsae
     Route::get('/admin/download', [DatabaseExportController::class, 'downloadDatabase'])->name('admin.confirm.download');
@@ -118,7 +119,7 @@ Route::group(['middleware' => 'admin'], function () {
 
 });
 
-Route::group(['middleware' => 'assistant'], function () {
+Route::group(['middleware' => ['assistant']], function () {
     
     // assistant dashboard
     Route::get('/assistant', [AssistantController::class, 'index'])->name('assistant.dashboard');
@@ -141,7 +142,7 @@ Route::group(['middleware' => 'assistant'], function () {
 
 
 
-Route::group(['middleware' => 'exchange'], function () {
+Route::group(['middleware' => ['exchange']], function () {
 
     //Exchange Dashboard
     Route::get('/exchange', [ExchangeController::class, 'index'])->name('exchange.dashboard');

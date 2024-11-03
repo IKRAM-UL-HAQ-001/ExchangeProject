@@ -28,7 +28,7 @@
                         </div>
                         <div class=" text-end ms-3 text-center flex-grow-1"> <!-- Center alignment -->
                             <p class="text-sm mb-0 text-capitalize">Total Bank Balance</p>
-                            <h4 class="smb-0"style="color:white">{{ $totalBankBalance }}</h4>
+                            <h4 class="smb-0"style="color:white">{{ e( $totalBankBalance) }}</h4>
                         </div>
                     </div>
                 </div>
@@ -54,12 +54,12 @@
                 <div class="card">
                     <div class="test1 card-header p-3">
                         <div class="d-flex align-items-center">
-                            <div class=" icon icon-lg icon-shape {{ $dailyColorClasses[$index % count($dailyColorClasses)] }} shadow-{{ strtolower($dailyColorClasses[$index % count($dailyColorClasses)]) }} text-center border-radius-xl position-relative">
-                                <i class=" material-icons" style="color:white">{{ $card[2] }}</i>
+                            <div class=" icon icon-lg icon-shape {{ e( $dailyColorClasses[$index % count($dailyColorClasses)]) }} shadow-{{ e( strtolower($dailyColorClasses[$index % count($dailyColorClasses)])) }} text-center )border-radius-xl position-relative">
+                                <i class=" material-icons" style="color:white">{{ e( $card[2]) }}</i>
                             </div>
                             <div class="text-end ms-3 text-center flex-grow-1"> <!-- Center alignment -->
-                                <p class=" text-sm mb-0 text-capitalize">{{ $card[0] }}</p>
-                                <h4 class=" mb-0" style="color:white">{{ $card[1] }}</h4>
+                                <p class=" text-sm mb-0 text-capitalize">{{ e( $card[0] )}}</p>
+                                <h4 class=" mb-0" style="color:white">{{ e( $card[1] )}}</h4>
                             </div>
                         </div>
                     </div>
@@ -96,7 +96,7 @@
                         </div>
                         <div class=" text-end ms-3 text-center flex-grow-1"> <!-- Center alignment -->
                             <p class=" text-sm mb-0 text-capitalize">Monthly Margin</p>
-                            <h4 class="mb-0" style="color:white">{{ $totalBalanceMonthly }}</h4>
+                            <h4 class="mb-0" style="color:white">{{ e( $totalBalanceMonthly )}}</h4>
                         </div>
                     </div>
                 </div>
@@ -121,12 +121,12 @@
                 <div class="card">
                     <div class="test1 card-header p-3">
                         <div class="d-flex align-items-center">
-                            <div class=" icon icon-lg icon-shape {{ $monthlyColorClasses[$index % count($monthlyColorClasses)] }} shadow-{{ strtolower($monthlyColorClasses[$index % count($monthlyColorClasses)]) }} text-center border-radius-xl position-relative">
-                                <i class="material-icons" style="color:white">{{ $card[2] }}</i>
+                            <div class=" icon icon-lg icon-shape {{ e( $monthlyColorClasses[$index % count($monthlyColorClasses)]) }} shadow-{{ e( strtolower($monthlyColorClasses[$index % count($monthlyColorClasses)])) }} text-center border-radius-xl position-relative">
+                                <i class="material-icons" style="color:white">{{ e( $card[2]) }}</i>
                             </div>
                             <div class="text-end ms-3 text-center flex-grow-1"> <!-- Center alignment -->
-                                <p class=" text-sm mb-0 text-capitalize">{{ $card[0] }}</p>
-                                <h4 class=" mb-0" style="color:white">{{ $card[1] }}</h4>
+                                <p class=" text-sm mb-0 text-capitalize">{{ e( $card[0]) }}</p>
+                                <h4 class=" mb-0" style="color:white">{{ e( $card[1] )}}</h4>
                             </div>
                         </div>
                     </div>

@@ -18,6 +18,7 @@
                             <thead>
                                 <tr>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">User Name</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Date and Time</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder  ">Action</th>
                                 </tr>
                             </thead>
@@ -25,6 +26,7 @@
                                 @foreach($bankUserRecords as $bankUser)
                                     <tr>
                                         <td>{{ $bankUser->user->name }}</td>
+                                        <td>{{ $bankUser->created_at }}</td>
                                         <td class="text-center">
                                             <button class="btn btn-danger btn-sm" onclick="deleteBankUser(this, {{ $bankUser->id }})">Delete</button>
                                         </td>
@@ -83,7 +85,8 @@ $(document).ready(function() {
                 }
             },
             lengthMenu: [5, 10, 25, 50],
-            pageLength: 10
+            pageLength: 10,
+            order: [[0, 'desc']] 
         });
 });
 

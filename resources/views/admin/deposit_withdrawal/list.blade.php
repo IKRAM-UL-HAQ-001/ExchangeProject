@@ -28,6 +28,7 @@
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Payment</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Remarks</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Balance</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Date and Time</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder  ">Action</th>
                                 </tr>
                             </thead>
@@ -56,6 +57,7 @@
                                         <td>{{ $depositWithdrawal->payment_type }}</td>
                                         <td>{{ $depositWithdrawal->remarks }}</td>
                                         <td>{{ number_format($balance, 2) }}</td>
+                                        <td>{{ $depositWithdrawal->created_at}}</td>
                                         <td class="text-center">
                                             <button class="btn btn-danger btn-sm" 
                                                     onclick="deleteDepositWithdrawal(this, {{ $depositWithdrawal->id }})">
@@ -90,6 +92,7 @@ $(document).ready(function() {
             }
             , lengthMenu: [1, 10, 25, 50]
             , pageLength: 10
+            , order: [[0, 'desc']] 
         });
 });
 

@@ -22,6 +22,8 @@
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Remaining Amount</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Payment Type</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Remarks</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Date and Time</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Date and Time</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder  ">Action</th>
                                 </tr>
                             </thead>
@@ -32,6 +34,7 @@
                                         <td>{{ $venderPayment->remaining_amount}}</td>
                                         <td>{{ $venderPayment->payment_type}}</td>
                                         <td>{{ $venderPayment->remarks}}</td>
+                                        <td>{{ $venderPayment->created_at}}</td>
                                         <td class="text-center">
                                             <button class="btn btn-danger btn-sm" onclick="deleteVenderPayment(this, {{ $venderPayment->id }})">Delete</button>
                                         </td>
@@ -105,7 +108,8 @@ $(document).ready(function() {
                 }
             },
             lengthMenu: [5, 10, 25, 50],
-            pageLength: 10
+            pageLength: 10,
+            order: [[0, 'desc']] 
         });
 });
 

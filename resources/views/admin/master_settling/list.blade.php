@@ -25,6 +25,7 @@
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Settling Point</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Price</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Total Amount</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Date and Time</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder  ">Action</th>
                                 </tr>
                             </thead>
@@ -38,6 +39,7 @@
                                     <td>{{ $masterSettling->settling_point }}</td>
                                     <td>{{ $masterSettling->price }}</td>
                                     <td>{{ $masterSettling->settling_point * $masterSettling->price }}</td>
+                                    <td>{{ $masterSettling->created_at }}</td>
                                     <td class="text-center">
                                         <button class="btn btn-danger btn-sm" aria-label="Delete Master Settling" onclick="deleteMasterSettling(this, {{ $masterSettling->id }})">Delete</button>
                                         <button class="btn btn-warning btn-sm" aria-label="Edit Master Settling" onclick="openEditModal({{ json_encode($masterSettling) }})">Edit</button>
@@ -111,6 +113,7 @@
         },
         lengthMenu: [5, 10, 25, 50],
         pageLength: 10,
+        order: [[0, 'desc']] ,
     });
 });
 

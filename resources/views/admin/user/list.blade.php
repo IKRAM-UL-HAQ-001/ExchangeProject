@@ -20,6 +20,7 @@
                                 <tr>
                                     <th class="text-uppercase text-secondary  font-weight-bolder text-dark">User Name</th>
                                     <th class="text-uppercase text-secondary  font-weight-bolder text-dark ps-2">Exchange Name</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Date and Time</th>
                                     <th class="text-center text-uppercase text-secondary font-weight-bolder text-dark">Action</th>
                                 </tr>
                             </thead>
@@ -29,6 +30,7 @@
                                 <tr data-user-id="{{ $user->id ?? 'N/A' }}" data-exchange-id="{{ $user->exchange->id ?? 'N/A' }}">
                                     <td style="width: 45%; ">{{ $user->name ?? 'N/A'  }}</td>
                                     <td style="width: 45%;">{{ $user->exchange->name ?? 'N/A' }}</td>
+                                    <td style="width: 45%;">{{ $user->created_at ?? 'N/A' }}</td>
                                     <td style="width: 10%; text-align: center;">
                                         <button class="btn btn-danger btn-sm" onclick="deleteUser(this)">Delete</button>
                                         <button class="btn btn-warning btn-sm" onclick="editUser(this)">Edit</button>
@@ -136,7 +138,8 @@
                 }
             },
             lengthMenu: [5, 10, 25, 50],
-            pageLength: 10
+            pageLength: 10,
+            order: [[0, 'desc']] 
     });
 
         // Set up CSRF token for AJAX requests

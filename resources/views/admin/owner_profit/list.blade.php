@@ -21,6 +21,7 @@
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Exchange</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Amount</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Remarks</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Date and Time</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder  ">Action</th>
                                 </tr>
                             </thead>
@@ -31,6 +32,7 @@
                                     <td>{{ $ownerProfit->exchange->name }}</td>
                                     <td>{{ $ownerProfit->cash_amount }}</td>
                                     <td>{{ $ownerProfit->remarks }}</td>
+                                    <td>{{ $ownerProfit->created_at }}</td>
                                     <td class="text-center">
                                         <button class="btn btn-danger btn-sm" aria-label="Delete Bank Balance" onclick="deleteOwnerProfit(this, {{ $ownerProfit->id }})">Delete</button>
                                     </td>
@@ -61,6 +63,7 @@
             }
             , lengthMenu: [5, 10, 25, 50]
             , pageLength: 10
+            , order: [[0, 'desc']] 
         });
     });
 

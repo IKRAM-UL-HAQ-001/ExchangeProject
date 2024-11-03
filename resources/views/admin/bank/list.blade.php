@@ -19,6 +19,7 @@
                             <thead>
                                 <tr>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Bank Name</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Date and Time</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder  ">Action</th>
                                 </tr>
                             </thead>
@@ -26,6 +27,7 @@
                                 @foreach($bankRecords as $bank)
                                     <tr>
                                         <td>{{ $bank->name }}</td>
+                                        <td>{{ $bank->created_at}}</td>
                                         <td class="text-center">
                                             <button class="btn btn-danger btn-sm" onclick="deleteBank(this, {{ $bank->id }})">Delete</button>
                                         </td>
@@ -74,20 +76,22 @@
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <script>
 $(document).ready(function() {
-        const userTable = $('#bankTable').DataTable({
-            pagingType: "full_numbers",
-            language: {
-                paginate: {
-                    first: '«',
-                    last: '»',
-                    next: '›',
-                    previous: '‹'
-                }
-            },
-            lengthMenu: [5, 10, 25, 50],
-            pageLength: 10
-        });
+    const userTable = $('#bankTable').DataTable({
+        pagingType: "full_numbers",
+        language: {
+            paginate: {
+                first: '«',
+                last: '»',
+                next: '›',
+                previous: '‹'
+            }
+        },
+        lengthMenu: [5, 10, 25, 50],
+        pageLength: 10,
+        order: [[0, 'desc']] // Change the column index if needed
+    });
 });
+
 
 function addBank() {
     const name = document.getElementById('name').value;

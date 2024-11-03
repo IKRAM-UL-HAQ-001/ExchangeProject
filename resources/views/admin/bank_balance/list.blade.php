@@ -24,6 +24,7 @@
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Amount</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Type</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Remarks</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Date and Time</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder  ">Action</th>
                                 </tr>
                             </thead>
@@ -37,6 +38,7 @@
                                     <td>{{ $bankBalance->cash_amount }}</td>
                                     <td>{{ $bankBalance->cash_type }}</td>
                                     <td>{{ $bankBalance->remarks }}</td>
+                                    <td>{{$bankBalance->created_at}}</td>
                                     <td class="text-center">
                                         <button class="btn btn-danger btn-sm" aria-label="Delete Bank Balance" onclick="deleteBankBalance(this, {{ $bankBalance->id }})">Delete</button>
                                     </td>
@@ -65,8 +67,9 @@
                     , previous: '‹'
                 }
             }
-            , lengthMenu: [5, 10, 25, 50]
-            , pageLength: 10
+            lengthMenu: [5, 10, 25, 50],
+            pageLength: 10,
+            order: [[0, 'desc']] 
         });
     });
 

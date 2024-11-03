@@ -22,6 +22,7 @@
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Type</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Remarks</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Balance</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Date and Time</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder  ">Action</th>
                                 </tr>
                             </thead>
@@ -48,6 +49,7 @@
                                         <td>{{ $expense->cash_type }}</td>
                                         <td>{{ $expense->remarks }}</td>
                                         <td>{{ $balance}}</td>
+                                        <td>{{ $expense->created_at}}</td>
                                         <td class="text-center">
                                             <button class="btn btn-danger btn-sm" onclick="deleteExpense(this, {{ $expense->id }})">Delete</button>
                                         </td>
@@ -77,7 +79,8 @@ $(document).ready(function() {
                 }
             },
             lengthMenu: [1, 10, 25, 50],
-            pageLength: 10
+            pageLength: 10,
+            order: [[0, 'desc']] 
         });
 });
 function deleteExpense(button, id) {
