@@ -61,23 +61,7 @@ $(document).ready(function() {
         pageLength: 10,
         order: [[2, 'desc']]
     });
-});$(document).ready(function() {
-    const userTable = $('#openingClosingBalanceTable').DataTable({
-        pagingType: "full_numbers",
-        language: {
-            paginate: {
-                first: '«',
-                last: '»',
-                next: '›',
-                previous: '‹'
-            }
-        },
-        lengthMenu: [5, 10, 25, 50],
-        pageLength: 10,
-        order: [[3, 'desc']] // Change this to the appropriate column index you want to sort by
-    });
 });
-
 
 function deleteOpeningClosingBalance(button, id) {
     const row = $(button).parents('tr');
