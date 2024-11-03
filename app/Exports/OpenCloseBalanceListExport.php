@@ -51,7 +51,7 @@ class OpenCloseBalanceListExport implements FromQuery, WithHeadings, WithStyles,
         ->join('exchanges', 'open_close_balances.exchange_id', '=', 'exchanges.id')
         ->join('users', 'open_close_balances.user_id', '=', 'users.id')
         ->whereYear('open_close_balances.created_at', $currentYear)
-        ->distinct()
+        // ->distinct()
         ->join(DB::raw('(SELECT @rownum := 0, @prev_total_balance := 0) r'), DB::raw('1'), DB::raw('1')); // Initialize variables
 
         // Check if the result is empty before executing the query
