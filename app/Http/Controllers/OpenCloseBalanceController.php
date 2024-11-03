@@ -32,10 +32,13 @@ class OpenCloseBalanceController extends Controller
     public function index()
     {
         $startOfWeek = Carbon::now()->startOfWeek();
+    
+        // Get unique entries based on specific columns, if necessary
         $openingClosingBalanceRecords = OpenCloseBalance::where('created_at', '>=', $startOfWeek)
-        ->orderBy('created_at', 'desc')
-        ->get();
-        
+            ->orderBy('created_at', 'desc')
+            ->distinct() // Use distinct if you want to avoid duplicates based on all selected fields
+            ->get();
+    
         return response()
             ->view('admin.open_close_balance.list', compact('openingClosingBalanceRecords'));
     }
