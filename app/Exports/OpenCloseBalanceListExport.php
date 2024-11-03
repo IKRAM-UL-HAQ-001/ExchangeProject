@@ -34,30 +34,16 @@ class OpenCloseBalanceListExport implements FromQuery, WithHeadings, WithStyles,
             users.name AS user_name,
             open_close_balances.open_balance,
             open_close_balances.close_balance,
-            CASE 
-                WHEN @rownum := @rownum + 1 THEN 
-                    IF(@rownum = 1, 
-                        open_close_balances.open_balance + open_close_balances.close_balance, 
-                        @prev_total_balance + open_close_balances.close_balance)
-            END AS total_balance,
             open_close_balances.remarks,
             DATE_FORMAT(CONVERT_TZ(open_close_balances.created_at, "+00:00", "+05:30"), "%Y-%m-%d %H:%i:%s") as created_at,
             DATE_FORMAT(CONVERT_TZ(open_close_balances.updated_at, "+00:00", "+05:30"), "%Y-%m-%d %H:%i:%s") as updated_at,
-            @prev_total_balance := CASE 
-                WHEN @rownum = 1 THEN open_close_balances.open_balance + open_close_balances.close_balance 
-                ELSE @prev_total_balance + open_close_balances.close_balance 
-            END AS prev_total_balance
         ')
         ->join('exchanges', 'open_close_balances.exchange_id', '=', 'exchanges.id')
         ->join('users', 'open_close_balances.user_id', '=', 'users.id')
-        ->whereYear('open_close_balances.created_at', $currentYear)
-        // ->distinct()
-        ->join(DB::raw('(SELECT @rownum := 0, @prev_total_balance := 0) r'), DB::raw('1'), DB::raw('1')); // Initialize variables
-
-        // Check if the result is empty before executing the query
+        ->whereYear('open_close_balances.created_at', $currentYear);
+    
         if ($query->count() === 0) {
-            // Return an empty collection if no records found
-            return collect(); // This will generate an empty Excel file
+            return collect();
         }
 
         switch (Auth::user()->role) {
@@ -77,7 +63,6 @@ class OpenCloseBalanceListExport implements FromQuery, WithHeadings, WithStyles,
             'User Name',
             'Open Balance',
             'Close Balance',
-            'Total Balance',
             'Remarks',
             'Created At',
             'Updated At',
@@ -86,8 +71,8 @@ class OpenCloseBalanceListExport implements FromQuery, WithHeadings, WithStyles,
 
     public function styles(Worksheet $sheet)
     {
-        $sheet->getStyle('A1:I1')->getFont()->setBold(true); // Bold the header row
-        $sheet->getStyle('A1:I1')->getFont()->setSize(12); // Optional: set font size
+        $sheet->getStyle('A1:H1')->getFont()->setBold(true); // Bold the header row
+        $sheet->getStyle('A1:H1')->getFont()->setSize(12); // Optional: set font size
     }
 
     public function columnWidths(): array
@@ -101,7 +86,6 @@ class OpenCloseBalanceListExport implements FromQuery, WithHeadings, WithStyles,
             'F' => 30, // Total Balance
             'G' => 30, // Remarks
             'H' => 30, // Created At
-            'I' => 30, // Updated At
         ];
     }
 }
