@@ -33,12 +33,10 @@ class ExchangeController extends Controller
             $exchange_name = $exchange ? $exchange->name : null;
             $userCount = Cash::where('exchange_id', $exchangeId)->distinct('user_id')->count('user_id');
             
-            // $totalOpenBalanceDaily = OpenCloseBalance::where('exchange_id', $exchangeId)->sum('open_balance');
              
-            $totalOpenBalanceDaily = OpenCloseBalance::where('exchange_id', $exchangeId)
-            ->orderBy('created_at', 'desc')
-            ->first();
-            $totalOpenCloseBalanceDaily = $totalOpenBalanceDaily ? $totalOpenBalanceDaily->close_balance : null;
+            $totalOpenCloseBalanceDaily = OpenCloseBalance::where('exchange_id', $exchangeId)
+            ->whereDate('created_at', DB::raw('CURDATE() - INTERVAL 1 DAY'))
+            ->sum('close_balance');
 
             $customerCountDaily = Cash::where('exchange_id', $exchangeId)
                 ->whereDate('created_at', $today)
