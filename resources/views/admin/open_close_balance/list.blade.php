@@ -76,7 +76,7 @@ $(document).ready(function() {
         },
         lengthMenu: [5, 10, 25, 50],
         pageLength: 10,
-        order: [[4, 'desc']] // Change this to the appropriate column index you want to sort by
+        order: [[3, 'desc']] // Change this to the appropriate column index you want to sort by
     });
 });
 
