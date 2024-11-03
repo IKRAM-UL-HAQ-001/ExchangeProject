@@ -65,7 +65,7 @@ class AdminController extends Controller
 
             $totalBalanceDaily =  $totalDepositDaily -  $totalWithdrawalDaily -  $totalExpenseDaily ;
             
-            $totalOpenCloseBalanceDaily = $$totalOpenCloseBalance + $totalBalanceDaily;
+            $totalOpenCloseBalanceDaily = $totalOpenCloseBalance + $totalBalanceDaily;
 
             $totalDepositMonthly = Cash::where('cash_type', 'deposit')
                 ->whereMonth('created_at', $currentMonth)
