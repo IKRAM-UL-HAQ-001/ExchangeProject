@@ -42,12 +42,12 @@ class AdminController extends Controller
                 }
             )->sum('close_balance');
             // dd($totalOpenCloseBalanceDaily);
-            $latestBalances = OpenCloseBalance::whereIn('id', function ($query) {
-                $query->select(DB::raw('MAX(id)'))
-                      ->from('open_close_balances')
-                      ->groupBy('exchange_id');
-            })->get(['exchange_id', 'close_balance', 'created_at']);
-            $totalOpenCloseBalanceDaily = $latestBalances->sum('close_balance');
+            // $latestBalances = OpenCloseBalance::whereIn('id', function ($query) {
+            //     $query->select(DB::raw('MAX(id)'))
+            //           ->from('open_close_balances')
+            //           ->groupBy('exchange_id');
+            // })->get(['exchange_id', 'close_balance', 'created_at']);
+            // $totalOpenCloseBalanceDaily = $latestBalances->sum('close_balance');
             
             $totalPaidAmountDaily = VenderPayment::whereDate('created_at', $today)
                 ->sum('paid_amount');
