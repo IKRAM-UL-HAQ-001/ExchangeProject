@@ -34,7 +34,6 @@ class OpenCloseBalanceListExport implements FromQuery, WithHeadings, WithStyles,
             users.name AS user_name,
             open_close_balances.open_balance,
             open_close_balances.close_balance,
-            -- Calculate the total balance
             CASE 
                 WHEN @rownum := @rownum + 1 THEN 
                     IF(@rownum = 1, 
