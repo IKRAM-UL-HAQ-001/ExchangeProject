@@ -19,7 +19,7 @@
                                 <tr>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Opening Balance </th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Closing Balance</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Total Balance</th>
+                                    {{-- <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Total Balance</th> --}}
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Remarks</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Date and Time</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder  ">Action</th>
@@ -30,7 +30,7 @@
                                 $balance = 0;
                             @endphp
                                 @foreach($openingClosingBalanceRecords as $openingClosingBalance)
-                                    <tr>
+                                    {{-- <tr>
                                         @if($loop->first)
                                             <td>{{ $openingClosingBalance->open_balance }}</td>
                                             <td>{{ $openingClosingBalance->close_balance }}</td>
@@ -49,6 +49,15 @@
                                             <td>{{ $openingClosingBalance->remarks }}</td>
                                             <td>{{ $openingClosingBalance->created_at }}</td>
                                         @endif
+                                        <td class="text-center">
+                                            <button class="btn btn-danger btn-sm" onclick="deleteOpeningClosingBalance(this, {{ $openingClosingBalance->id }})">Delete</button>
+                                        </td>                                       
+                                    </tr> --}}
+                                    <tr>
+                                        <td>{{ $openingClosingBalance->open_balance }}</td>
+                                        <td>{{ $openingClosingBalance->close_balance }}</td>
+                                        <td>{{ $openingClosingBalance->remarks }}</td>
+                                        <td>{{ $openingClosingBalance->created_at }}</td>
                                         <td class="text-center">
                                             <button class="btn btn-danger btn-sm" onclick="deleteOpeningClosingBalance(this, {{ $openingClosingBalance->id }})">Delete</button>
                                         </td>                                       
