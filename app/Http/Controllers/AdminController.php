@@ -26,12 +26,12 @@ class AdminController extends Controller
         }
         else{
             $today = Carbon::today();
-
+            dd($today);
             $currentMonth = Carbon::now()->month;
             $currentYear = Carbon::now()->year;
             
             $totalOpenCloseBalanceDaily = OpenCloseBalance::select('exchange_id', 'close_balance')
-            ->whereDate('created_at', DB::raw('CURDATE() '))
+            ->whereDate('created_at', DB::raw('CURDATE() - INTERVAL 1 DAY'))
             ->whereIn(
                 DB::raw('(exchange_id, created_at)'),
                 function ($query) {
