@@ -17,11 +17,11 @@
                         <table id="openingClosingBalanceTable" class="table align-items-center mb-0 table-striped table-hover px-2">
                             <thead>
                                 <tr>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Opening Balance </th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Closing Balance</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Remarks</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Date and Time</th>
-                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder  ">Action</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Opening Balance</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Closing Balance</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Remarks</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Date and Time</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -30,7 +30,7 @@
                                         <td>{{ $openingClosingBalance->open_balance }}</td>
                                         <td>{{ $openingClosingBalance->close_balance }}</td>
                                         <td>{{ $openingClosingBalance->remarks }}</td>
-                                        <td>{{ $openingClosingBalance->created_at }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($openingClosingBalance->created_at)->format('Y-m-d H:i:s') }}</td>
                                         <td class="text-center">
                                             <button class="btn btn-danger btn-sm" onclick="deleteOpeningClosingBalance(this, {{ $openingClosingBalance->id }})">Delete</button>
                                         </td>                                       
@@ -49,21 +49,20 @@
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <script>
 $(document).ready(function() {
-        const userTable = $('#openingClosingBalanceTable').DataTable({
-            pagingType: "full_numbers",
-            language: {
-                paginate: {
-                    first: '«',
-                    last: '»',
-                    next: '›',
-                    previous: '‹'
-                }
-            },
-            lengthMenu: [5, 10, 25, 50],
-            pageLength: 10,
-        });
+    const userTable = $('#openingClosingBalanceTable').DataTable({
+        pagingType: "full_numbers",
+        language: {
+            paginate: {
+                first: '«',
+                last: '»',
+                next: '›',
+                previous: '‹'
+            }
+        },
+        lengthMenu: [5, 10, 25, 50],
+        pageLength: 10,
+    });
 });
-
 
 function deleteOpeningClosingBalance(button, id) {
     const row = $(button).parents('tr');
@@ -94,5 +93,4 @@ function deleteOpeningClosingBalance(button, id) {
     });
 }
 </script>
-
 @endsection
