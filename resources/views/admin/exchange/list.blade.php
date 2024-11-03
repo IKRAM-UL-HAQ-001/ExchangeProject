@@ -16,7 +16,6 @@
                             <thead>
                                 <tr>
                                     <th class="text-uppercase text-secondary font-weight-bolder">Exchange Name</th>
-                                    <th class="text-uppercase text-secondary font-weight-bolder">Date and Time</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Date and Time</th>
                                     <th class="text-center text-uppercase text-secondary font-weight-bolder">Action</th>
                                 </tr>
