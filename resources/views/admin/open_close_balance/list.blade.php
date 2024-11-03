@@ -79,10 +79,8 @@ $(document).ready(function() {
             },
             lengthMenu: [5, 10, 25, 50],
             pageLength: 10,
+            order: [[4, 'desc']]
         });
-        const createdAtIndex = $('#openingClosingBalanceTable thead th').index($('th:contains("created_at")'));
-        // Set the order based on the created_at column
-        table.order([createdAtIndex, 'desc']).draw();
 });
 
 
