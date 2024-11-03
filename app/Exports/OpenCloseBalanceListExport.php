@@ -26,7 +26,7 @@ class OpenCloseBalanceListExport implements FromQuery, WithHeadings, WithStyles,
 
     public function query()
     {
-        $currentMonth = Carbon::now()->month;
+        $currentYear = Carbon::now()->year;
 
         $query = OpenCloseBalance::selectRaw('
             open_close_balances.id, 
@@ -51,7 +51,7 @@ class OpenCloseBalanceListExport implements FromQuery, WithHeadings, WithStyles,
         ')
         ->join('exchanges', 'open_close_balances.exchange_id', '=', 'exchanges.id')
         ->join('users', 'open_close_balances.user_id', '=', 'users.id')
-        ->whereMonth('open_close_balances.created_at', $currentMonth)
+        ->whereYear('open_close_balances.created_at', $currentYear)
         ->distinct()
         ->join(DB::raw('(SELECT @rownum := 0, @prev_total_balance := 0) r'), DB::raw('1'), DB::raw('1')); // Initialize variables
 
