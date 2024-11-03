@@ -23,7 +23,6 @@
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Payment Type</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Remarks</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Date and Time</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder  ">Date and Time</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder  ">Action</th>
                                 </tr>
                             </thead>
