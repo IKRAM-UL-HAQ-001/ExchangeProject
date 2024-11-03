@@ -71,7 +71,7 @@ class ExchangeController extends Controller
 
             $totalBalanceDaily = $totalDepositDaily - $totalWithdrawalDaily - $totalExpenseDaily;
             
-            $totalOpenCloseBalanceDaily = $$totalOpenCloseBalance + $totalBalanceDaily;
+            $totalOpenCloseBalanceDaily = $totalOpenCloseBalance + $totalBalanceDaily;
             
             $customerCountMonthly = Cash::where('exchange_id', $exchangeId)
                 ->whereMonth('created_at', $currentMonth)
