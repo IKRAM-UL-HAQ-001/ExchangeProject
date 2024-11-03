@@ -29,19 +29,18 @@ class AdminController extends Controller
 
             $currentMonth = Carbon::now()->month;
             $currentYear = Carbon::now()->year;
-
-            $totalOpenCloseBalanceDaily = 0;
             
             $totalOpenCloseBalanceDaily = OpenCloseBalance::select('exchange_id', 'close_balance')
+            ->whereDate('created_at', DB::raw('CURDATE() - INTERVAL 1 DAY'))
             ->whereIn(
                 DB::raw('(exchange_id, created_at)'),
                 function ($query) {
                     $query->select('exchange_id', DB::raw('MAX(created_at)'))
                           ->from('open_close_balances')
+                          ->whereDate('created_at', DB::raw('CURDATE() - INTERVAL 1 DAY'))
                           ->groupBy('exchange_id');
                 }
-            )
-            ->sum('close_balance');
+            )->sum('close_balance');
             // dd($totalOpenCloseBalanceDaily);
             $latestBalances = OpenCloseBalance::whereIn('id', function ($query) {
                 $query->select(DB::raw('MAX(id)'))
