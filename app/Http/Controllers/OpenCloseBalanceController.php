@@ -40,7 +40,7 @@ class OpenCloseBalanceController extends Controller
         //     // ->distinct() // Use distinct if you want to avoid duplicates based on all selected fields
         //     ->get();
         $openingClosingBalanceRecords = OpenCloseBalance::orderBy('created_at', 'desc')->get();
-        // dd($openingClosingBalanceRecords);
+        dd($openingClosingBalanceRecords);
         return response()
             ->view('admin.open_close_balance.list', compact('openingClosingBalanceRecords'));
     }
