@@ -27,7 +27,8 @@ class VenderPaymentController extends Controller
     {
         $startOfYear = Carbon::now()->startOfYear(); 
         $endOfYear = Carbon::now()->endOfYear();
-        $venderPaymentRecords = VenderPayment::whereBetween('created_at', [$startOfYear, $endOfYear])->get();
+        $venderPaymentRecords = VenderPayment::whereBetween('created_at', [$startOfYear, $endOfYear])
+        ->orderBy('created_at', 'desc')->get();
         return response()->view('admin.vender_payment.list', compact('venderPaymentRecords'))->withHeaders([
             'X-Frame-Options' => 'DENY', // Prevents framing
             // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
