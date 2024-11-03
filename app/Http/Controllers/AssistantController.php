@@ -29,40 +29,17 @@ class AssistantController extends Controller
             $currentMonth = Carbon::now()->month;
             $currentYear = Carbon::now()->year;
             
-            $entriesDaily = OpenCloseBalance::whereDate('created_at', $today)
-            ->get();
-
-            $entriesMonth = OpenCloseBalance::whereMonth('created_at', $currentMonth)
-            ->get();
-
-            $totalOpenCloseBalanceDaily = 0;
-            $totalOpenCloseBalanceMonthly = 0;
-
-            if ($entriesDaily->count() == "1") {
-                $entry = $entriesDaily->first();
-                $totalOpenCloseBalanceDaily =  $entry->close_balance;
-            } else {
-                foreach ($entriesDaily as $entry) {
-                    if ($totalOpenCloseBalanceDaily == "0") {
-                        $totalOpenCloseBalanceDaily = $entry->close_balance;
-                    }else{
-                        $totalOpenCloseBalanceDaily += $entry->close_balance;
-                    }                }
-            }
-
-            if ($entriesMonth->count() === 1) {
-                $entry = $entriesMonth->first();
-                $totalOpenCloseBalanceMonthly =  $entry->close_balance;
-            } else {
-                foreach ($entriesMonth as $entry) {
-                    if ($totalOpenCloseBalanceMonthly === 0) {
-                        $totalOpenCloseBalanceMonthly += $entry->close_balance;
-                    }else{
-                        $totalOpenCloseBalanceMonthly += $entry->close_balance;
-                    }
+            $totalOpenCloseBalanceDaily = OpenCloseBalance::select('exchange_id', 'close_balance')
+            ->whereDate('created_at', DB::raw('CURDATE() - INTERVAL 1 DAY'))
+            ->whereIn(
+                DB::raw('(exchange_id, created_at)'),
+                function ($query) {
+                    $query->select('exchange_id', DB::raw('MAX(created_at)'))
+                          ->from('open_close_balances')
+                          ->whereDate('created_at', DB::raw('CURDATE() - INTERVAL 1 DAY'))
+                          ->groupBy('exchange_id');
                 }
-            }
-
+            )->sum('close_balance');
             $totalDepositDaily = Cash::where('cash_type', 'deposit')
                 ->whereDate('created_at', $today)
                 ->sum('cash_amount');
@@ -143,7 +120,7 @@ class AssistantController extends Controller
             ->view('assistant.dashboard', compact(
                 'totalUsers', 'totalExchanges', 'totalBalanceMonthly', 'totalDepositMonthly', 
                 'totalWithdrawalMonthly', 'totalExpenseMonthly', 'totalMasterSettlingMonthly', 
-                'totalOpenCloseBalanceMonthly', 'totalBonusMonthly', 'totalOldCustomersMonthly', 
+                 'totalBonusMonthly', 'totalOldCustomersMonthly', 
                 'totalOwnerProfitMonthly', 'totalCustomerMonthly', 'totalBalanceDaily', 
                 'totalDepositDaily', 'totalWithdrawalDaily', 'totalExpenseDaily', 'totalBonusDaily', 
                 'totalOldCustomersDaily', 'totalOwnerProfitDaily', 'totalCustomerDaily', 
