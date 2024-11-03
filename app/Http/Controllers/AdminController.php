@@ -37,7 +37,7 @@ class AdminController extends Controller
                 function ($query) {
                     $query->select('exchange_id', DB::raw('MAX(created_at)'))
                           ->from('open_close_balances')
-                          ->whereDate('created_at', DB::raw('CURDATE() - INTERVAL 1 DAY'))
+                          ->whereDate('created_at', DB::raw('CURDATE()'))
                           ->groupBy('exchange_id');
                 }
             )->sum('close_balance');
