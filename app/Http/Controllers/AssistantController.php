@@ -14,6 +14,7 @@ use App\Models\Exchange;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Auth;
+use DB;
 class AssistantController extends Controller
 {
     /**
