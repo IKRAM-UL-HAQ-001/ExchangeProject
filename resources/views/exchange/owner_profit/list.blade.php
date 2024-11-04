@@ -8,6 +8,7 @@
                     <div class="bg-gradient-warning shadow-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
                         <p style="color: black;"><strong>Owner Profit Table (Yearly Bases)</strong></p>
                         <div>
+                            <a href="{{ route('export.ownerProfitList') }}" class="btn btn-dark">Owner Profit Excel</a>
                             <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#addOwnerProfitModal">Owner Profit Form</button>
                         </div>
                     </div>
