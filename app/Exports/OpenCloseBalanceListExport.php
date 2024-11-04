@@ -33,7 +33,6 @@ class OpenCloseBalanceListExport implements FromQuery, WithHeadings, WithStyles,
             exchanges.name AS name,
             users.name AS user_name,
             open_close_balances.open_balance,
-            open_close_balances.close_balance,
             open_close_balances.remarks,
             DATE_FORMAT(CONVERT_TZ(open_close_balances.created_at, "+00:00", "+05:30"), "%Y-%m-%d %H:%i:%s") as created_at,
             DATE_FORMAT(CONVERT_TZ(open_close_balances.updated_at, "+00:00", "+05:30"), "%Y-%m-%d %H:%i:%s") as updated_at
