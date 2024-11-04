@@ -17,7 +17,6 @@ class VenderPaymentListExport implements FromQuery, WithHeadings, WithStyles, Wi
 
     public function query()
     {
-        $currentMonth = Carbon::now()->month;
         $currentYear = Carbon::now()->year;
 
         $query = VenderPayment::selectRaw('
@@ -29,7 +28,6 @@ class VenderPaymentListExport implements FromQuery, WithHeadings, WithStyles, Wi
             DATE_FORMAT(CONVERT_TZ(vender_payments.created_at, "+00:00", "+05:30"), "%Y-%m-%d %H:%i:%s") as created_at,
             DATE_FORMAT(CONVERT_TZ(vender_payments.updated_at, "+00:00", "+05:30"), "%Y-%m-%d %H:%i:%s") as updated_at
         ')
-        ->whereMonth('vender_payments.created_at', $currentMonth)
         ->whereYear('vender_payments.created_at', $currentYear);
 
         // Check if the result is empty before executing the query
