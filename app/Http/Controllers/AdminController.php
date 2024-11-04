@@ -29,7 +29,8 @@ class AdminController extends Controller
             $currentMonth = Carbon::now()->month;
             $currentYear = Carbon::now()->year;
             
-            $totalOpenCloseBalance = OpenCloseBalance::sum('open_balance');
+            $totalOpenCloseBalance = OpenCloseBalance::whereDate('created_at', $today)
+            ->sum('open_balance');
             
             $totalPaidAmountDaily = VenderPayment::whereDate('created_at', $today)
                 ->sum('paid_amount');

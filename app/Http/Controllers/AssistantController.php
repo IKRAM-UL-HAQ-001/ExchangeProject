@@ -30,7 +30,8 @@ class AssistantController extends Controller
             $currentMonth = Carbon::now()->month;
             $currentYear = Carbon::now()->year;
             
-            $totalOpenCloseBalance = OpenCloseBalance::sum('open_balance');
+            $totalOpenCloseBalance = OpenCloseBalance::whereDate('created_at', $today)
+            ->sum('open_balance');
             
             $totalDepositDaily = Cash::where('cash_type', 'deposit')
                 ->whereDate('created_at', $today)

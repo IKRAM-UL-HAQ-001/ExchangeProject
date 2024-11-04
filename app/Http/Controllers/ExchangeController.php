@@ -34,6 +34,7 @@ class ExchangeController extends Controller
             $userCount = Cash::where('exchange_id', $exchangeId)->distinct('user_id')->count('user_id');
             
             $totalOpenCloseBalance = OpenCloseBalance::where('exchange_id', $exchangeId)
+            ->whereDate('created_at', $today)
             ->sum('open_balance');
             
             $customerCountDaily = Cash::where('exchange_id', $exchangeId)
