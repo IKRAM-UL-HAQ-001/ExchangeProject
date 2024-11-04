@@ -61,7 +61,6 @@ class OpenCloseBalanceListExport implements FromQuery, WithHeadings, WithStyles,
             'Exchange Name',
             'User Name',
             'Open Balance',
-            'Close Balance',
             'Remarks',
             'Created At',
             'Updated At',
@@ -70,8 +69,8 @@ class OpenCloseBalanceListExport implements FromQuery, WithHeadings, WithStyles,
 
     public function styles(Worksheet $sheet)
     {
-        $sheet->getStyle('A1:H1')->getFont()->setBold(true); // Bold the header row
-        $sheet->getStyle('A1:H1')->getFont()->setSize(12); // Optional: set font size
+        $sheet->getStyle('A1:G1')->getFont()->setBold(true); // Bold the header row
+        $sheet->getStyle('A1:G1')->getFont()->setSize(12); // Optional: set font size
     }
 
     public function columnWidths(): array
@@ -84,7 +83,6 @@ class OpenCloseBalanceListExport implements FromQuery, WithHeadings, WithStyles,
             'E' => 20, // Close Balance
             'F' => 30, // Remarks
             'G' => 30, // Created At
-            'H' => 30, // Updated At
         ];
     }
 }
