@@ -59,17 +59,11 @@
         <div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <div class="modal-header d-flex justify-content-between align-items-center bg-primary">
+                    <div class="modal-header d-flex justify-content-between align-items-center bg-warning">
                         <h5 class="modal-title" id="reportModalLabel" style="color:white">Generate Report</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        {{-- <div class="alert alert-success text-white d-none" id='success'>
-                            Report generated successfully.
-                        </div>
-                        <div class="alert alert-danger text-white d-none" id='error'>
-                            Failed to generate report. Please try again.
-                        </div> --}}
                         <form id="reportForm">
                             @csrf
                             <div class="mb-3">
@@ -81,15 +75,6 @@
                                     @endforeach
                                 </select>
                             </div>
-                            {{-- <div class="mb-3">
-                                <label class="form-label">Select Date Range:</label>
-                                <div class="d-flex gap-2 mb-2">
-                                    <button type="button" class="btn btn-outline-primary btn-sm preset-date" data-preset="today">Today</button>
-                                    <button type="button" class="btn btn-outline-primary btn-sm preset-date" data-preset="yesterday">Yesterday</button>
-                                    <button type="button" class="btn btn-outline-primary btn-sm preset-date" data-preset="last7">Last 7 Days</button>
-                                </div>
-                                <small class="form-text text-muted">You can select a single date for a daily report or a date range for a custom report.</small>
-                            </div> --}}
                             <div class="mb-3">
                                 <label for="sdate" class="form-label">Start Date:</label>
                                 <input type="date" class="form-control border px-3" id="sdate" name="start_date" required
@@ -104,7 +89,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" id="generateReportBtn">
+                        <button type="button" class="btn btn-warning" id="generateReportBtn">
                             <span id="btnText">Generate Report</span>
                             <span id="btnSpinner" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
                         </button>
@@ -144,6 +129,14 @@
                         plugins: {
                             legend: {
                                 position: 'bottom',
+                            },
+                             tooltip: {
+                                bodyFont: {
+                                    size: 16, // Increase font size on hover
+                                },
+                                titleFont: {
+                                    size: 18, // Increase title font size
+                                },
                             }
                         }
                     }
@@ -151,8 +144,11 @@
             }
     
             // Update Chart Data
-            function updateChartData(chart, data) {
+            function updateChartData(chart, data, labels = null) {
                 chart.data.datasets[0].data = data;
+                if (labels) {
+                    chart.data.labels = labels; // Update labels dynamically if provided
+                }
                 chart.update();
             }
     
@@ -173,22 +169,23 @@
                         $('#generateReportBtn').prop('disabled', true);
                     },
                     success: function(response) {
+                        // Calculate the Total Exchange Profit
+                        const totalProfit = response.latestBalance;
+                        const profitSign = totalProfit >= 0 ? "+" : "−";
+
                         // Update Charts with New Data
                         updateChartData(withdrawalsChart, [response.withdrawal, response.deposit]);
                         updateChartData(profitsChart, [response.expense, response.bonus]);
-                        updateChartData(bonusChart, [
-                            response.latestBalance < 0 ? 0 : response.latestBalance,
-                            response.latestBalance < 0 ? Math.abs(response.latestBalance) : 0
-                        ]);
-    
+                        updateChartData(bonusChart, [Math.abs(totalProfit)], [`${profitSign} ${Math.abs(totalProfit).toFixed(2)}`]);
+
                         // Update Labels with Date Range
                         $('#withdrawalsDepositsLabel').text(`Date Range: ${response.date_range.start} to ${response.date_range.end}`);
                         $('#expenseBonusLabel').text(`Date Range: ${response.date_range.start} to ${response.date_range.end}`);
-                        $('#exchangeProfitLabel').text(`Date Range: ${response.date_range.start} to ${response.date_range.end}`);
-    
+                        $('#exchangeProfitLabel').html(`Date Range: ${response.date_range.start} to ${response.date_range.end} | <strong>Total Profit: ${profitSign}${Math.abs(totalProfit).toFixed(2)}</strong>`);
+
                         // Show Success Message
                         $('#success').removeClass('d-none').text('Report generated successfully.');
-    
+
                         // Close the Modal after a Short Delay
                         setTimeout(function() {
                             $('#reportModal').modal('hide');
@@ -227,66 +224,6 @@
                 // Call Generate Report Function
                 generateReport(exchangeId, startDate, endDate);
             });
-    
-            // Preset Date Button Click Handler
-            $('.preset-date').on('click', function() {
-                const preset = $(this).data('preset');
-                let today = new Date();
-                let start_date, end_date;
-    
-                switch (preset) {
-                    case 'today':
-                        start_date = end_date = formatDate(today);
-                        break;
-                    case 'yesterday':
-                        today.setDate(today.getDate() - 1);
-                        start_date = end_date = formatDate(today);
-                        break;
-                    case 'last7':
-                        let last7 = new Date();
-                        last7.setDate(last7.getDate() - 6);
-                        start_date = formatDate(last7);
-                        end_date = formatDate(today);
-                        break;
-                }
-    
-                // Set the Selected Dates
-                $('#sdate').val(start_date);
-                $('#edate').val(end_date);
-            });
-    
-            // Helper Function to Format Date to YYYY-MM-DD
-            function formatDate(date) {
-                return date.toISOString().split('T')[0];
-            }
         });
     </script>
-    
-  
-    <!-- Styles -->
-    <style>
-        .equal-height {
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-        }
-
-        .card-body {
-            flex: 1 1 auto;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        canvas {
-            max-width: 100%;
-            max-height: 300px; /* Increased height for better visibility */
-        }
-
-        /* Optional: Style the modal header for better visibility */
-        .modal-header {
-            background-color: #0d6efd;
-            color: white;
-        }
-    </style>
 @endsection

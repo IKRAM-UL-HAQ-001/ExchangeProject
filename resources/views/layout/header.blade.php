@@ -11,11 +11,10 @@
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
     <link href="../assets/css/nucleo-icons.css" rel="stylesheet" />
     <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
-    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
     <link id="pagestyle" href="../assets/css/material-dashboard.css?v=3.1.0" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
     <style> 
     
     .bg-gradient-to-white {
@@ -114,13 +113,66 @@
         color: black !important;
          /* Use !important if needed */
     }
-</style>
-<script>
-    document.addEventListener('contextmenu', event => event.preventDefault());
-    document.addEventListener('keydown', function(event) {
-        if (event.key === 'F12' || (event.ctrlKey && event.shiftKey && event.key === 'I')) {
-            event.preventDefault();
+
+     .dataTables_paginate {
+            display: flex;
+            justify-content: center;
+            margin-top: 15px;
         }
-    });
-</script>
+    .dataTables_wrapper .dataTables_paginate .paginate_button {
+        padding: 5px 10px; margin: 0 5px;
+         font-size: 16px;
+        border-radius: 50%; border: none;
+        transition: background-color 0.3s ease;
+        cursor:pointer;
+    }
+
+
+        @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&display=swap");
+
+
+        input[type="checkbox"] {
+            display: none;
+        }
+
+        input[type="checkbox"]:checked+.button {
+            filter: none;
+        }
+
+        input[type="checkbox"]:checked+.button .dot {
+            left: calc(100% - 1.7rem);
+            /* Adjust this value */
+            background-color: #acc301;
+        }
+
+        .button {
+            position: relative;
+            width: 3.5rem;
+            height: 1.6rem;
+            border-radius: 1rem;
+            box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.3), inset -2px -2px 5px rgba(255, 255, 255, 0.8);
+            cursor: pointer;
+        }
+
+        .button .dot {
+            position: absolute;
+            width: 1.4rem;
+            height: 1.4rem;
+            left: 0.25rem;
+            top: 50%;
+            transform: translateY(-50%);
+            border-radius: 50%;
+            box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3), -3px -3px 6px rgba(255, 255, 255, 0.8);
+            transition: all 0.3s;
+            background-color: #f10f0f;
+            will-change: left, background-color;
+        }
+
+        @keyframes deco-move {
+            to {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
+        }
+    </style>
+
 </head>

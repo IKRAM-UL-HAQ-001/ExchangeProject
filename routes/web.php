@@ -66,6 +66,8 @@ Route::group(['middleware' => ['admin']], function () {
     Route::post('/admin/user/post', [UserController::class, 'store'])->name('admin.user.post');
     Route::post('/admin/user/update', [UserController::class, 'update'])->name('admin.user.update');
     Route::post('/admin/user/destroy', [UserController::class, 'destroy'])->name('admin.user.destroy');
+    Route::post('/admin/user/status', [UserController::class, 'userStatus'])->name('admin.user.status');
+
     
     // exchange
     Route::get('/admin/exchange', [ExchangeController::class, 'exchangeList'])->name('admin.exchange.list');

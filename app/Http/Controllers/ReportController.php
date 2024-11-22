@@ -85,29 +85,33 @@ class ReportController extends Controller
 
             // Calculate latest balance
             $latestBalance = $deposit - $withdrawal - $expense;
+            $latestBalance = $deposit - $withdrawal - $expense;
 
-            // Prepare response data
+            if ($latestBalance > 0) {
+                $formattedBalance = '+' . $latestBalance;
+            } elseif ($latestBalance < 0) {
+                $formattedBalance = $latestBalance; // Negative sign is automatically added
+            } else {
+                $formattedBalance = '0'; // For zero balance
+            }
+
             $response = [
                 'deposit' => $deposit,
                 'withdrawal' => $withdrawal,
                 'expense' => $expense,
                 'bonus' => $bonus,
-                'latestBalance' => $latestBalance,
+                'latestBalance' => $formattedBalance,
                 'date_range' => [
                     'start' => $validated['start_date'],
                     'end' => $validated['end_date'],
                 ],
             ];
-
             return response()->json($response, 200)->withHeaders([
                 'X-Frame-Options' => 'DENY', // Prevents framing
-                // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
             ]);
         } catch (\Exception $e) {
-            // Return a generic error message
             return response()->json(['error' => 'Failed to generate report. Please try again later.'], 500)->withHeaders([
                 'X-Frame-Options' => 'DENY', // Prevents framing
-                // 'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
             ]);
         }
     }

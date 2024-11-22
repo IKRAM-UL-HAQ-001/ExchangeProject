@@ -35,7 +35,14 @@ class LoginController extends Controller
             'role' => 'required',
             'exchange' => 'nullable|required_if:role,exchange',
         ]);
+        $userStatus = User::where('name',$request->name)->first();
+        if($userStatus->status != 'active'){
+            return redirect()->back()->withErrors(['error' => 'You are not authorized by Admin']);
+        }
+        else{
+
         if (Auth::attempt($request->only('name', 'password'))) {
+            
             $request->session()->regenerate();
     
             $user = Auth::user();
@@ -62,6 +69,7 @@ class LoginController extends Controller
             ->withErrors([
                 'name' => 'The provided credentials do not match our records.',
             ])->withInput($request->only('name'));
+        }
     }
     
     

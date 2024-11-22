@@ -49,6 +49,16 @@ class UserController extends Controller
             ], 201);
         }
     }
+    public function userStatus(Request $request)
+    {
+        // dd($request->userId);
+        $user = User::find($request->userId);
+
+        $user->status = $request->status;
+        $user->save();
+
+        return redirect()->back();
+    }
     
     public function update(Request $request)
     {
