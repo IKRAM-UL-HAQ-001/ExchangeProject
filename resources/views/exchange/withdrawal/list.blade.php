@@ -8,7 +8,7 @@
                     <div class="bg-gradient-warning shadow-primary border-radius-lg pt-4 d-flex justify-content-between align-items-center px-3">
                         <p style="color: black;"><strong>Withdrawal Table (Weekly Bases)</strong></p>
                         <div>
-                        <a href="{{ route('export.withdrawal') }}" class="btn btn-dark">Withdrawal Export</a>
+                            <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#exportWithdrawalModal">Withdrawal Export</button>
                         </div>
                     </div>
                 </div>
@@ -55,6 +55,34 @@
                         </table>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="exportWithdrawalModal" tabindex="-1" aria-labelledby="exportWithdrawalModalLabel" aria-hidden="true">
+    <div class="modal-dialog" >
+        <div class="modal-content" >
+            <div class="modal-header d-flex justify-content-between align-items-center" style="background-color:#fb8c00;">
+                <h5 class="modal-title" id="exportWithdrawalModalLabel" style=" color:white">Withdrawal</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="reportForm" action="{{ route('export.withdrawal') }}" method="POST">
+                    @csrf
+                    <div class="mb-3">
+                        <label for="sdate" class="form-label">Start Date:</label>
+                        <input type="date" class="form-control border px-3" id="sdate" name="start_date" required
+                            value="{{ \Carbon\Carbon::today()->toDateString() }}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="edate" class="form-label">End Date:</label>
+                        <input type="date" class="form-control border px-3" id="edate" name="end_date" required
+                            value="{{ \Carbon\Carbon::today()->toDateString() }}">
+                    </div>
+                    <button type="submit" class="btn btn-warning"> Generate File </button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </form>
+
             </div>
         </div>
     </div>

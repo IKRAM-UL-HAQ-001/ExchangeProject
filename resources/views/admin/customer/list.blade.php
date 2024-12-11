@@ -52,22 +52,23 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         const userTable = $('#customerTable').DataTable({
-            pagingType: "full_numbers"
-            , language: {
+            pagingType: "full_numbers", // Use full pagination controls
+            language: {
                 paginate: {
-                    first: '«'
-                    , last: '»'
-                    , next: '›'
-                    , previous: '‹'
+                    first: '«',  // First page symbol
+                    last: '»',   // Last page symbol
+                    next: '›',   // Next page symbol
+                    previous: '‹' // Previous page symbol
                 }
-            }
-            lengthMenu: [5, 10, 25, 50],
-            pageLength: 10,
-            order: [[5, 'desc']]
+            },
+            lengthMenu: [[5, 10, 25, 50], [5, 10, 25, 50]], // Page length options
+            pageLength: 10, // Default page length
+            order: [[5, 'desc']] // Sort by the 6th column in descending order (0-based index)
         });
     });
+
 
     function deleteCustomer(button, id) {
         const row = $(button).closest('tr');

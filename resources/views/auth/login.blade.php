@@ -5,6 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
+<meta name="robots" content="index, follow">
     <link rel="icon" type="image/png" href="../assets/img/favicon.png">
     <title>Exchange Management System</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
@@ -13,6 +14,8 @@
     <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
     <link id="pagestyle" href="../assets/css/material-dashboard.css?v=3.1.0" rel="stylesheet" />
+    <meta name="google-site-verification" content="dyeHS1jvPA6amUut6GVo-n5SoCdgjTEw4LZzb3-u774" />
+    <meta name="description" content="testing this">
 </head>
 
 <body class="bg-gray-200">

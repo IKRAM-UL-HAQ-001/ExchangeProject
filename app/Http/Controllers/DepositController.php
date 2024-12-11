@@ -19,9 +19,10 @@ class DepositController extends Controller
         }
 
         $exchangeId = (Auth::user()->role == "admin" || Auth::user()->role == "assistant") ? null : Auth::user()->exchange_id;
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
 
-        // Generate the Excel download response with security headers
-        return Excel::download(new DepositListExport($exchangeId), 'depositRecord.xlsx');
+        return Excel::download(new DepositListExport($exchangeId, $startDate, $endDate), 'depositRecord.xlsx');
     }
 
     public function index()

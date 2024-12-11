@@ -14,7 +14,7 @@
                     </div>
                 </div>
                 <div class="card-body px-0 pb-2 px-3">
-                    <div class="table-responsive p-0">
+                    <div class="table-responsive p-0" style="overflow-y: hidden;">
                         <table id="masterSettlingTable" class="table align-items-center mb-0 table-striped table-hover">
                             <thead>
                                 <tr>

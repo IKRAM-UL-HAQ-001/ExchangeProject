@@ -31,8 +31,8 @@ Route::get('/auth/logout', [LoginController::class, 'logout'])->name('login.logo
 
 //admin export
 Route::get('/export-bank', [BankController::class, 'bankExportExcel'])->name('export.bank');
-Route::get('/export-deposit', [DepositController::class, 'depositExportExcel'])->name('export.deposit');
-Route::get('/export-withdrawal', [WithdrawalController::class, 'withdrawalExportExcel'])->name('export.withdrawal');
+Route::post('/export-deposit', [DepositController::class, 'depositExportExcel'])->name('export.deposit');
+Route::post('/export-withdrawal', [WithdrawalController::class, 'withdrawalExportExcel'])->name('export.withdrawal');
 Route::get('/export-expense', [ExpenseController::class, 'expenseExportExcel'])->name('export.expense');
 Route::get('/export-masterSettlingWeekly', [MasterSettlingController::class, 'masterSettlingListWeeklyExportExcel'])->name('export.masterSettlingListWeekly');
 Route::get('/export-masterSettlingMonthly', [MasterSettlingController::class, 'masterSettlingListMonthlyExportExcel'])->name('export.masterSettlingListMonthly');

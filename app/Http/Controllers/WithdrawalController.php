@@ -15,17 +15,17 @@ class WithdrawalController extends Controller
     public function withdrawalExportExcel(Request $request)
     {
         if (!auth()->check()) {
-            return redirect()->route('auth.login')->withHeaders([
-                'X-Frame-Options' => 'DENY', // Prevents framing
-                'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
-            ]);
+            return redirect()->route('auth.login');
         } else {
             if (Auth::user()->role == "admin" || Auth::user()->role == "assistant") {
                 $exchangeId = null;
             } else {
                 $exchangeId = Auth::user()->exchange_id;
             }
-            return Excel::download(new WithdrawalListExport($exchangeId), 'withdrawalRecord.xlsx');
+            $startDate = $request->input('start_date');
+            $endDate = $request->input('end_date');
+
+            return Excel::download(new WithdrawalListExport($exchangeId, $startDate, $endDate), 'withdrawalRecord.xlsx');
         }
     }
     

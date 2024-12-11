@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Exports;
 
 use Auth;
@@ -17,49 +16,54 @@ class WithdrawalListExport implements FromCollection, WithHeadings, WithStyles, 
     use Exportable;
 
     protected $exchangeId;
+    protected $startDate;
+    protected $endDate;
 
-    public function __construct($exchangeId)
+    public function __construct($exchangeId, $startDate = null, $endDate = null)
     {
         $this->exchangeId = $exchangeId;
+        $this->startDate = $startDate;
+        $this->endDate = $endDate;
     }
 
     public function collection()
     {
-        $currentMonth = Carbon::now()->month;
-
         // Fetching the records
-        $records = Cash::select('cashes.*', 'exchanges.name AS exchange_name', 'users.name AS user_name')
+        $query = Cash::select('cashes.*', 'exchanges.name AS exchange_name', 'users.name AS user_name')
             ->join('exchanges', 'cashes.exchange_id', '=', 'exchanges.id')
             ->join('users', 'cashes.user_id', '=', 'users.id')
-            ->whereMonth('cashes.created_at', $currentMonth)
-            ->whereIn('cashes.cash_type', ['deposit', 'withdrawal', 'expense']);
+            ->where('cashes.cash_type', 'withdrawal');
 
+        // Filter by exchange ID for exchange users
         if (Auth::user()->role === "exchange") {
-            $records->where('cashes.exchange_id', $this->exchangeId);
+            $query->where('cashes.exchange_id', $this->exchangeId);
         }
 
-        // Getting the results
-        $records = $records->get();
+        // Apply date filters if provided
+        if ($this->startDate) {
+            $query->whereDate('cashes.created_at', '>=', $this->startDate);
+        }
+        if ($this->endDate) {
+            $query->whereDate('cashes.created_at', '<=', $this->endDate);
+        }
 
-        // If there are no records for the month, return an empty collection
+        // Get the results
+        $records = $query->get();
+
+        // If there are no records, return an empty collection
         if ($records->isEmpty()) {
             return collect(); // Return an empty collection
         }
 
-        // Calculating total balance in PHP
+        // Calculate total balance in PHP
         $totalBalance = 0;
         foreach ($records as $record) {
             $totalBalance += ($record->cash_type === 'deposit' ? $record->cash_amount : -$record->cash_amount);
             $record->total_balance = $totalBalance; // Assign total balance to each record
         }
 
-        // Filtering for withdrawals
-        $withdrawals = $records->filter(function ($record) {
-            return $record->cash_type === 'withdrawal';
-        });
-
-        // Return only non-empty records and arrange columns in the desired order
-        return $withdrawals->map(function ($record) {
+        // Return records in the desired format
+        return $records->map(function ($record) {
             return [
                 'id' => $record->id,
                 'exchange_name' => $record->exchange_name,
@@ -69,8 +73,8 @@ class WithdrawalListExport implements FromCollection, WithHeadings, WithStyles, 
                 'cash_amount' => $record->cash_amount,
                 'total_balance' => $record->total_balance,
                 'remarks' => $record->remarks,
-                'created_at' => $record->created_at,
-                'updated_at' => $record->updated_at,
+                'created_at' => $record->created_at->format('Y-m-d H:i:s'),
+                'updated_at' => $record->updated_at->format('Y-m-d H:i:s'),
             ];
         });
     }

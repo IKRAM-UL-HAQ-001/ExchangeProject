@@ -14,7 +14,7 @@
                     </div>
                 </div>
                 <div class="card-body px-0 pb-2 px-3">
-                    <div class="table-responsive p-0">
+                    <div class="table-responsive p-0" style="overflow-y: hidden;">
                         <table id="venderPaymentTable" class="table align-items-center mb-0 table-striped table-hover px-2">
                             <thead>
                                 <tr>
@@ -69,12 +69,17 @@
                             <label for="payment_type" class="form-label">Payment Type</label>
                             <select class="form-select px-3" id="payment_type" required >
                                 <option value="" disabled selected>Select an Payment Type</option>
-                                <option value="rent" >Rent</option>
-                                <option value="salary" >salary</option>
-                                <option value="pati_cash" >Pati Cash</option>
-                                <option value="bank_payment" >Bank Payment</option>
-                                <option value="master_payment" >Master Payment</option>
-                                <option value="general_expense" >General Expense</option>
+                                <option value="rent"> Rent</option>
+                                <option value="salary"> salary</option>
+                                <option value="pati_cash"> Pati Cash</option>
+                                <option value="bank_payment"> Bank Payment</option>
+                                <option value="master_payment"> Master Payment</option>
+                                <option value="general_expense"> General Expense</option>
+                                <option value="amazon_payment"> Amazon Payment</option>
+                                <option value="betbazar_payment"> Betbazar Payment</option>
+                                <option value="cricketstar_payment"> Cricketstar Payment</option>
+                                <option value="fastbet_payment"> Fastbet Payment</option>
+                                <option value="jadugar_payment"> Jadugar Payment</option>
                             </select>
                         </div>
                         <div class="mb-3">

@@ -34,7 +34,7 @@ class ExpenseListExport implements FromCollection,  WithHeadings, WithStyles, Wi
             ->join('exchanges', 'cashes.exchange_id', '=', 'exchanges.id')
             ->join('users', 'cashes.user_id', '=', 'users.id')
             ->whereMonth('cashes.created_at', $currentMonth)
-            ->whereIn('cashes.cash_type', ['deposit', 'withdrawal', 'expense']);
+            ->where('cashes.cash_type', 'expense');
 
         if (Auth::user()->role === "exchange") {
             $records->where('cashes.exchange_id', $this->exchangeId);
